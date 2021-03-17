@@ -47,6 +47,7 @@ def javascript(
     run_javascript(
         directory_path=directory_path,
         markdown_path=markdown_path,
+        multi_file=multi_file,
     )
 
 @app.command()
@@ -64,6 +65,7 @@ def typescript(
     run_typescript(
         directory_path=directory_path,
         markdown_path=markdown_path,
+        multi_file=multi_file,
     )
 
 
