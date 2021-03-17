@@ -28,6 +28,7 @@ def compile_typescript(filepath: str) -> int:
 def run_typescript(
     directory_path: Optional[str] = None,
     markdown_path: Optional[str] = None,
+    multi_file: Optional[bool] = None,
 ):
     code_snippets = get_code_from_markdown(
         language='typescript',
