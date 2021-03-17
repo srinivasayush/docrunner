@@ -26,6 +26,7 @@ def run_javascript(
     directory_path = create_javascript_environment(
         directory_path=directory_path,
     )
+    
     filepath: str = None
     if multi_file:
         filepaths: List[str] = []
