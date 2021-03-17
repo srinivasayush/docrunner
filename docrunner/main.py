@@ -24,7 +24,6 @@ def python(
         help=PY_RUN_HELP
     ),
 ):  
-    typer.echo(f'Running python code')
     run_python(
         env_path=env_path,
         run_command=run_command,
