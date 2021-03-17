@@ -28,6 +28,7 @@ def python(
     run_python(
         env_path=env_path,
         run_command=run_command,
+        markdown_path=markdown_path,
     )
 
 @app.command()
@@ -43,6 +44,7 @@ def javascript(
 ):
     run_javascript(
         directory_path=directory_path,
+        markdown_path=markdown_path,
     )
 
 @app.command()
@@ -58,6 +60,7 @@ def typescript(
 ):
     run_typescript(
         directory_path=directory_path,
+        markdown_path=markdown_path,
     )
 
 
