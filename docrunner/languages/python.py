@@ -1,27 +1,47 @@
-from typing import Optional
-from utils.file import write_code_file
 import os
+import platform
+from pathlib import Path
+from typing import Optional
+import subprocess
 
-def create_python_environment(directory_path: Optional[str] = None) -> str:
-    if directory_path == None:
-        directory_path = './runreadme'
-    os.mkdir(directory_path)
-    home = os.getcwd()
+from utils.file import write_code_file
 
-    os.chdir(os.path.join(os.getcwd(), directory_path))
-    os.system('python -m venv env')
-    os.chdir(home)
+
+def create_python_environment(env_path: Optional[str] = None) -> str:
+    if env_path == None:
+        directory_path = './docrunner-build'
+        os.mkdir(directory_path)
+    else:
+        directory_path = str(Path(env_path).parent)
 
     return f'{directory_path}/main.py'
 
 def run_python(
-    directory_path: Optional[str] = None
+    env_path: Optional[str] = None,
+    run_command: Optional[str] = None,
 ):
     filepath = create_python_environment(
-        directory_path=directory_path
+        env_path=env_path
     )
     write_code_file(
         language='python',
         filepath=filepath,
     )
-    os.system(f'python {filepath}')
+    if env_path:
+        operating_system = platform.system()
+        env_command: str = None
+        if operating_system == 'Windows':
+            env_command = f'{env_path}\\Scripts\\activate.bat'
+            subprocess.call(env_command)
+        elif operating_system == 'Linux':
+            env_command = f'source {env_path}/bin/activate'
+            os.system(env_command)
+    
+    if run_command:
+        run_command = run_command.replace('"', '')
+        base = os.getcwd()
+        os.chdir(os.path.join(os.getcwd(), str(Path(filepath).parent)))
+        os.system(run_command)
+        os.chdir(base)
+    else:
+        os.system(f'python {filepath}')

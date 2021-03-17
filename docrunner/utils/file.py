@@ -1,6 +1,7 @@
 import os
 from io import TextIOWrapper
 from typing import List, Optional
+import typer
 
 LANGUAGE_ABBREV_MAPPING = {
   'python': [
@@ -37,7 +38,7 @@ def write_code_file(
                 else:
                     found_closing = True
     if found_closing == False:
-        print('Error: No closing ```')
+        typer.echo('Error: No closing ```')
         return None
     
     main_file: TextIOWrapper = None
