@@ -1,9 +1,10 @@
 import typer
 
 from constants import (JAVASCRIPT_DIRECTORY_HELP, PY_ENVIRONMENT_HELP,
-                       PY_RUN_HELP)
+                       PY_RUN_HELP, TYPESCRIPT_DIRECTORY_HELP)
 from languages.javascript import run_javascript
 from languages.python import run_python
+from languages.typescript import run_typescript
 
 app = typer.Typer()
 
@@ -32,6 +33,17 @@ def javascript(
     )
 ):
     run_javascript(
+        directory_path=directory_path,
+    )
+
+@app.command()
+def typescript(
+    directory_path: str = typer.Option(
+        None,
+        help=TYPESCRIPT_DIRECTORY_HELP,
+    )
+):
+    run_typescript(
         directory_path=directory_path,
     )
 
