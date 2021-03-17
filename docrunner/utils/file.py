@@ -28,9 +28,12 @@ def read_markdown(markdown_path: Optional[str] = None) -> List[str]:
 
 def get_code_from_markdown(
     language: str,
+    markdown_path: Optional[str] = None,
 ) -> Union[str, None]:
     code_lines = ''
-    markdown_lines = read_markdown()
+    markdown_lines = read_markdown(
+        markdown_path=markdown_path,
+    )
     markdown_lines = [line.replace('\n', '') for line in markdown_lines]
     found_closing = False
     for i in range(0, len(markdown_lines)):

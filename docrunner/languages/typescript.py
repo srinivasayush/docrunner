@@ -27,9 +27,11 @@ def compile_typescript(filepath: str) -> int:
 
 def run_typescript(
     directory_path: Optional[str] = None,
+    markdown_path: Optional[str] = None,
 ):
     code_lines = get_code_from_markdown(
         language='typescript',
+        markdown_path=markdown_path,
     )
     if not code_lines:
         return None

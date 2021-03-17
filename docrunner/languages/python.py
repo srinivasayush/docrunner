@@ -18,9 +18,11 @@ def create_python_environment(env_path: Optional[str] = None) -> str:
 def run_python(
     env_path: Optional[str] = None,
     run_command: Optional[str] = None,
+    markdown_path: Optional[str] = None,
 ):
     code_lines = get_code_from_markdown(
         language='python',
+        markdown_path=markdown_path,
     )
     if not code_lines:
         return None

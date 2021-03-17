@@ -13,9 +13,11 @@ def create_javascript_environment(directory_path: Optional[str] = None) -> str:
 
 def run_javascript(
     directory_path: Optional[str] = None,
+    markdown_path: Optional[str] = None,
 ):
     code_lines = get_code_from_markdown(
         language='javascript',
+        markdown_path=markdown_path,
     )
     if not code_lines:
         return None
