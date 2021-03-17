@@ -23,11 +23,13 @@ def python(
         None,
         help=PY_RUN_HELP
     ),
+    multi_file: bool = False,
 ):  
     run_python(
         env_path=env_path,
         run_command=run_command,
         markdown_path=markdown_path,
+        multi_file=multi_file,
     )
 
 @app.command()
@@ -40,10 +42,12 @@ def javascript(
         None,
         help=JAVASCRIPT_DIRECTORY_HELP,
     ),
+    multi_file: bool = False,
 ):
     run_javascript(
         directory_path=directory_path,
         markdown_path=markdown_path,
+        multi_file=multi_file,
     )
 
 @app.command()
@@ -56,10 +60,12 @@ def typescript(
         None,
         help=TYPESCRIPT_DIRECTORY_HELP,
     ),
+    multi_file: bool = False,
 ):
     run_typescript(
         directory_path=directory_path,
         markdown_path=markdown_path,
+        multi_file=multi_file,
     )
 
 

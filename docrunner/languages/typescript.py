@@ -28,6 +28,7 @@ def compile_typescript(filepath: str) -> int:
 def run_typescript(
     directory_path: Optional[str] = None,
     markdown_path: Optional[str] = None,
+    multi_file: Optional[bool] = None,
 ):
     code_snippets = get_code_from_markdown(
         language='typescript',
@@ -39,20 +40,38 @@ def run_typescript(
     directory_path = create_typescript_environment(
         directory_path=directory_path,
     )
-    filepaths: List[str] = []
-    for i in range(0, len(code_snippets)):
-        filepath = f'{directory_path}/file{i + 1}.ts'
+
+    filepath: str = None
+    if multi_file:
+        filepaths: List[str] = []
+        for i in range(0, len(code_snippets)):
+            filepath = f'{directory_path}/file{i + 1}.ts'
+            write_file(
+                filepath=filepath,
+                lines=code_snippets[i],
+            )
+            filepaths.append(filepath)
+    else:
+        all_lines = ''.join(code_snippets)
+        filepath = f'{directory_path}/main.ts'
         write_file(
             filepath=filepath,
-            lines=code_snippets[i],
+            lines=all_lines,
         )
-        filepaths.append(filepath)
+        
+    if multi_file:
+        for filepath in filepaths:
+            compile_exit_code = compile_typescript(filepath=filepath)
+            if compile_exit_code != 0:
+                return None
 
-    for filepath in filepaths:
+            filepath = filepath[0 : len(filepath) - 3]
+            filepath += '.js'
+            os.system(f'node {filepath}')
+    else:
         compile_exit_code = compile_typescript(filepath=filepath)
         if compile_exit_code != 0:
             return None
-
         filepath = filepath[0 : len(filepath) - 3]
         filepath += '.js'
         os.system(f'node {filepath}')

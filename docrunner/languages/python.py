@@ -19,6 +19,7 @@ def run_python(
     env_path: Optional[str] = None,
     run_command: Optional[str] = None,
     markdown_path: Optional[str] = None,
+    multi_file: Optional[bool] = None,
 ):
     code_snippets = get_code_from_markdown(
         language='python',
@@ -30,14 +31,23 @@ def run_python(
     directory_path = create_python_environment(
         env_path=env_path
     )
-    filepaths: List[str] = []
-    for i in range(0, len(code_snippets)):
-        filepath = f'{directory_path}/file{i + 1}.py'
+    filepath: str = None
+    if multi_file:
+        filepaths: List[str] = []
+        for i in range(0, len(code_snippets)):
+            filepath = f'{directory_path}/file{i + 1}.py'
+            write_file(
+                filepath=filepath,
+                lines=code_snippets[i],
+            )
+            filepaths.append(filepath)
+    else:
+        all_lines = ''.join(code_snippets)
+        filepath = f'{directory_path}/main.py'
         write_file(
             filepath=filepath,
-            lines=code_snippets[i],
+            lines=all_lines,
         )
-        filepaths.append(filepath)
 
     if env_path:
         operating_system = platform.system()
@@ -57,5 +67,8 @@ def run_python(
         os.system(run_command)
         os.chdir(base)
     else:
-        for filepath in filepaths:
+        if multi_file:
+            for filepath in filepaths:
+                os.system(f'python {filepath}')
+        else:
             os.system(f'python {filepath}')
