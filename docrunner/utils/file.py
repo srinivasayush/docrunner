@@ -1,16 +1,20 @@
 import os
 from io import TextIOWrapper
-from typing import List, Optional
+from typing import List, Optional, Union
 import typer
 
 LANGUAGE_ABBREV_MAPPING = {
   'python': [
-    '```py',
-    '```python',
+      '```py',
+      '```python',
   ],
   'javascript': [
-    '```js',
-    '```javascript',
+      '```js',
+      '```javascript',
+  ],
+  'typescript': [
+      '```ts',
+      '```typescript'
   ],
 };
 
@@ -22,10 +26,9 @@ def read_markdown(markdown_path: Optional[str] = None) -> List[str]:
     markdown_file.close()
     return markdown_lines
 
-def write_code_file(
+def get_code_from_markdown(
     language: str,
-    filepath: str,
-) -> None:
+) -> Union[str, None]:
     code_lines = ''
     markdown_lines = read_markdown()
     markdown_lines = [line.replace('\n', '') for line in markdown_lines]
@@ -41,12 +44,16 @@ def write_code_file(
         typer.echo('Error: No closing ```')
         return None
     
+    return code_lines
+
+
+def write_file(filepath: str, lines: str) -> None:
     main_file: TextIOWrapper = None
     if os.path.exists(filepath):
         main_file = open(filepath, mode='w+', encoding='utf-8')
     else:
         main_file = open(filepath, mode='x', encoding='utf-8')
     
-    main_file.write(code_lines)
+    main_file.write(lines)
     main_file.close()
     main_file = None

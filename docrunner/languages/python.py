@@ -1,15 +1,14 @@
+from utils.file import get_code_from_markdown, write_file
 import os
 import platform
 from pathlib import Path
 from typing import Optional
 import subprocess
 
-from utils.file import write_code_file
-
 
 def create_python_environment(env_path: Optional[str] = None) -> str:
     if env_path == None:
-        directory_path = './docrunner-build'
+        directory_path = './docrunner-build-py'
         os.mkdir(directory_path)
     else:
         directory_path = str(Path(env_path).parent)
@@ -20,13 +19,20 @@ def run_python(
     env_path: Optional[str] = None,
     run_command: Optional[str] = None,
 ):
+    code_lines = get_code_from_markdown(
+        language='python',
+    )
+    if not code_lines:
+        return None
+    
     filepath = create_python_environment(
         env_path=env_path
     )
-    write_code_file(
-        language='python',
+    write_file(
         filepath=filepath,
+        lines=code_lines
     )
+
     if env_path:
         operating_system = platform.system()
         env_command: str = None
@@ -40,7 +46,8 @@ def run_python(
     if run_command:
         run_command = run_command.replace('"', '')
         base = os.getcwd()
-        os.chdir(os.path.join(os.getcwd(), str(Path(filepath).parent)))
+        directory_path = str(Path(filepath).parent)
+        os.chdir(os.path.join(os.getcwd(), directory_path))
         os.system(run_command)
         os.chdir(base)
     else:
