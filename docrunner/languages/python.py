@@ -2,7 +2,7 @@ from utils.file import get_code_from_markdown, write_file
 import os
 import platform
 from pathlib import Path
-from typing import Optional
+from typing import List, Optional
 import subprocess
 
 
@@ -12,26 +12,32 @@ def create_python_environment(env_path: Optional[str] = None) -> str:
         os.mkdir(directory_path)
     else:
         directory_path = str(Path(env_path).parent)
-
-    return f'{directory_path}/main.py'
+    
+    return directory_path
 
 def run_python(
     env_path: Optional[str] = None,
     run_command: Optional[str] = None,
+    markdown_path: Optional[str] = None,
 ):
-    code_lines = get_code_from_markdown(
+    code_snippets = get_code_from_markdown(
         language='python',
+        markdown_path=markdown_path,
     )
-    if not code_lines:
+    if not code_snippets:
         return None
     
-    filepath = create_python_environment(
+    directory_path = create_python_environment(
         env_path=env_path
     )
-    write_file(
-        filepath=filepath,
-        lines=code_lines
-    )
+    filepaths: List[str] = []
+    for i in range(0, len(code_snippets)):
+        filepath = f'{directory_path}/file{i + 1}.py'
+        write_file(
+            filepath=filepath,
+            lines=code_snippets[i],
+        )
+        filepaths.append(filepath)
 
     if env_path:
         operating_system = platform.system()
@@ -51,4 +57,5 @@ def run_python(
         os.system(run_command)
         os.chdir(base)
     else:
-        os.system(f'python {filepath}')
+        for filepath in filepaths:
+            os.system(f'python {filepath}')

@@ -12,3 +12,7 @@ TYPESCRIPT_DIRECTORY_HELP = """
 The path to the directory where your typescript code should be stored in a file and run
 You can install dependencies and store them in your package.json in that directory
 """
+
+MARKDOWN_PATH_HELP = """
+The path to the markdown file you would like to run code from
+"""
