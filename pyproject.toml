@@ -1,10 +1,11 @@
 [tool.poetry]
 name = "docrunner"
 version = "0.1.0"
-author = "DudeBro249"
-home-page = "https://github.com/DudeBro249/docrunner"
+description = "A command line tool which allows you to run the code in your markdown files to ensure that readers always have access to working code."
+authors = ["DudeBro249 <yoayush@gmail.com>"]
+homepage = "https://github.com/DudeBro249/docrunner"
+repository = "https://github.com/DudeBro249/docrunner"
 readme = "README.md"
-description-file="README.md"
 classifiers = [
     "Intended Audience :: Information Technology",
     "Intended Audience :: Developers",
