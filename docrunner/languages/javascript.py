@@ -1,7 +1,7 @@
 import os
 from typing import List, Optional
 
-from utils.file import get_code_from_markdown, write_file
+from ..utils.file import get_code_from_markdown, write_file
 
 
 def create_javascript_environment(directory_path: Optional[str] = None) -> str:

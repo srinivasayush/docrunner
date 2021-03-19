@@ -1,4 +1,4 @@
-from utils.file import get_code_from_markdown, write_file
+from ..utils.file import get_code_from_markdown, write_file
 import os
 import platform
 from pathlib import Path
