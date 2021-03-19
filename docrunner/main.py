@@ -1,11 +1,11 @@
 import typer
 
-from constants import (JAVASCRIPT_DIRECTORY_HELP, MARKDOWN_PATH_HELP,
+from .constants import (JAVASCRIPT_DIRECTORY_HELP, MARKDOWN_PATH_HELP,
                        PY_ENVIRONMENT_HELP, PY_RUN_HELP,
                        TYPESCRIPT_DIRECTORY_HELP)
-from languages.javascript import run_javascript
-from languages.python import run_python
-from languages.typescript import run_typescript
+from .languages.javascript import run_javascript
+from .languages.python import run_python
+from .languages.typescript import run_typescript
 
 app = typer.Typer()
 
