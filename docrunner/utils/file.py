@@ -19,6 +19,46 @@ LANGUAGE_ABBREV_MAPPING = {
   ],
 }
 
+
+def validate_links(markdown_path: Optional[str] = None):
+    # Usage: validate_links(r'C:\path\to\README.md')
+    ignore = 'https://reporoster.com/'
+
+    if not markdown_path:
+        markdown_path = './README.md'
+    markdown_file = open(markdown_path, mode='r', encoding='utf-8')
+    markdown_lines = markdown_file.readlines()
+    markdown_file.close()
+    
+    url_list = []
+    for line in markdown_lines:
+      if 'https://' in line or 'http://' in line or 'ftp://' in line:
+          matches = findall('(http|ftp|https)://([\w_-]+(?:(?:\.[\w_-]+)+))([\w.,@?^=%&:/~+#-]*[\w@?^=%&/~+#-])?', line)[0]
+          url = ''
+          url += matches[0] + '://' + matches[1] + matches[2]
+          url_list.append(url)
+
+    print('Docrunner Found', len(url_list), 'urls in', markdown_path)
+    print('Running URL Validation')
+    for url in url_list:
+        try:
+            res = requests.get(url, allow_redirects=True)
+        except Exception:
+            if not url.startswith(ignore):
+                print(f'Invalid URL:', url)
+            else:
+                print('Valid URL:', url)
+            continue
+        
+        if res.status_code != 200:
+            if not url.startswith(ignore):
+                print(f'Invalid URL:', url)
+            else:
+                print('Valid URL:', url)
+        else:
+            print('Valid URL:', url)
+
+
 def read_markdown(markdown_path: Optional[str] = None) -> List[str]:
     if not markdown_path:
         markdown_path = './README.md'
