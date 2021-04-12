@@ -1,8 +1,8 @@
 [tool.poetry]
 name = "docrunner"
-version = "0.1.0"
+version = "0.1.1"
 description = "A command line tool which allows you to run the code in your markdown files to ensure that readers always have access to working code."
-authors = ["DudeBro249 <yoayush@gmail.com>"]
+authors = ["DudeBro249 <appdevdeploy@gmail.com>"]
 homepage = "https://github.com/DudeBro249/docrunner"
 repository = "https://github.com/DudeBro249/docrunner"
 readme = "README.md"
