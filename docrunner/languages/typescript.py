@@ -9,21 +9,23 @@ def create_typescript_environment(directory_path: Optional[str] = None) -> str:
     if directory_path == None:
         directory_path = './docrunner-build-ts'
         os.mkdir(directory_path)
-    
+
     return directory_path
+
 
 def compile_typescript(filepath: str) -> int:
     directory_path = str(Path(filepath).parent)
     compile_command = f'tsc {filepath}'
     if os.path.exists(f'{directory_path}/tsconfig.json'):
         compile_command = f'tsc -p .'
-    
+
     base = os.getcwd()
     os.chdir(os.path.join(base, directory_path))
     compile_exit_code = os.system(compile_command)
     os.chdir(base)
 
     return compile_exit_code
+
 
 def run_typescript(
     directory_path: Optional[str] = None,
@@ -58,20 +60,20 @@ def run_typescript(
             filepath=filepath,
             lines=all_lines,
         )
-        
+
     if multi_file:
         for filepath in filepaths:
             compile_exit_code = compile_typescript(filepath=filepath)
             if compile_exit_code != 0:
                 return None
 
-            filepath = filepath[0 : len(filepath) - 3]
+            filepath = filepath[0: len(filepath) - 3]
             filepath += '.js'
             os.system(f'node {filepath}')
     else:
         compile_exit_code = compile_typescript(filepath=filepath)
         if compile_exit_code != 0:
             return None
-        filepath = filepath[0 : len(filepath) - 3]
+        filepath = filepath[0: len(filepath) - 3]
         filepath += '.js'
         os.system(f'node {filepath}')

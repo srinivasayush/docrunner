@@ -12,8 +12,9 @@ def create_python_environment(env_path: Optional[str] = None) -> str:
         os.mkdir(directory_path)
     else:
         directory_path = str(Path(env_path).parent)
-    
+
     return directory_path
+
 
 def run_python(
     env_path: Optional[str] = None,
@@ -27,7 +28,7 @@ def run_python(
     )
     if not code_snippets:
         return None
-    
+
     directory_path = create_python_environment(
         env_path=env_path
     )
@@ -58,7 +59,7 @@ def run_python(
         elif operating_system == 'Linux':
             env_command = f'source {env_path}/bin/activate'
             os.system(env_command)
-    
+
     if run_command:
         run_command = run_command.replace('"', '')
         base = os.getcwd()
