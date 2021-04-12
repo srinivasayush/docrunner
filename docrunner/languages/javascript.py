@@ -8,8 +8,9 @@ def create_javascript_environment(directory_path: Optional[str] = None) -> str:
     if directory_path == None:
         directory_path = './docrunner-build-js'
         os.mkdir(directory_path)
-    
+
     return directory_path
+
 
 def run_javascript(
     directory_path: Optional[str] = None,
@@ -26,7 +27,7 @@ def run_javascript(
     directory_path = create_javascript_environment(
         directory_path=directory_path,
     )
-    
+
     filepath: str = None
     if multi_file:
         filepaths: List[str] = []
@@ -44,10 +45,9 @@ def run_javascript(
             filepath=filepath,
             lines=all_lines,
         )
-    
+
     if multi_file:
         for filepath in filepaths:
             os.system(f'node {filepath}')
     else:
         os.system(f'node {filepath}')
-    
