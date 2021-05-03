@@ -16,13 +16,16 @@ def create_typescript_environment(directory_path: Optional[str] = None) -> str:
 def compile_typescript(filepath: str) -> int:
     directory_path = str(Path(filepath).parent)
     compile_command = f'tsc {filepath}'
+    compile_exit_code = 0
+
     if os.path.exists(f'{directory_path}/tsconfig.json'):
         compile_command = f'tsc -p .'
-
-    base = os.getcwd()
-    os.chdir(os.path.join(base, directory_path))
-    compile_exit_code = os.system(compile_command)
-    os.chdir(base)
+        base = os.getcwd()
+        os.chdir(os.path.join(base, directory_path))
+        compile_exit_code = os.system(compile_command)
+        os.chdir(base)
+    else:
+        compile_exit_code = os.system(compile_command)
 
     return compile_exit_code
 
