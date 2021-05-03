@@ -18,7 +18,7 @@ def create_python_environment(env_path: Optional[str] = None) -> str:
 
 def run_python(
     env_path: Optional[str] = None,
-    run_command: Optional[str] = None,
+    startup_command: Optional[str] = None,
     markdown_path: Optional[str] = None,
     multi_file: Optional[bool] = None,
 ):
@@ -60,12 +60,12 @@ def run_python(
             env_command = f'source {env_path}/bin/activate'
             os.system(env_command)
 
-    if run_command:
-        run_command = run_command.replace('"', '')
+    if startup_command:
+        startup_command = startup_command.replace('"', '')
         base = os.getcwd()
         directory_path = str(Path(filepath).parent)
         os.chdir(os.path.join(os.getcwd(), directory_path))
-        os.system(run_command)
+        os.system(startup_command)
         os.chdir(base)
     else:
         if multi_file:

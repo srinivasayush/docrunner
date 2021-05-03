@@ -78,7 +78,7 @@ def get_code_from_markdown(
         markdown_path=markdown_path,
     )
 
-    markdown_lines = [line.replace('\n', '') for line in markdown_lines]
+    markdown_lines = [line.replace('\n', '').strip() for line in markdown_lines]
     language_openings = [i for i, line in enumerate(
         markdown_lines) if line in LANGUAGE_ABBREV_MAPPING[language]]
 
@@ -86,7 +86,7 @@ def get_code_from_markdown(
         typer.echo(
             typer.style(
                 "WARNING: Language not found in markdown file",
-                fg=typer.colors.MAGENTA,
+                fg=typer.colors.YELLOW,
             )
         )
     code_snippets: List[str] = []

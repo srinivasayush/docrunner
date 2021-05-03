@@ -20,7 +20,7 @@ def python(
         None,
         help=PY_ENVIRONMENT_HELP
     ),
-    run_command: str = typer.Option(
+    startup_command: str = typer.Option(
         None,
         help=PY_RUN_HELP
     ),
@@ -29,7 +29,7 @@ def python(
     typer.echo(typer.style("Running python", fg=typer.colors.GREEN))
     run_python(
         env_path=env_path,
-        run_command=run_command,
+        startup_command=startup_command,
         markdown_path=markdown_path,
         multi_file=multi_file,
     )
