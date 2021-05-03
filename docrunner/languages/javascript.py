@@ -7,7 +7,8 @@ from ..utils.file import get_code_from_markdown, write_file
 def create_javascript_environment(directory_path: Optional[str] = None) -> str:
     if directory_path == None:
         directory_path = './docrunner-build-js'
-        os.mkdir(directory_path)
+        if not os.path.exists(directory_path):
+            os.mkdir(directory_path)
 
     return directory_path
 
