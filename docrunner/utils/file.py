@@ -86,7 +86,7 @@ def get_code_from_markdown(
         typer.echo(
             typer.style(
                 "WARNING: Language not found in markdown file",
-                fg=typer.colors.MAGENTA,
+                fg=typer.colors.YELLOW,
             )
         )
     code_snippets: List[str] = []
