@@ -9,7 +9,8 @@ import subprocess
 def create_python_environment(env_path: Optional[str] = None) -> str:
     if env_path == None:
         directory_path = './docrunner-build-py'
-        os.mkdir(directory_path)
+        if not os.path.exists(directory_path):
+            os.mkdir(directory_path)
     else:
         directory_path = str(Path(env_path).parent)
 
