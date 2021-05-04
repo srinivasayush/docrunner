@@ -27,9 +27,10 @@ def validate_links(markdown_path: Optional[str] = None):
 
     if not markdown_path:
         markdown_path = './README.md'
-    markdown_file = open(markdown_path, mode='r', encoding='utf-8')
-    markdown_lines = markdown_file.readlines()
-    markdown_file.close()
+
+    markdown_lines = read_markdown(
+        markdown_path=markdown_path
+    )
 
     url_list = []
     for line in markdown_lines:
@@ -64,9 +65,21 @@ def validate_links(markdown_path: Optional[str] = None):
 def read_markdown(markdown_path: Optional[str] = None) -> List[str]:
     if not markdown_path:
         markdown_path = './README.md'
-    markdown_file = open(markdown_path, mode='r', encoding='utf-8')
-    markdown_lines = markdown_file.readlines()
-    markdown_file.close()
+    
+    markdown_file = None
+    markdown_lines = None
+
+    try:
+        markdown_file = open(markdown_path, mode='r', encoding='utf-8')
+        markdown_lines = markdown_file.readlines()
+        markdown_file.close()
+    except FileNotFoundError as error:
+        typer.echo(
+            typer.style(
+                f'Error: file `{error.filename}` not found', fg=typer.colors.RED
+            ),
+            err=True
+        )
     return markdown_lines
 
 
@@ -77,6 +90,8 @@ def get_code_from_markdown(
     markdown_lines = read_markdown(
         markdown_path=markdown_path,
     )
+    if not markdown_lines:
+        return
 
     markdown_lines = [line.replace('\n', '').strip() for line in markdown_lines]
     language_openings = [i for i, line in enumerate(
