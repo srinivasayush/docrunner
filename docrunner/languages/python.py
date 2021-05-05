@@ -63,14 +63,11 @@ def run_python(
 
     if startup_command:
         startup_command = startup_command.replace('"', '')
-        base = os.getcwd()
-        directory_path = str(Path(filepath).parent)
-        os.chdir(os.path.join(os.getcwd(), directory_path))
         os.system(startup_command)
-        os.chdir(base)
-    else:
-        if multi_file:
-            for filepath in filepaths:
-                os.system(f'python {filepath}')
-        else:
+        return
+
+    if multi_file:
+        for filepath in filepaths:
             os.system(f'python {filepath}')
+    else:
+        os.system(f'python {filepath}')

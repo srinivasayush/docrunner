@@ -45,6 +45,10 @@ def javascript(
         None,
         help=JAVASCRIPT_DIRECTORY_HELP,
     ),
+    startup_command: str = typer.Option(
+        None,
+        help=PY_RUN_HELP
+    ),
     multi_file: bool = False,
 ):
     typer.echo(typer.style("Running javascript", fg=typer.colors.YELLOW))
@@ -52,6 +56,7 @@ def javascript(
         directory_path=directory_path,
         markdown_path=markdown_path,
         multi_file=multi_file,
+        startup_command=startup_command
     )
 
 
@@ -65,6 +70,10 @@ def typescript(
         None,
         help=TYPESCRIPT_DIRECTORY_HELP,
     ),
+    startup_command: str = typer.Option(
+        None,
+        help=PY_RUN_HELP
+    ),
     multi_file: bool = False,
 ):
     typer.echo(typer.style("Running typescript", fg=typer.colors.BLUE))
@@ -72,6 +81,7 @@ def typescript(
         directory_path=directory_path,
         markdown_path=markdown_path,
         multi_file=multi_file,
+        startup_command=startup_command
     )
 
 

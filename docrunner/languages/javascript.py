@@ -17,6 +17,7 @@ def run_javascript(
     directory_path: Optional[str] = None,
     markdown_path: Optional[str] = None,
     multi_file: Optional[bool] = None,
+    startup_command: Optional[str] = None,
 ):
     code_snippets = get_code_from_markdown(
         language='javascript',
@@ -46,6 +47,11 @@ def run_javascript(
             filepath=filepath,
             lines=all_lines,
         )
+    
+    if startup_command:
+        startup_command = startup_command.replace('"', '')
+        os.system(startup_command)
+        return
 
     if multi_file:
         for filepath in filepaths:
