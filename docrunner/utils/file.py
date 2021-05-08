@@ -32,6 +32,9 @@ def validate_links(markdown_path: Optional[str] = None):
         markdown_path=markdown_path
     )
 
+    if not markdown_lines:
+        return
+
     url_list = []
     for line in markdown_lines:
         if 'https://' in line or 'http://' in line or 'ftp://' in line:
@@ -62,7 +65,7 @@ def validate_links(markdown_path: Optional[str] = None):
             typer.echo('Valid URL:', url)
 
 
-def read_markdown(markdown_path: Optional[str] = None) -> List[str]:
+def read_markdown(markdown_path: Optional[str] = None) -> Optional[List[str]]:
     if not markdown_path:
         markdown_path = './README.md'
     
@@ -80,6 +83,7 @@ def read_markdown(markdown_path: Optional[str] = None) -> List[str]:
             ),
             err=True
         )
+        return None
     return markdown_lines
 
 
@@ -87,6 +91,7 @@ def get_code_from_markdown(
     language: str,
     markdown_path: Optional[str] = None,
 ) -> Union[List[str], None]:
+
     markdown_lines = read_markdown(
         markdown_path=markdown_path,
     )

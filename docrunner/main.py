@@ -1,7 +1,7 @@
 import typer
 
 from .constants import (JAVASCRIPT_DIRECTORY_HELP, MARKDOWN_PATH_HELP,
-                        PY_ENVIRONMENT_HELP, PY_RUN_HELP,
+                        PY_ENVIRONMENT_HELP, STARTUP_COMMAND_HELP,
                         TYPESCRIPT_DIRECTORY_HELP)
 from .languages.javascript import run_javascript
 from .languages.python import run_python
@@ -22,7 +22,7 @@ def python(
     ),
     startup_command: str = typer.Option(
         None,
-        help=PY_RUN_HELP
+        help=STARTUP_COMMAND_HELP
     ),
     multi_file: bool = False,
 ):
@@ -47,7 +47,7 @@ def javascript(
     ),
     startup_command: str = typer.Option(
         None,
-        help=PY_RUN_HELP
+        help=STARTUP_COMMAND_HELP
     ),
     multi_file: bool = False,
 ):
@@ -72,7 +72,7 @@ def typescript(
     ),
     startup_command: str = typer.Option(
         None,
-        help=PY_RUN_HELP
+        help=STARTUP_COMMAND_HELP
     ),
     multi_file: bool = False,
 ):

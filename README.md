@@ -10,52 +10,62 @@ Docrunner goes through your markdown file and runs any code in it, providing you
 
 Use the package manager [pip](https://pip.pypa.io/en/stable/) to install docrunner.
 
-```bash
+```powershell
 pip install docrunner
 ```
 
 ## QuickStart
 
-```cmd
+```powershell
 py -m docrunner --help
 ```
 
 or
 
-```cmd
+```powershell
 docrunner
+```
+
+### Language Specific Help
+For help on a specific language, run:
+```powershell
+docrunner <language> --help
 ```
 
 ### Python Example
 
-```cmd
-docrunner python --markdown-path ./README.md --multi-file
+```powershell
+docrunner python --markdown-path example/example.md --multi-file
 ```
 
 This command executes all python within your README markdown file and does so by putting each snippet of python from your README into a separate file, and running each file. If you don't want each snippet in a separate python file, just remove the --multi-file option.
 
 
 ## Contributing and Local Development
-If you would like to contribute to `docrunner` and develop locally on your system, please follow the following instructions
+If you would like to contribute to `docrunner` please follow these instructions
 to set a local development environment for docrunner on your system
 
-1. Install `poetry`, a dependency management tool, with `pip` if it is not already installed:
+1. Clone this repository
+2. Install `poetry`, a dependency management tool, with `pip` if it is not already installed:
 ```powershell
 pip install poetry
 ```
-2. Install the necessary packages for the project with:
+3. Install the necessary packages for the project with:
 ```powershell
 poetry install
 ```
-3. To run the docrunner cli tool, run:
+4. To run the docrunner cli tool in development, run:
 ```powershell
 poetry run docrunner --help
 ```
-4. You're all set! You can now edit source code within the `docrunner` directory
-5. (Testing CLI Tool) Run the usage example with:
+5. You're all set! You can now edit source code within the `docrunner` directory
+6. (Testing CLI Tool) Run the usage example with:
 ```powershell
 poetry run docrunner <language> --markdown-path example/example.md
 ```
+
+For larger changes like adding support for another language, please open an issue
+[here](https://github.com/DudeBro249/docrunner/issues)
 
 
 ## Supported Languages
