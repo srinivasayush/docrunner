@@ -1,6 +1,6 @@
 import os
 from io import TextIOWrapper
-from typing import List, Optional, Union
+from typing import List, Optional
 import typer
 import re
 import requests
@@ -90,7 +90,7 @@ def read_markdown(markdown_path: Optional[str] = None) -> Optional[List[str]]:
 def get_code_from_markdown(
     language: str,
     markdown_path: Optional[str] = None,
-) -> Union[List[str], None]:
+) -> Optional[List[str]]:
 
     markdown_lines = read_markdown(
         markdown_path=markdown_path,

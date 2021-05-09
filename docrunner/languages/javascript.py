@@ -1,16 +1,8 @@
+from docrunner.utils.language import create_language_environment
 import os
 from typing import List, Optional
 
 from ..utils.file import get_code_from_markdown, write_file
-
-
-def create_javascript_environment(directory_path: Optional[str] = None) -> str:
-    if directory_path == None:
-        directory_path = './docrunner-build-js'
-        if not os.path.exists(directory_path):
-            os.mkdir(directory_path)
-
-    return directory_path
 
 
 def run_javascript(
@@ -26,7 +18,8 @@ def run_javascript(
     if not code_snippets:
         return None
 
-    directory_path = create_javascript_environment(
+    directory_path = create_language_environment(
+        language='js',
         directory_path=directory_path,
     )
 
