@@ -73,3 +73,4 @@ For larger changes like adding support for another language, please open an issu
 - Python
 - Javascript
 - Typescript
+- Dart

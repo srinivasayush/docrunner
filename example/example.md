@@ -12,3 +12,9 @@ console.log('hello javascript')
 ```typescript
 console.log('hello typescript')
 ```
+
+```dart
+void main() {
+    print('hello dart');
+}
+```
