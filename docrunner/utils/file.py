@@ -179,11 +179,6 @@ def write_file(filepath: str, lines: str) -> None:
         Filepath of file you want to write to
     lines : str
         String you want to write into file
-
-    Returns
-    -------
-    [type]
-        [description]
     """
     main_file: TextIOWrapper = None
     try:

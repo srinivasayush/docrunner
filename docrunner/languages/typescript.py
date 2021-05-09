@@ -25,10 +25,24 @@ def compile_typescript(filepath: str) -> int:
 
 def run_typescript(
     directory_path: Optional[str] = None,
+    startup_command: Optional[str] = None,
     markdown_path: Optional[str] = None,
     multi_file: Optional[bool] = None,
-    startup_command: Optional[str] = None,
 ):
+    """Runs all typescript code within a markdown '.md' file
+
+    Parameters
+    ----------
+    directory_path : Optional[str], optional
+        Path to directory where typescript code should be stored and ran, by default None
+    startup_command : Optional[str], optional
+        Command that is run which starts code, by default None
+    markdown_path : Optional[str], optional
+        Path to markdown '.md' file, by default None
+    multi_file : Optional[bool], optional
+        Whether each code snippet should be stored and run in another file or not, by default None
+    """
+    
     code_snippets = get_code_from_markdown(
         language='typescript',
         markdown_path=markdown_path,
