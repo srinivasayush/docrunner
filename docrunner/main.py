@@ -1,8 +1,9 @@
 import typer
 
-from .constants.help import (JAVASCRIPT_DIRECTORY_HELP, MARKDOWN_PATH_HELP,
-                        PYTHON_DIRECTORY_HELP, STARTUP_COMMAND_HELP,
-                        TYPESCRIPT_DIRECTORY_HELP)
+from .constants.help import (DART_DIRECTORY_HELP, JAVASCRIPT_DIRECTORY_HELP,
+                             MARKDOWN_PATH_HELP, PYTHON_DIRECTORY_HELP,
+                             STARTUP_COMMAND_HELP, TYPESCRIPT_DIRECTORY_HELP)
+from .languages.dart import run_dart
 from .languages.javascript import run_javascript
 from .languages.python import run_python
 from .languages.typescript import run_typescript
@@ -84,6 +85,24 @@ def typescript(
         startup_command=startup_command
     )
 
+@app.command()
+def dart(
+    markdown_path: str = typer.Option(
+        None,
+        help=MARKDOWN_PATH_HELP
+    ),
+    directory_path: str = typer.Option(
+        None,
+        help=DART_DIRECTORY_HELP,
+    ),
+    multi_file: bool = False,
+):
+    typer.echo(typer.style("Running dart", fg=typer.colors.BRIGHT_CYAN))
+    run_dart(
+        directory_path=directory_path,
+        markdown_path=markdown_path,
+        multi_file=multi_file,
+    )
 
 if __name__ == '__main__':
     app()

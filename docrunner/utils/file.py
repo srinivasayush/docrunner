@@ -4,6 +4,7 @@ from typing import List, Optional
 import typer
 import re
 import requests
+from pathlib import Path
 
 LANGUAGE_ABBREV_MAPPING = {
     'python': [
@@ -18,6 +19,9 @@ LANGUAGE_ABBREV_MAPPING = {
         '```ts',
         '```typescript'
     ],
+    'dart': [
+        '```dart'
+    ]
 }
 
 
@@ -142,10 +146,19 @@ def get_code_from_markdown(
 
 def write_file(filepath: str, lines: str) -> None:
     main_file: TextIOWrapper = None
-    if os.path.exists(filepath):
-        main_file = open(filepath, mode='w+', encoding='utf-8')
-    else:
-        main_file = open(filepath, mode='x', encoding='utf-8')
+    try:
+        if os.path.exists(filepath):
+            main_file = open(filepath, mode='w+', encoding='utf-8')
+        else:
+            main_file = open(filepath, mode='x', encoding='utf-8')
+    except FileNotFoundError as error:
+        typer.echo(
+            typer.style(
+                f'Error: folder `{Path(error.filename).parent}` not found', fg=typer.colors.RED
+            ),
+            err=True
+        )
+        return None
 
     main_file.write(lines)
     main_file.close()
