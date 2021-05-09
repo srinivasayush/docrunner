@@ -1,7 +1,7 @@
 import typer
 
-from .constants import (JAVASCRIPT_DIRECTORY_HELP, MARKDOWN_PATH_HELP,
-                        PY_ENVIRONMENT_HELP, STARTUP_COMMAND_HELP,
+from .constants.help import (JAVASCRIPT_DIRECTORY_HELP, MARKDOWN_PATH_HELP,
+                        PYTHON_DIRECTORY_HELP, STARTUP_COMMAND_HELP,
                         TYPESCRIPT_DIRECTORY_HELP)
 from .languages.javascript import run_javascript
 from .languages.python import run_python
@@ -16,9 +16,9 @@ def python(
         None,
         help=MARKDOWN_PATH_HELP
     ),
-    env_path: str = typer.Option(
+    directory_path: str = typer.Option(
         None,
-        help=PY_ENVIRONMENT_HELP
+        help=PYTHON_DIRECTORY_HELP,
     ),
     startup_command: str = typer.Option(
         None,
@@ -28,7 +28,7 @@ def python(
 ):
     typer.echo(typer.style("Running python", fg=typer.colors.GREEN))
     run_python(
-        env_path=env_path,
+        directory_path=directory_path,
         startup_command=startup_command,
         markdown_path=markdown_path,
         multi_file=multi_file,

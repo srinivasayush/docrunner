@@ -1,17 +1,9 @@
+from docrunner.utils.language import create_language_environment
 import os
 from pathlib import Path
 from typing import List, Optional
 
 from ..utils.file import get_code_from_markdown, write_file
-
-
-def create_typescript_environment(directory_path: Optional[str] = None) -> str:
-    if directory_path == None:
-        directory_path = './docrunner-build-ts'
-        if not os.path.exists(directory_path):
-            os.mkdir(directory_path)
-
-    return directory_path
 
 
 def compile_typescript(filepath: str) -> int:
@@ -44,7 +36,8 @@ def run_typescript(
     if not code_snippets:
         return None
 
-    directory_path = create_typescript_environment(
+    directory_path = create_language_environment(
+        language='ts',
         directory_path=directory_path,
     )
 

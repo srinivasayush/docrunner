@@ -1,24 +1,10 @@
+from ..utils.language import create_language_environment
 from ..utils.file import get_code_from_markdown, write_file
 import os
-import platform
-from pathlib import Path
 from typing import List, Optional
-import subprocess
-
-
-def create_python_environment(env_path: Optional[str] = None) -> str:
-    if env_path == None:
-        directory_path = './docrunner-build-py'
-        if not os.path.exists(directory_path):
-            os.mkdir(directory_path)
-    else:
-        directory_path = str(Path(env_path).parent)
-
-    return directory_path
-
 
 def run_python(
-    env_path: Optional[str] = None,
+    directory_path: Optional[str] = None,
     startup_command: Optional[str] = None,
     markdown_path: Optional[str] = None,
     multi_file: Optional[bool] = None,
@@ -30,9 +16,11 @@ def run_python(
     if not code_snippets:
         return None
 
-    directory_path = create_python_environment(
-        env_path=env_path
+    directory_path = create_language_environment(
+        language='py',
+        directory_path=directory_path
     )
+    
     filepath: str = None
     if multi_file:
         filepaths: List[str] = []
@@ -50,16 +38,6 @@ def run_python(
             filepath=filepath,
             lines=all_lines,
         )
-
-    if env_path:
-        operating_system = platform.system()
-        env_command: str = None
-        if operating_system == 'Windows':
-            env_command = f'{env_path}\\Scripts\\activate.bat'
-            subprocess.call(env_command)
-        elif operating_system == 'Linux':
-            env_command = f'source {env_path}/bin/activate'
-            os.system(env_command)
 
     if startup_command:
         startup_command = startup_command.replace('"', '')
