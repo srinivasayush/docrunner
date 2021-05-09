@@ -27,6 +27,10 @@ def python(
     ),
     multi_file: bool = False,
 ):
+    """
+    The python language command
+    """
+
     typer.echo(typer.style("Running python", fg=typer.colors.GREEN))
     run_python(
         directory_path=directory_path,
@@ -52,6 +56,10 @@ def javascript(
     ),
     multi_file: bool = False,
 ):
+    """
+    The javascript language command
+    """
+
     typer.echo(typer.style("Running javascript", fg=typer.colors.YELLOW))
     run_javascript(
         directory_path=directory_path,
@@ -77,6 +85,10 @@ def typescript(
     ),
     multi_file: bool = False,
 ):
+    """
+    The typescript language command
+    """
+
     typer.echo(typer.style("Running typescript", fg=typer.colors.BLUE))
     run_typescript(
         directory_path=directory_path,
@@ -97,6 +109,10 @@ def dart(
     ),
     multi_file: bool = False,
 ):
+    """
+    The dart language command
+    """
+
     typer.echo(typer.style("Running dart", fg=typer.colors.BRIGHT_CYAN))
     run_dart(
         directory_path=directory_path,
