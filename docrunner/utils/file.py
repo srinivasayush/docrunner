@@ -70,6 +70,18 @@ def validate_links(markdown_path: Optional[str] = None):
 
 
 def read_markdown(markdown_path: Optional[str] = None) -> Optional[List[str]]:
+    """Reads a markdown file and returns a list of lines
+
+    Parameters
+    ----------
+    markdown_path : Optional[str], optional
+        Path to the markdown '.md' file, by default None
+
+    Returns
+    -------
+    Optional[List[str]]
+        List of lines from markdown '.md' file
+    """
     if not markdown_path:
         markdown_path = './README.md'
     
@@ -95,6 +107,20 @@ def get_code_from_markdown(
     language: str,
     markdown_path: Optional[str] = None,
 ) -> Optional[List[str]]:
+    """Returns a list of code snippets of a certain `language`
+
+    Parameters
+    ----------
+    language : str
+        Name of the language
+    markdown_path : Optional[str], optional
+        Path to the markdown '.md' file, by default None
+
+    Returns
+    -------
+    Optional[List[str]]
+        List of string code snippets from markdown '.md' file
+    """
 
     markdown_lines = read_markdown(
         markdown_path=markdown_path,
@@ -145,6 +171,15 @@ def get_code_from_markdown(
 
 
 def write_file(filepath: str, lines: str) -> None:
+    """Writes `lines` to a file located at `filepath`
+
+    Parameters
+    ----------
+    filepath : str
+        Filepath of file you want to write to
+    lines : str
+        String you want to write into file
+    """
     main_file: TextIOWrapper = None
     try:
         if os.path.exists(filepath):
