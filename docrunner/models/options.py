@@ -6,9 +6,12 @@ from typing import Optional
 import toml
 from pydantic import BaseModel
 
+from ..utils.file import write_file
+
 
 class Options(BaseModel):
     """Base model for docrunner options"""
+    language: Optional[str] = None
     markdown_path: Optional[str] = None
     directory_path: Optional[str] = None
     startup_command: Optional[str] = None
@@ -63,3 +66,19 @@ class Options(BaseModel):
             options_dict = options_dict['docrunner']
             options = cls(**options_dict)
             return options
+    
+    
+    @staticmethod
+    def create_config_file():
+        options = Options(
+            markdown_path='README.md',
+            multi_file=False,
+        )
+        configuration_lines = toml.dumps({
+            'docrunner': options.dict()
+        })
+        write_file(
+            filepath='docrunner.toml',
+            lines=configuration_lines,
+            overwrite=False
+        )
