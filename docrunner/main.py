@@ -7,6 +7,7 @@ from .languages.dart import run_dart
 from .languages.javascript import run_javascript
 from .languages.python import run_python
 from .languages.typescript import run_typescript
+from .models.options import Options
 
 app = typer.Typer()
 
@@ -32,11 +33,15 @@ def python(
     """
 
     typer.echo(typer.style("Running python", fg=typer.colors.GREEN))
-    run_python(
+
+    options = Options.override_with_cli_arguments(
+        markdown_path=markdown_path,
         directory_path=directory_path,
         startup_command=startup_command,
-        markdown_path=markdown_path,
         multi_file=multi_file,
+    )
+    run_python(
+        options=options,
     )
 
 
@@ -61,11 +66,15 @@ def javascript(
     """
 
     typer.echo(typer.style("Running javascript", fg=typer.colors.YELLOW))
-    run_javascript(
-        directory_path=directory_path,
+
+    options = Options.override_with_cli_arguments(
         markdown_path=markdown_path,
+        directory_path=directory_path,
+        startup_command=startup_command,
         multi_file=multi_file,
-        startup_command=startup_command
+    )
+    run_javascript(
+        options=options,
     )
 
 
@@ -88,13 +97,16 @@ def typescript(
     """
     The typescript language command
     """
-
     typer.echo(typer.style("Running typescript", fg=typer.colors.BLUE))
-    run_typescript(
-        directory_path=directory_path,
+
+    options = Options.override_with_cli_arguments(
         markdown_path=markdown_path,
+        directory_path=directory_path,
+        startup_command=startup_command,
         multi_file=multi_file,
-        startup_command=startup_command
+    )
+    run_typescript(
+        options=options,
     )
 
 @app.command()
@@ -114,10 +126,14 @@ def dart(
     """
 
     typer.echo(typer.style("Running dart", fg=typer.colors.BRIGHT_CYAN))
-    run_dart(
-        directory_path=directory_path,
+    
+    options = Options.override_with_cli_arguments(
         markdown_path=markdown_path,
+        directory_path=directory_path,
         multi_file=multi_file,
+    )
+    run_dart(
+        options=options,
     )
 
 if __name__ == '__main__':

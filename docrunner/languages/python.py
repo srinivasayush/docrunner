@@ -1,27 +1,25 @@
-from ..utils.language import create_language_environment
-from ..utils.file import get_code_from_markdown, write_file
 import os
-from typing import List, Optional
+from typing import List
+
+from ..models.options import Options
+from ..utils.file import get_code_from_markdown, write_file
+from ..utils.language import create_language_environment
+
 
 def run_python(
-    directory_path: Optional[str] = None,
-    startup_command: Optional[str] = None,
-    markdown_path: Optional[str] = None,
-    multi_file: Optional[bool] = None,
+    options: Options
 ):
     """Runs all python code within a markdown '.md' file
 
     Parameters
     ----------
-    directory_path : Optional[str], optional
-        Path to directory where python code should be stored and ran, by default None
-    startup_command : Optional[str], optional
-        Command that is run which starts code, by default None
-    markdown_path : Optional[str], optional
-        Path to markdown '.md' file, by default None
-    multi_file : Optional[bool], optional
-        Whether each code snippet should be stored and run in another file or not, by default None
+    options : Options
+        Docrunner options
     """
+    markdown_path = options.markdown_path
+    directory_path = options.directory_path
+    multi_file = options.multi_file
+    startup_command = options.startup_command
 
     code_snippets = get_code_from_markdown(
         language='python',

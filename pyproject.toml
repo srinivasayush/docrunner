@@ -30,9 +30,11 @@ classifiers = [
 docrunner = "docrunner.main:app"
 
 [tool.poetry.dependencies]
-python = "^3.6"
+python = "^3.6.1"
 typer = {extras = ["all"], version = "^0.3.2"}
 requests = "^2.25.1"
+toml = "^0.10.2"
+pydantic = "^1.8.1"
 
 [tool.poetry.dev-dependencies]
 pytest = "^5.2"

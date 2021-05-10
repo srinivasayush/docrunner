@@ -1,10 +1,11 @@
 import os
-from io import TextIOWrapper
-from typing import List, Optional
-import typer
 import re
-import requests
+from io import TextIOWrapper
 from pathlib import Path
+from typing import List, Optional
+
+import requests
+import typer
 
 LANGUAGE_ABBREV_MAPPING = {
     'python': [
