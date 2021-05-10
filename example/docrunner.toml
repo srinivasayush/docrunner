@@ -1,0 +1,3 @@
+[docrunner]
+markdown_path = 'example.md'
+multi_file = false

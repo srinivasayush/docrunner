@@ -7,9 +7,69 @@ from .languages.dart import run_dart
 from .languages.javascript import run_javascript
 from .languages.python import run_python
 from .languages.typescript import run_typescript
+from .models.options import Options
 
 app = typer.Typer()
 
+
+LANGUAGE_TO_COLOR = {
+    'python': typer.colors.GREEN,
+    'javascript': typer.colors.YELLOW,
+    'typescript': typer.colors.BLUE,
+    'dart': typer.colors.BRIGHT_CYAN,
+}
+
+LANGUAGE_TO_FUNCTION = {
+    'python': run_python,
+    'javascript': run_javascript,
+    'typescript': run_typescript,
+    'dart': run_dart,
+}
+
+@app.command()
+def run():
+    """
+    The docrunner run command
+    """
+
+    options = Options.from_config_file()
+    if not options:
+        typer.echo(
+            typer.style(
+                'No `docrunner.toml` file found, please create one', fg=typer.colors.RED
+            ),
+            err=True
+        )
+        return
+    if not options.language:
+        typer.echo(
+            typer.style(
+                '`language` field not specified in docrunner.toml, please add it', fg=typer.colors.RED
+            ),
+            err=True
+        )
+        return
+    
+    typer.echo(
+        typer.style(
+            f'Running {options.language}',
+            fg=LANGUAGE_TO_COLOR[options.language]
+        )
+    )
+    LANGUAGE_TO_FUNCTION[options.language](
+        options=options,
+    )
+
+
+@app.command()
+def init():
+    typer.echo(
+        typer.style(
+            'Creating configuration file',
+            fg=typer.colors.GREEN,
+        )
+    )
+    Options.create_config_file()
 
 @app.command()
 def python(
@@ -31,12 +91,21 @@ def python(
     The python language command
     """
 
-    typer.echo(typer.style("Running python", fg=typer.colors.GREEN))
-    run_python(
+    typer.echo(
+        typer.style(
+            'Running python',
+            fg=LANGUAGE_TO_COLOR['python']
+        )
+    )
+
+    options = Options.override_with_cli_arguments(
+        markdown_path=markdown_path,
         directory_path=directory_path,
         startup_command=startup_command,
-        markdown_path=markdown_path,
         multi_file=multi_file,
+    )
+    run_python(
+        options=options,
     )
 
 
@@ -60,12 +129,21 @@ def javascript(
     The javascript language command
     """
 
-    typer.echo(typer.style("Running javascript", fg=typer.colors.YELLOW))
-    run_javascript(
-        directory_path=directory_path,
+    typer.echo(
+        typer.style(
+            'Running javascript',
+            fg=LANGUAGE_TO_COLOR['javascript']
+        )
+    )
+
+    options = Options.override_with_cli_arguments(
         markdown_path=markdown_path,
+        directory_path=directory_path,
+        startup_command=startup_command,
         multi_file=multi_file,
-        startup_command=startup_command
+    )
+    run_javascript(
+        options=options,
     )
 
 
@@ -88,13 +166,21 @@ def typescript(
     """
     The typescript language command
     """
+    typer.echo(
+        typer.style(
+            'Running typescript',
+            fg=LANGUAGE_TO_COLOR['typescript']
+        )
+    )
 
-    typer.echo(typer.style("Running typescript", fg=typer.colors.BLUE))
-    run_typescript(
-        directory_path=directory_path,
+    options = Options.override_with_cli_arguments(
         markdown_path=markdown_path,
+        directory_path=directory_path,
+        startup_command=startup_command,
         multi_file=multi_file,
-        startup_command=startup_command
+    )
+    run_typescript(
+        options=options,
     )
 
 @app.command()
@@ -113,11 +199,20 @@ def dart(
     The dart language command
     """
 
-    typer.echo(typer.style("Running dart", fg=typer.colors.BRIGHT_CYAN))
-    run_dart(
-        directory_path=directory_path,
+    typer.echo(
+        typer.style(
+            'Running dart',
+            fg=LANGUAGE_TO_COLOR['dart']
+        )
+    )
+    
+    options = Options.override_with_cli_arguments(
         markdown_path=markdown_path,
+        directory_path=directory_path,
         multi_file=multi_file,
+    )
+    run_dart(
+        options=options,
     )
 
 if __name__ == '__main__':

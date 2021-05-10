@@ -1,10 +1,11 @@
 import os
-from io import TextIOWrapper
-from typing import List, Optional
-import typer
 import re
-import requests
+from io import TextIOWrapper
 from pathlib import Path
+from typing import List, Optional
+
+import requests
+import typer
 
 LANGUAGE_ABBREV_MAPPING = {
     'python': [
@@ -170,7 +171,7 @@ def get_code_from_markdown(
     return code_snippets
 
 
-def write_file(filepath: str, lines: str) -> None:
+def write_file(filepath: str, lines: str, overwrite: Optional[bool] = None) -> None:
     """Writes `lines` to a file located at `filepath`
 
     Parameters
@@ -179,10 +180,24 @@ def write_file(filepath: str, lines: str) -> None:
         Filepath of file you want to write to
     lines : str
         String you want to write into file
+    overwrite : Optional[bool]
+        Whether the file should be overwritten if it already exists
     """
+
+    if not overwrite:
+        overwrite = False
+
     main_file: TextIOWrapper = None
     try:
         if os.path.exists(filepath):
+            if not overwrite:
+                typer.echo(
+                    typer.style(
+                        f'Error: file `{filepath}` already exists',
+                        fg=typer.colors.RED,
+                    ),
+                    err=True,
+                )
             main_file = open(filepath, mode='w+', encoding='utf-8')
         else:
             main_file = open(filepath, mode='x', encoding='utf-8')
