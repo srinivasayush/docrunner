@@ -24,7 +24,6 @@ module.exports = {
                     position: 'left',
                     label: 'Docs',
                 },
-                { to: '/blog', label: 'Blog', position: 'left' },
                 {
                     href: 'https://github.com/DudeBro249/docrunner',
                     label: 'GitHub',
@@ -40,35 +39,16 @@ module.exports = {
                     items: [
                         {
                             label: 'Tutorial',
-                            to: '/docs/intro',
+                            to: '/docs/getting-started',
                         },
                     ],
                 },
                 {
                     title: 'Community',
-                    items: [
-                        {
-                            label: 'Stack Overflow',
-                            href:
-                                'https://stackoverflow.com/questions/tagged/docusaurus',
-                        },
-                        {
-                            label: 'Discord',
-                            href: 'https://discordapp.com/invite/docusaurus',
-                        },
-                        {
-                            label: 'Twitter',
-                            href: 'https://twitter.com/docusaurus',
-                        },
-                    ],
                 },
                 {
                     title: 'More',
                     items: [
-                        {
-                            label: 'Blog',
-                            to: '/blog',
-                        },
                         {
                             label: 'GitHub',
                             href: 'https://github.com/DudeBro249/docrunner',
@@ -87,13 +67,7 @@ module.exports = {
                     sidebarPath: require.resolve('./sidebars.js'),
                     // Please change this to your repo.
                     editUrl:
-                        'https://github.com/facebook/docusaurus/edit/master/website/',
-                },
-                blog: {
-                    showReadingTime: true,
-                    // Please change this to your repo.
-                    editUrl:
-                        'https://github.com/facebook/docusaurus/edit/master/website/blog/',
+                        'https://github.com/DudeBro249/docrunner/tree/main/website',
                 },
                 theme: {
                     customCss: require.resolve('./src/css/custom.css'),
