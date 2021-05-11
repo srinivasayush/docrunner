@@ -33,7 +33,7 @@ docrunner <language> --help
 ## Python Example
 
 ```powershell
-docrunner python --markdown-path example/example.md --multi-file
+docrunner python --markdown-path README.md --multi-file
 ```
 
-- This command executes all python within `example.md` and does so by putting each snippet of python into a separate file, and running each file. If you don't want each snippet in a separate python file, just remove the --multi-file option.
+- This command executes all python within `README.md` and does so by putting each snippet of python into a separate file, and running each file. If you don't want each snippet in a separate python file, just remove the --multi-file option.

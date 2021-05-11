@@ -1,8 +1,8 @@
 /** @type {import('@docusaurus/types').DocusaurusConfig} */
 module.exports = {
     title: 'Docrunner',
-    tagline:
-        'Run your documentation reliably to allow readers to have access to working code',
+    tagline: `A command line tool which allows you to run the code in your markdown files to ensure 
+            that readers always have access to working code.`,
     url: 'https://your-docusaurus-test-site.com',
     baseUrl: '/',
     onBrokenLinks: 'throw',
