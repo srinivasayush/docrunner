@@ -1,3 +1,6 @@
 [docrunner]
-markdown_path = 'example.md'
+language = 'javascript'
+markdown = [
+    'example.md'
+]
 multi_file = false

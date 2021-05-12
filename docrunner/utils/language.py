@@ -1,8 +1,13 @@
 import os
+from pathlib import Path
 from typing import Optional
 
 
-def create_language_environment(language: str, directory_path: Optional[str] = None) -> str:
+def create_language_environment(
+    language: str,
+    markdown_path: str,
+    directory_path: Optional[str] = None,
+) -> str:
     """Creates a folder for storing code if one does not exist already
 
     Parameters
@@ -18,8 +23,9 @@ def create_language_environment(language: str, directory_path: Optional[str] = N
         Path to the directory where the code is stored
     """
     if not directory_path:
-        directory_path = f'./docrunner-build-{language}'
+        markdown_file_name = Path(markdown_path).stem
+        directory_path = f'./docrunner-build-{language}/{markdown_file_name}'
         if not os.path.exists(directory_path):
-            os.mkdir(directory_path)
+            os.makedirs(directory_path)
 
     return directory_path

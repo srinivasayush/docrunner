@@ -36,60 +36,65 @@ def run_typescript(
         Docrunner options
     """
 
-    markdown_path = options.markdown_path
+    markdown_paths = options.markdown
     directory_path = options.directory_path
     startup_command = options.startup_command
     multi_file = options.multi_file
+
+    for markdown_path in markdown_paths:
     
-    code_snippets = get_code_from_markdown(
-        language='typescript',
-        markdown_path=markdown_path,
-    )
-    if not code_snippets:
-        return None
+        code_snippets = get_code_from_markdown(
+            language='typescript',
+            markdown_path=markdown_path,
+        )
+        if not code_snippets:
+            return None
 
-    directory_path = create_language_environment(
-        language='ts',
-        directory_path=directory_path,
-    )
+        directory_path = create_language_environment(
+            language='ts',
+            markdown_path=markdown_path,
+            directory_path=directory_path,
+        )
 
-    filepath: str = None
-    if multi_file:
-        filepaths: List[str] = []
-        for i in range(0, len(code_snippets)):
-            filepath = f'{directory_path}/file{i + 1}.ts'
+        filepath: str = None
+        if multi_file:
+            filepaths: List[str] = []
+            for i in range(0, len(code_snippets)):
+                filepath = f'{directory_path}/file{i + 1}.ts'
+                write_file(
+                    filepath=filepath,
+                    lines=code_snippets[i],
+                    overwrite=True,
+                )
+                filepaths.append(filepath)
+        else:
+            all_lines = ''.join(code_snippets)
+            filepath = f'{directory_path}/main.ts'
             write_file(
                 filepath=filepath,
-                lines=code_snippets[i],
+                lines=all_lines,
+                overwrite=True,
             )
-            filepaths.append(filepath)
-    else:
-        all_lines = ''.join(code_snippets)
-        filepath = f'{directory_path}/main.ts'
-        write_file(
-            filepath=filepath,
-            lines=all_lines,
-        )
-    
-    if startup_command:
-        startup_command = startup_command.replace('"', '')
-        os.system(startup_command)
-        return
+        
+        if startup_command:
+            startup_command = startup_command.replace('"', '')
+            os.system(startup_command)
+            return
 
 
-    if multi_file:
-        for filepath in filepaths:
+        if multi_file:
+            for filepath in filepaths:
+                compile_exit_code = compile_typescript(filepath=filepath)
+                if compile_exit_code != 0:
+                    return None
+
+                filepath = filepath[0: len(filepath) - 3]
+                filepath += '.js'
+                os.system(f'node {filepath}')
+        else:
             compile_exit_code = compile_typescript(filepath=filepath)
             if compile_exit_code != 0:
                 return None
-
             filepath = filepath[0: len(filepath) - 3]
             filepath += '.js'
             os.system(f'node {filepath}')
-    else:
-        compile_exit_code = compile_typescript(filepath=filepath)
-        if compile_exit_code != 0:
-            return None
-        filepath = filepath[0: len(filepath) - 3]
-        filepath += '.js'
-        os.system(f'node {filepath}')

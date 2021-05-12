@@ -19,12 +19,6 @@ LANGUAGE_TO_COLOR = {
     'dart': typer.colors.BRIGHT_CYAN,
 }
 
-LANGUAGE_TO_FUNCTION = {
-    'python': run_python,
-    'javascript': run_javascript,
-    'typescript': run_typescript,
-    'dart': run_dart,
-}
 
 @app.command()
 def run():
@@ -56,6 +50,14 @@ def run():
             fg=LANGUAGE_TO_COLOR[options.language]
         )
     )
+
+    LANGUAGE_TO_FUNCTION = {
+        'python': run_python,
+        'javascript': run_javascript,
+        'typescript': run_typescript,
+        'dart': run_dart,
+    }
+
     LANGUAGE_TO_FUNCTION[options.language](
         options=options,
     )
@@ -63,6 +65,8 @@ def run():
 
 @app.command()
 def init():
+    """The docrunner init command
+    """
     typer.echo(
         typer.style(
             'Creating configuration file',

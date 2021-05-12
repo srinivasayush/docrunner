@@ -171,7 +171,11 @@ def get_code_from_markdown(
     return code_snippets
 
 
-def write_file(filepath: str, lines: str, overwrite: Optional[bool] = None) -> None:
+def write_file(
+    filepath: str,
+    lines: str,
+    overwrite: Optional[bool] = None,
+) -> None:
     """Writes `lines` to a file located at `filepath`
 
     Parameters

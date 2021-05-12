@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 import os
-from typing import Optional
+from typing import List, Optional
 
 import toml
 from pydantic import BaseModel
@@ -12,7 +12,7 @@ from ..utils.file import write_file
 class Options(BaseModel):
     """Base model for docrunner options"""
     language: Optional[str] = None
-    markdown_path: Optional[str] = None
+    markdown: List[Optional[str]] = None
     directory_path: Optional[str] = None
     startup_command: Optional[str] = None
     multi_file: Optional[bool] = False
@@ -27,8 +27,7 @@ class Options(BaseModel):
     ) -> Options:
         options = cls.from_config_file()
         if options:
-            if markdown_path:
-                options.markdown_path = markdown_path
+            options.markdown = [markdown_path]
             if directory_path:
                 options.directory_path = directory_path
             if startup_command:
@@ -36,8 +35,9 @@ class Options(BaseModel):
             if options.multi_file != multi_file:
                 options.multi_file = multi_file
         else:
+            # No config `docrunner.toml` file found
             options = cls(
-                markdown_path=markdown_path,
+                markdown=[markdown_path],
                 directory_path=directory_path,
                 startup_command=startup_command,
                 multi_file=multi_file
@@ -48,7 +48,7 @@ class Options(BaseModel):
 
     @classmethod
     def from_config_file(cls) -> Optional[Options]:
-        """Gets options from `docrunner.toml` file if file exists
+        """Gets options from `docrunner.toml` file if it exists
 
         Returns
         -------
@@ -70,6 +70,8 @@ class Options(BaseModel):
     
     @staticmethod
     def create_config_file():
+        """Creates a config `docrunner.toml` file with some default options
+        """
         options = Options(
             markdown_path='README.md',
             multi_file=False,
