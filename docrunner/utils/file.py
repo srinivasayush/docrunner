@@ -26,7 +26,7 @@ LANGUAGE_ABBREV_MAPPING = {
 }
 
 
-def validate_links(markdown_path: Optional[str] = None):
+def validate_links(markdown_path: str):
     # Usage: validate_links(r'C:\path\to\README.md')
     ignore = 'https://reporoster.com/'
 
@@ -70,7 +70,7 @@ def validate_links(markdown_path: Optional[str] = None):
             typer.echo('Valid URL:', url)
 
 
-def read_markdown(markdown_path: Optional[str] = None) -> Optional[List[str]]:
+def read_markdown(markdown_path: str) -> Optional[List[str]]:
     """Reads a markdown file and returns a list of lines
 
     Parameters
@@ -83,32 +83,49 @@ def read_markdown(markdown_path: Optional[str] = None) -> Optional[List[str]]:
     Optional[List[str]]
         List of lines from markdown '.md' file
     """
-    if not markdown_path:
-        markdown_path = './README.md'
     
-    markdown_file = None
-    markdown_lines = None
+    markdown_file = open(markdown_path, mode='r', encoding='utf-8')
+    markdown_lines = markdown_file.readlines()
+    markdown_file.close()
 
-    try:
-        markdown_file = open(markdown_path, mode='r', encoding='utf-8')
-        markdown_lines = markdown_file.readlines()
-        markdown_file.close()
-    except FileNotFoundError as error:
-        typer.echo(
-            typer.style(
-                f'Error: file `{error.filename}` not found', fg=typer.colors.RED
-            ),
-            err=True
-        )
-        return None
     return markdown_lines
 
 
+def file_list(directory_name: str) -> List[str]:
+    """Lists files in a directory of name `directory_name`
+
+    Parameters
+    ----------
+    directory_name : str
+        The name of the directory
+
+    Returns
+    -------
+    [type]
+        [description]
+    """
+    # create a list of file and sub directories 
+    # names in the given directory 
+    list_of_files = os.listdir(directory_name)
+    all_files = list()
+    # Iterate over all the entries
+    for entry in list_of_files:
+        # Create full path
+        fullPath = os.path.join(directory_name, entry)
+        # If entry is a directory then get the list of files in this directory 
+        if os.path.isdir(fullPath):
+            all_files = all_files + file_list(fullPath)
+        else:
+            all_files.append(fullPath)
+                
+    return all_files
+
 def get_code_from_markdown(
     language: str,
-    markdown_path: Optional[str] = None,
+    markdown_path: str,
 ) -> Optional[List[str]]:
     """Returns a list of code snippets of a certain `language`
+    from a markdown file located at `markdown_path`
 
     Parameters
     ----------

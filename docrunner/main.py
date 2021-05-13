@@ -1,3 +1,4 @@
+from typing import Optional
 import typer
 
 from .constants.help import (DART_DIRECTORY_HELP, JAVASCRIPT_DIRECTORY_HELP,
@@ -23,7 +24,7 @@ LANGUAGE_TO_COLOR = {
 @app.command()
 def run():
     """
-    The docrunner run command
+    Runs docrunner with your `docrunner.toml` configuration file
     """
 
     options = Options.from_config_file()
@@ -65,7 +66,7 @@ def run():
 
 @app.command()
 def init():
-    """The docrunner init command
+    """Creates a `docrunner.toml` configuration file in the root directory
     """
     typer.echo(
         typer.style(
@@ -89,10 +90,10 @@ def python(
         None,
         help=STARTUP_COMMAND_HELP
     ),
-    multi_file: bool = False,
+    multi_file: Optional[bool] = None,
 ):
     """
-    The python language command
+    Runs all python code within a markdown '.md' file
     """
 
     typer.echo(
@@ -103,6 +104,7 @@ def python(
     )
 
     options = Options.override_with_cli_arguments(
+        language='python',
         markdown_path=markdown_path,
         directory_path=directory_path,
         startup_command=startup_command,
@@ -127,10 +129,10 @@ def javascript(
         None,
         help=STARTUP_COMMAND_HELP
     ),
-    multi_file: bool = False,
+    multi_file: Optional[bool] = None,
 ):
     """
-    The javascript language command
+    Runs all javascript code within a markdown '.md' file
     """
 
     typer.echo(
@@ -141,6 +143,7 @@ def javascript(
     )
 
     options = Options.override_with_cli_arguments(
+        language='javascript',
         markdown_path=markdown_path,
         directory_path=directory_path,
         startup_command=startup_command,
@@ -165,10 +168,10 @@ def typescript(
         None,
         help=STARTUP_COMMAND_HELP
     ),
-    multi_file: bool = False,
+    multi_file: Optional[bool] = None,
 ):
     """
-    The typescript language command
+    Runs all typescript code within a markdown '.md' file
     """
     typer.echo(
         typer.style(
@@ -178,6 +181,7 @@ def typescript(
     )
 
     options = Options.override_with_cli_arguments(
+        language='typescript',
         markdown_path=markdown_path,
         directory_path=directory_path,
         startup_command=startup_command,
@@ -186,6 +190,7 @@ def typescript(
     run_typescript(
         options=options,
     )
+
 
 @app.command()
 def dart(
@@ -197,10 +202,10 @@ def dart(
         None,
         help=DART_DIRECTORY_HELP,
     ),
-    multi_file: bool = False,
+    multi_file: Optional[bool] = None,
 ):
     """
-    The dart language command
+    Runs all dart code within a markdown '.md' file
     """
 
     typer.echo(
@@ -211,6 +216,7 @@ def dart(
     )
     
     options = Options.override_with_cli_arguments(
+        language='dart',
         markdown_path=markdown_path,
         directory_path=directory_path,
         multi_file=multi_file,
@@ -218,6 +224,7 @@ def dart(
     run_dart(
         options=options,
     )
+
 
 if __name__ == '__main__':
     app()
