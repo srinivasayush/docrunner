@@ -1,3 +1,4 @@
+import glob
 import os
 from typing import List, Optional
 
@@ -57,7 +58,21 @@ def create_language_files(options: Options) -> List[str]:
     directory_path = options.directory_path
     multi_file = options.multi_file
 
+    code_filepaths = []
+
     for markdown_path in markdown_paths:
+        if os.path.isdir(markdown_path):
+            code_filepaths += create_language_files(
+                options=Options(
+                    language=options.language,
+                    markdown_paths=list(glob.glob(f'{markdown_path}/*.md')),
+                    directory_path=options.directory_path,
+                    startup_command=options.startup_command,
+                    multi_file=options.multi_file,
+                )
+            )
+            return code_filepaths
+
         code_snippets = get_code_from_markdown(
             language=language,
             markdown_path=markdown_path,
@@ -68,8 +83,7 @@ def create_language_files(options: Options) -> List[str]:
             markdown_path=markdown_path,
             directory_path=directory_path
         )
-        
-        code_filepaths = []
+
         filepath: str = None
         if multi_file:
             for i in range(0, len(code_snippets)):

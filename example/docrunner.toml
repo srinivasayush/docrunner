@@ -1,6 +1,6 @@
 [docrunner]
-language = 'javascript'
+language = 'python'
 markdown_paths = [
-    'example.md'
+    'example.md',
 ]
 multi_file = false

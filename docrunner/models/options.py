@@ -12,10 +12,10 @@ from ..utils.file import write_file
 class Options(BaseModel):
     """Base model for docrunner options"""
     language: Optional[str]
-    markdown_paths: Optional[List[str]] = None
+    markdown_paths: Optional[List[str]] = ['README.md']
     directory_path: Optional[str] = None
     startup_command: Optional[str] = None
-    multi_file: Optional[bool] = None
+    multi_file: Optional[bool] = False
 
     @classmethod
     def override_with_cli_arguments(
@@ -31,18 +31,12 @@ class Options(BaseModel):
             options.language = language
             if markdown_path:
                 options.markdown_paths = [markdown_path]
-            elif not options.markdown_paths:
-                options.markdown_paths = ['README.md']
-
             if directory_path:
                 options.directory_path = directory_path
             if startup_command:
                 options.startup_command = startup_command
-
             if multi_file is not None:
                 options.multi_file = multi_file
-            elif not options.multi_file:
-                options.multi_file = False
             
         else:
             # No config `docrunner.toml` file found
@@ -54,7 +48,6 @@ class Options(BaseModel):
                 multi_file=multi_file if multi_file is not None else False
             )
 
-        print(f'from override: {options}')
         return options
         
 
@@ -77,7 +70,6 @@ class Options(BaseModel):
             options_dict = toml.loads(configuration_lines)
             options_dict = options_dict['docrunner']
             options = cls(**options_dict)
-            print(f'from config file: {options}')
             return options
     
     

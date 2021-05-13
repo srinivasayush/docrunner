@@ -83,42 +83,13 @@ def read_markdown(markdown_path: str) -> Optional[List[str]]:
     Optional[List[str]]
         List of lines from markdown '.md' file
     """
-    
+
     markdown_file = open(markdown_path, mode='r', encoding='utf-8')
     markdown_lines = markdown_file.readlines()
     markdown_file.close()
 
     return markdown_lines
 
-
-def file_list(directory_name: str) -> List[str]:
-    """Lists files in a directory of name `directory_name`
-
-    Parameters
-    ----------
-    directory_name : str
-        The name of the directory
-
-    Returns
-    -------
-    [type]
-        [description]
-    """
-    # create a list of file and sub directories 
-    # names in the given directory 
-    list_of_files = os.listdir(directory_name)
-    all_files = list()
-    # Iterate over all the entries
-    for entry in list_of_files:
-        # Create full path
-        fullPath = os.path.join(directory_name, entry)
-        # If entry is a directory then get the list of files in this directory 
-        if os.path.isdir(fullPath):
-            all_files = all_files + file_list(fullPath)
-        else:
-            all_files.append(fullPath)
-                
-    return all_files
 
 def get_code_from_markdown(
     language: str,
