@@ -26,7 +26,7 @@ LANGUAGE_ABBREV_MAPPING = {
 }
 
 
-def validate_links(markdown_path: Optional[str] = None):
+def validate_links(markdown_path: str):
     # Usage: validate_links(r'C:\path\to\README.md')
     ignore = 'https://reporoster.com/'
 
@@ -70,7 +70,7 @@ def validate_links(markdown_path: Optional[str] = None):
             typer.echo('Valid URL:', url)
 
 
-def read_markdown(markdown_path: Optional[str] = None) -> Optional[List[str]]:
+def read_markdown(markdown_path: str) -> Optional[List[str]]:
     """Reads a markdown file and returns a list of lines
 
     Parameters
@@ -83,32 +83,20 @@ def read_markdown(markdown_path: Optional[str] = None) -> Optional[List[str]]:
     Optional[List[str]]
         List of lines from markdown '.md' file
     """
-    if not markdown_path:
-        markdown_path = './README.md'
-    
-    markdown_file = None
-    markdown_lines = None
 
-    try:
-        markdown_file = open(markdown_path, mode='r', encoding='utf-8')
-        markdown_lines = markdown_file.readlines()
-        markdown_file.close()
-    except FileNotFoundError as error:
-        typer.echo(
-            typer.style(
-                f'Error: file `{error.filename}` not found', fg=typer.colors.RED
-            ),
-            err=True
-        )
-        return None
+    markdown_file = open(markdown_path, mode='r', encoding='utf-8')
+    markdown_lines = markdown_file.readlines()
+    markdown_file.close()
+
     return markdown_lines
 
 
 def get_code_from_markdown(
     language: str,
-    markdown_path: Optional[str] = None,
+    markdown_path: str,
 ) -> Optional[List[str]]:
     """Returns a list of code snippets of a certain `language`
+    from a markdown file located at `markdown_path`
 
     Parameters
     ----------
@@ -171,7 +159,11 @@ def get_code_from_markdown(
     return code_snippets
 
 
-def write_file(filepath: str, lines: str, overwrite: Optional[bool] = None) -> None:
+def write_file(
+    filepath: str,
+    lines: str,
+    overwrite: Optional[bool] = None,
+) -> None:
     """Writes `lines` to a file located at `filepath`
 
     Parameters

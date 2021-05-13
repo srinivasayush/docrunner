@@ -1,11 +1,10 @@
 import os
 from pathlib import Path
-from typing import List
 
-from docrunner.utils.language import create_language_environment
+import typer
 
 from ..models.options import Options
-from ..utils.file import get_code_from_markdown, write_file
+from ..utils.language import create_language_files
 
 
 def compile_typescript(filepath: str) -> int:
@@ -35,61 +34,31 @@ def run_typescript(
     options : Options
         Docrunner options
     """
-
-    markdown_path = options.markdown_path
-    directory_path = options.directory_path
+    
     startup_command = options.startup_command
-    multi_file = options.multi_file
-    
-    code_snippets = get_code_from_markdown(
-        language='typescript',
-        markdown_path=markdown_path,
-    )
-    if not code_snippets:
-        return None
-
-    directory_path = create_language_environment(
-        language='ts',
-        directory_path=directory_path,
-    )
-
-    filepath: str = None
-    if multi_file:
-        filepaths: List[str] = []
-        for i in range(0, len(code_snippets)):
-            filepath = f'{directory_path}/file{i + 1}.ts'
-            write_file(
-                filepath=filepath,
-                lines=code_snippets[i],
-            )
-            filepaths.append(filepath)
-    else:
-        all_lines = ''.join(code_snippets)
-        filepath = f'{directory_path}/main.ts'
-        write_file(
-            filepath=filepath,
-            lines=all_lines,
+    try:
+        code_filepaths = create_language_files(
+            options=options,
         )
-    
-    if startup_command:
-        startup_command = startup_command.replace('"', '')
-        os.system(startup_command)
-        return
 
-
-    if multi_file:
-        for filepath in filepaths:
+        if startup_command:
+            startup_command = startup_command.replace('"', '')
+            os.system(startup_command)
+            return
+        
+        for filepath in code_filepaths:
             compile_exit_code = compile_typescript(filepath=filepath)
             if compile_exit_code != 0:
-                return None
+                return
 
-            filepath = filepath[0: len(filepath) - 3]
+            filepath = filepath[0: -3]
             filepath += '.js'
             os.system(f'node {filepath}')
-    else:
-        compile_exit_code = compile_typescript(filepath=filepath)
-        if compile_exit_code != 0:
-            return None
-        filepath = filepath[0: len(filepath) - 3]
-        filepath += '.js'
-        os.system(f'node {filepath}')
+    except FileNotFoundError as error:
+        typer.echo(
+            typer.style(
+                f'Error: file `{error.filename}` not found',
+                fg=typer.colors.RED,
+            ),
+            err=True
+        )
