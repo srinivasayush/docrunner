@@ -1,9 +1,9 @@
-import glob
 import os
 from typing import List, Optional
 
 from ..models.options import Options
-from ..utils.file import get_code_from_markdown, write_file
+from ..utils.file import (get_all_markdown_files, get_code_from_markdown,
+                          write_file)
 
 LANGUAGE_TO_EXTENSION = {
     'python': 'py',
@@ -55,8 +55,8 @@ def create_language_files(options: Options) -> List[str]:
     """
     language = options.language
     markdown_paths = options.markdown_paths
-    directory_path = options.directory_path
     multi_file = options.multi_file
+    recursive = options.recursive
 
     code_filepaths = []
 
@@ -65,7 +65,10 @@ def create_language_files(options: Options) -> List[str]:
             code_filepaths += create_language_files(
                 options=Options(
                     language=options.language,
-                    markdown_paths=list(glob.glob(f'{markdown_path}/*.md')),
+                    markdown_paths=get_all_markdown_files(
+                        markdown_directory=markdown_path,
+                        recursive=recursive,
+                    ),
                     directory_path=options.directory_path,
                     startup_command=options.startup_command,
                     multi_file=options.multi_file,
@@ -78,16 +81,16 @@ def create_language_files(options: Options) -> List[str]:
             markdown_path=markdown_path,
         )
 
-        directory_path = create_language_environment(
+        temp_directory_path = create_language_environment(
             language=language,
             markdown_path=markdown_path,
-            directory_path=directory_path
+            directory_path=options.directory_path
         )
 
         filepath: str = None
         if multi_file:
             for i in range(0, len(code_snippets)):
-                filepath = f'{directory_path}/file{i + 1}.{LANGUAGE_TO_EXTENSION[language]}'
+                filepath = f'{temp_directory_path}/file{i + 1}.{LANGUAGE_TO_EXTENSION[language]}'
                 write_file(
                     filepath=filepath,
                     lines=code_snippets[i],
@@ -96,12 +99,12 @@ def create_language_files(options: Options) -> List[str]:
                 code_filepaths.append(filepath)
         else:
             all_lines = ''.join(code_snippets)
-            filepath = f'{directory_path}/main.{LANGUAGE_TO_EXTENSION[language]}'
+            filepath = f'{temp_directory_path}/main.{LANGUAGE_TO_EXTENSION[language]}'
             write_file(
                 filepath=filepath,
                 lines=all_lines,
                 overwrite=True,
             )
             code_filepaths.append(filepath)
-    
+
     return code_filepaths

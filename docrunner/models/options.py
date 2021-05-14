@@ -16,6 +16,7 @@ class Options(BaseModel):
     directory_path: Optional[str] = None
     startup_command: Optional[str] = None
     multi_file: Optional[bool] = False
+    recursive: Optional[bool] = False
 
     @classmethod
     def override_with_cli_arguments(
@@ -25,6 +26,7 @@ class Options(BaseModel):
         directory_path: Optional[str] = None,
         startup_command: Optional[str] = None,
         multi_file: Optional[bool] = None,
+        recursive: Optional[bool] = None,
     ) -> Options:
         options = cls.from_config_file()
         if options:
@@ -37,6 +39,8 @@ class Options(BaseModel):
                 options.startup_command = startup_command
             if multi_file is not None:
                 options.multi_file = multi_file
+            if recursive is not None:
+                options.recursive = recursive
             
         else:
             # No config `docrunner.toml` file found
@@ -45,9 +49,9 @@ class Options(BaseModel):
                 markdown_paths=[markdown_path] if markdown_path else ['README.md'],
                 directory_path=directory_path,
                 startup_command=startup_command,
-                multi_file=multi_file if multi_file is not None else False
+                multi_file=multi_file if multi_file is not None else False,
+                recursive=recursive if recursive is not None else False,
             )
-
         return options
         
 

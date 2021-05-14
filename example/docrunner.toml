@@ -1,6 +1,7 @@
 [docrunner]
 language = 'python'
 markdown_paths = [
-    'example.md',
+    '.',
 ]
 multi_file = false
+recursive = true

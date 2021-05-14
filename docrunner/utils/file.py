@@ -1,3 +1,4 @@
+import glob
 import os
 import re
 from io import TextIOWrapper
@@ -91,6 +92,30 @@ def read_markdown(markdown_path: str) -> Optional[List[str]]:
     return markdown_lines
 
 
+def get_all_markdown_files(markdown_directory: str, recursive: bool = False) -> List[str]:
+    """Returns a list of markdown file paths inside a `directory_path`
+
+    Parameters
+    ----------
+    directory_path : str
+        The path to the directory to search inside
+    recursive : bool, optional
+        Whether to traverse through the directory recursive or not, by default False
+
+    Returns
+    -------
+    List[str]
+        A list of markdown file paths
+    """
+    markdown_filepaths = []
+    for item in glob.glob(f'{markdown_directory}/**', recursive=recursive):
+        file_extension = os.path.splitext(item)[1]
+        if file_extension == '.md':
+            markdown_filepaths.append(item)
+    
+    return markdown_filepaths
+
+
 def get_code_from_markdown(
     language: str,
     markdown_path: str,
@@ -124,7 +149,7 @@ def get_code_from_markdown(
     if len(language_openings) == 0:
         typer.echo(
             typer.style(
-                "WARNING: Language not found in markdown file",
+                f'WARNING: Language not found in markdown file `{markdown_path}`',
                 fg=typer.colors.YELLOW,
             )
         )
