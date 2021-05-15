@@ -1,3 +1,5 @@
+from .utils.general import log_exception
+from .exceptions.error import DocrunnerError
 from typing import Optional
 import typer
 
@@ -74,7 +76,11 @@ def init():
             fg=typer.colors.GREEN,
         )
     )
-    Options.create_config_file()
+    
+    try:
+        Options.create_config_file()
+    except DocrunnerError as error:
+        log_exception(error)
 
 @app.command()
 def python(
