@@ -1,9 +1,9 @@
 import os
 from pathlib import Path
 
-import typer
-
+from ..exceptions.base_exception import DocrunnerBaseException
 from ..models.options import Options
+from ..utils.general import log_exception
 from ..utils.language import create_language_files
 
 
@@ -54,11 +54,6 @@ def run_typescript(
             filepath = filepath[0: -3]
             filepath += '.js'
             os.system(f'node {filepath}')
-    except FileNotFoundError as error:
-        typer.echo(
-            typer.style(
-                f'Error: file `{error.filename}` not found',
-                fg=typer.colors.RED,
-            ),
-            err=True
-        )
+
+    except DocrunnerBaseException as error:
+        log_exception(error)

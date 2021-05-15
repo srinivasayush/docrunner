@@ -7,6 +7,8 @@ from typing import List, Optional
 
 import requests
 import typer
+from ..exceptions.error import DocrunnerError
+from ..exceptions.warning import DocrunnerWarning
 
 LANGUAGE_ABBREV_MAPPING = {
     'python': [
@@ -71,7 +73,7 @@ def validate_links(markdown_path: str):
             typer.echo('Valid URL:', url)
 
 
-def read_markdown(markdown_path: str) -> Optional[List[str]]:
+def read_markdown(markdown_path: str) -> List[str]:
     """Reads a markdown file and returns a list of lines
 
     Parameters
@@ -85,10 +87,17 @@ def read_markdown(markdown_path: str) -> Optional[List[str]]:
         List of lines from markdown '.md' file
     """
 
-    markdown_file = open(markdown_path, mode='r', encoding='utf-8')
+    try:
+        markdown_file = open(markdown_path, mode='r', encoding='utf-8')
+    except FileNotFoundError as error:
+        raise DocrunnerError(
+            f'Error: file `{error.filename}` not found'
+        )
+
     markdown_lines = markdown_file.readlines()
     markdown_file.close()
 
+    markdown_lines = [line.replace('\n', '').strip() for line in markdown_lines]
     return markdown_lines
 
 
@@ -139,19 +148,13 @@ def get_code_from_markdown(
     markdown_lines = read_markdown(
         markdown_path=markdown_path,
     )
-    if not markdown_lines:
-        return
 
-    markdown_lines = [line.replace('\n', '').strip() for line in markdown_lines]
     language_openings = [i for i, line in enumerate(
         markdown_lines) if line in LANGUAGE_ABBREV_MAPPING[language]]
 
     if len(language_openings) == 0:
-        typer.echo(
-            typer.style(
-                f'WARNING: Language not found in markdown file `{markdown_path}`',
-                fg=typer.colors.YELLOW,
-            )
+        raise DocrunnerWarning(
+            f'Language not found in markdown file `{markdown_path}`'
         )
     code_snippets: List[str] = []
     for i in language_openings:
@@ -160,13 +163,9 @@ def get_code_from_markdown(
         if markdown_lines[i] in LANGUAGE_ABBREV_MAPPING[language]:
             for j in range(i + 1, len(markdown_lines)):
                 if len(markdown_lines[j]) > 3 and markdown_lines[j][0:3] == '```' and markdown_lines[j] not in LANGUAGE_ABBREV_MAPPING[language]:
-                    typer.echo(
-                        typer.style(
-                            'Error: Found opening ``` before closing ```', fg=typer.colors.RED
-                        ),
-                        err=True
+                    raise DocrunnerError(
+                        'Found opening ``` before closing ```'
                     )
-                    return None
                 elif markdown_lines[j] == '```':
                     code_snippets.append(code_lines)
                     found_closed = True
@@ -174,11 +173,8 @@ def get_code_from_markdown(
                 else:
                     code_lines += f'{markdown_lines[j]}\n'
             if not found_closed:
-                typer.echo(
-                    typer.style(
-                        'Error: No closing ```', fg=typer.colors.RED
-                    ),
-                    err=True,
+                raise DocrunnerError(
+                    'No closing ```'
                 )
 
     return code_snippets
@@ -208,24 +204,16 @@ def write_file(
     try:
         if os.path.exists(filepath):
             if not overwrite:
-                typer.echo(
-                    typer.style(
-                        f'Error: file `{filepath}` already exists',
-                        fg=typer.colors.RED,
-                    ),
-                    err=True,
+                raise DocrunnerError(
+                    f'file `{filepath}` already exists'
                 )
             main_file = open(filepath, mode='w+', encoding='utf-8')
         else:
             main_file = open(filepath, mode='x', encoding='utf-8')
     except FileNotFoundError as error:
-        typer.echo(
-            typer.style(
-                f'Error: folder `{Path(error.filename).parent}` not found', fg=typer.colors.RED
-            ),
-            err=True
+        raise DocrunnerError(
+            f'folder `{Path(error.filename).parent}` not found'
         )
-        return None
 
     main_file.write(lines)
     main_file.close()

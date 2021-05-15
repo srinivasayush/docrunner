@@ -1,8 +1,8 @@
 import os
 
-import typer
-
+from ..exceptions.base_exception import DocrunnerBaseException
 from ..models.options import Options
+from ..utils.general import log_exception
 from ..utils.language import create_language_files
 
 
@@ -25,11 +25,5 @@ def run_dart(
         for filepath in code_filepaths:
             os.system(f'dart run {filepath}')
 
-    except FileNotFoundError as error:
-        typer.echo(
-            typer.style(
-                f'Error: file `{error.filename}` not found',
-                fg=typer.colors.RED,
-            ),
-            err=True
-        )
+    except DocrunnerBaseException as error:
+        log_exception(error)
