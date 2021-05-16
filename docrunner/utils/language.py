@@ -2,7 +2,7 @@ import os
 from typing import List, Optional
 
 from ..models.options import Options
-from ..utils.file import (get_all_markdown_files, get_code_from_markdown,
+from ..utils.file import (get_all_markdown_files, get_snippets_from_markdown,
                           write_file)
 
 LANGUAGE_TO_EXTENSION = {
@@ -76,7 +76,7 @@ def create_language_files(options: Options) -> List[str]:
             )
             return code_filepaths
 
-        code_snippets = get_code_from_markdown(
+        code_snippets = get_snippets_from_markdown(
             language=language,
             markdown_path=markdown_path,
         )
@@ -93,12 +93,12 @@ def create_language_files(options: Options) -> List[str]:
                 filepath = f'{temp_directory_path}/file{i + 1}.{LANGUAGE_TO_EXTENSION[language]}'
                 write_file(
                     filepath=filepath,
-                    lines=code_snippets[i],
+                    lines=code_snippets[i].code,
                     overwrite=True,
                 )
                 code_filepaths.append(filepath)
         else:
-            all_lines = ''.join(code_snippets)
+            all_lines = ''.join([snippet.code for snippet in code_snippets])
             filepath = f'{temp_directory_path}/main.{LANGUAGE_TO_EXTENSION[language]}'
             write_file(
                 filepath=filepath,

@@ -7,8 +7,11 @@ from typing import List, Optional
 
 import requests
 import typer
+
 from ..exceptions.error import DocrunnerError
 from ..exceptions.warning import DocrunnerWarning
+from ..models.snippet import Snippet
+from ..utils.general import log_exception
 
 LANGUAGE_ABBREV_MAPPING = {
     'python': [
@@ -36,8 +39,8 @@ def validate_links(markdown_path: str):
     if not markdown_path:
         markdown_path = './README.md'
 
-    markdown_lines = read_markdown(
-        markdown_path=markdown_path
+    markdown_lines = read_file(
+        filepath=markdown_path
     )
 
     if not markdown_lines:
@@ -73,7 +76,7 @@ def validate_links(markdown_path: str):
             typer.echo('Valid URL:', url)
 
 
-def read_markdown(markdown_path: str) -> List[str]:
+def read_file(filepath: str) -> List[str]:
     """Reads a markdown file and returns a list of lines
 
     Parameters
@@ -88,7 +91,7 @@ def read_markdown(markdown_path: str) -> List[str]:
     """
 
     try:
-        markdown_file = open(markdown_path, mode='r', encoding='utf-8')
+        markdown_file = open(filepath, mode='r', encoding='utf-8')
     except FileNotFoundError as error:
         raise DocrunnerError(
             f'Error: file `{error.filename}` not found'
@@ -125,57 +128,103 @@ def get_all_markdown_files(markdown_directory: str, recursive: bool = False) -> 
     return markdown_filepaths
 
 
-def get_code_from_markdown(
+def is_snippet_decorator(string: str) -> bool:
+    # TODO: Implement is_docrunner_decorator
+    return string == '<!--docrunner.ignore-->'
+
+
+def _get_complete_snippet(language: str, lines: List[str], line_number: int) -> str:
+    code = ''
+    for i in range(line_number + 1, len(lines)):
+        if len(lines[i]) > 3 and lines[i][0:3] == '```' and lines[i] not in LANGUAGE_ABBREV_MAPPING[language]:
+            raise DocrunnerError(
+                'Found opening ``` before closing ```'
+            )
+        elif lines[i] == '```':
+            found_closed = True
+            break
+        else:
+            code += f'{lines[i]}\n'
+
+    if not found_closed:
+        raise DocrunnerError(
+            'No closing ```'
+        )
+    
+    return code
+
+
+def get_snippets_from_markdown(
     language: str,
     markdown_path: str,
-) -> Optional[List[str]]:
-    """Returns a list of code snippets of a certain `language`
-    from a markdown file located at `markdown_path`
+) -> List[Snippet]:
 
-    Parameters
-    ----------
-    language : str
-        Name of the language
-    markdown_path : Optional[str], optional
-        Path to the markdown '.md' file, by default None
-
-    Returns
-    -------
-    Optional[List[str]]
-        List of string code snippets from markdown '.md' file
-    """
-
-    markdown_lines = read_markdown(
-        markdown_path=markdown_path,
+    markdown_lines = read_file(
+        filepath=markdown_path,
     )
 
-    language_openings = [i for i, line in enumerate(
-        markdown_lines) if line in LANGUAGE_ABBREV_MAPPING[language]]
+    code_snippets: List[Snippet] = []
+    last_code_snippet_at = None
 
-    if len(language_openings) == 0:
-        raise DocrunnerWarning(
-            f'Language not found in markdown file `{markdown_path}`'
-        )
-    code_snippets: List[str] = []
-    for i in language_openings:
-        found_closed = False
-        code_lines = ''
+    for i in range(0, len(markdown_lines) - 2):
+        snippet_decorators = []
         if markdown_lines[i] in LANGUAGE_ABBREV_MAPPING[language]:
-            for j in range(i + 1, len(markdown_lines)):
-                if len(markdown_lines[j]) > 3 and markdown_lines[j][0:3] == '```' and markdown_lines[j] not in LANGUAGE_ABBREV_MAPPING[language]:
-                    raise DocrunnerError(
-                        'Found opening ``` before closing ```'
-                    )
-                elif markdown_lines[j] == '```':
-                    code_snippets.append(code_lines)
-                    found_closed = True
-                    break
-                else:
-                    code_lines += f'{markdown_lines[j]}\n'
-            if not found_closed:
-                raise DocrunnerError(
-                    'No closing ```'
+            if last_code_snippet_at == i:
+                continue
+
+            last_code_snippet_at = i
+            code = _get_complete_snippet(
+                language=language,
+                lines=markdown_lines,
+                line_number=i,
+            )
+            code_snippets.append(
+                Snippet.new(
+                    code=code,
+                    decorators=[]
                 )
+            )
+
+        elif is_snippet_decorator(markdown_lines[i]):
+            last_decorator_line = i
+            snippet_decorators: List[str] = [markdown_lines[i]]
+            for j in range(i + 1, len(markdown_lines)):
+                if markdown_lines[j] in LANGUAGE_ABBREV_MAPPING[language]:
+                    if last_code_snippet_at == j:
+                        continue
+                    
+                    if not is_snippet_decorator(markdown_lines[j - 1]):
+                        snippet_decorators = []
+
+                    last_code_snippet_at = j
+                    code = _get_complete_snippet(
+                        language=language,
+                        lines=markdown_lines,
+                        line_number=j,
+                    )
+                    code_snippets.append(
+                        Snippet.new(
+                            code=code,
+                            decorators=snippet_decorators,
+                        )
+                    )
+
+                elif is_snippet_decorator(markdown_lines[j]):
+                    last_decorator_line = j
+                    snippet_decorators.append(markdown_lines[j])
+
+                elif not is_snippet_decorator(markdown_lines[j]) and markdown_lines[j] not in LANGUAGE_ABBREV_MAPPING[language]:
+                    if last_decorator_line == j - 1:
+                        comment_warning = DocrunnerWarning(
+                            f'Docrunner comment found without code snippet at line {j} in `{markdown_path}`'
+                        )
+                        log_exception(comment_warning)
+    
+    code_snippets = [snippet for snippet in code_snippets if not snippet.options.ignore]
+    if len(code_snippets) == 0:
+        raise DocrunnerWarning(
+            f'Nothing to run!'
+        )
 
     return code_snippets
 

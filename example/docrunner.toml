@@ -1,7 +1,7 @@
 [docrunner]
 language = 'python'
 markdown_paths = [
-    './trial.md',
+    '.',
 ]
 multi_file = false
 recursive = true
