@@ -129,8 +129,15 @@ def get_all_markdown_files(markdown_directory: str, recursive: bool = False) -> 
 
 
 def is_snippet_decorator(string: str) -> bool:
-    # TODO: Implement is_docrunner_decorator
-    return string == '<!--docrunner.ignore-->'
+
+    def is_comment(string: str) -> bool:
+        return string[0: 4] == '<!--' and string[-3:] == '-->'
+    
+    if is_comment(string):
+        if 'docrunner.' in string:
+            return True
+
+    return False
 
 
 def _get_complete_snippet(language: str, lines: List[str], line_number: int) -> str:
@@ -153,6 +160,25 @@ def _get_complete_snippet(language: str, lines: List[str], line_number: int) -> 
     
     return code
 
+
+def _is_any_language_opening(string: str) -> bool:
+    """Returns whether the `string` is a markdown language opening of any of the supported languages
+
+    Parameters
+    ----------
+    string : str
+        The string to be checked
+
+    Returns
+    -------
+    bool
+        Whether the `string` is a markdown language opening of any of the supported languages
+    """
+    for language in LANGUAGE_ABBREV_MAPPING.keys():
+        if string in LANGUAGE_ABBREV_MAPPING[language]:
+            return True
+
+    return False
 
 def get_snippets_from_markdown(
     language: str,
@@ -213,7 +239,7 @@ def get_snippets_from_markdown(
                     last_decorator_line = j
                     snippet_decorators.append(markdown_lines[j])
 
-                elif not is_snippet_decorator(markdown_lines[j]) and markdown_lines[j] not in LANGUAGE_ABBREV_MAPPING[language]:
+                elif not is_snippet_decorator(markdown_lines[j]) and not _is_any_language_opening(markdown_lines[j]):
                     if last_decorator_line == j - 1:
                         comment_warning = DocrunnerWarning(
                             f'Docrunner comment found without code snippet at line {j} in `{markdown_path}`'

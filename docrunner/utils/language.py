@@ -91,6 +91,10 @@ def create_language_files(options: Options) -> List[str]:
         if multi_file:
             for i in range(0, len(code_snippets)):
                 filepath = f'{temp_directory_path}/file{i + 1}.{LANGUAGE_TO_EXTENSION[language]}'
+
+                if code_snippets[i].options.file_name:
+                    filepath = f'{temp_directory_path}/{code_snippets[i].options.file_name}'
+
                 write_file(
                     filepath=filepath,
                     lines=code_snippets[i].code,

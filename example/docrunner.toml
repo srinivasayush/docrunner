@@ -3,5 +3,5 @@ language = 'python'
 markdown_paths = [
     '.',
 ]
-multi_file = false
-recursive = true
+multi_file = true
+recursive = false
