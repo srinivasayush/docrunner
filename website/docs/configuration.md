@@ -46,7 +46,7 @@ on listing directories in `markdown_paths`
 install and store dependencies in this directory. string, **Optional**
 
 ### multi_file
-- Whether or not you want each code snippet, delimited by backticks "`"
+- Whether or not you want each code snippet, delimited by backticks(\```)
 to be stored and run in another file. boolean, **Optional**
 
 ### startup_command
