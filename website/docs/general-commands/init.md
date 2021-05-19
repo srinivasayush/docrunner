@@ -1,6 +1,16 @@
 ## Usage
-```cmd
-docrunner init
+```
+docrunner init [OPTIONS]
+```
+
+```
+$ docrunner init --help
+Usage: docrunner init [OPTIONS]
+
+  Creates a `docrunner.toml` configuration file in the root directory
+
+Options:
+  --help  Show this message and exit.
 ```
 
 ## What it does
