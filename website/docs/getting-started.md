@@ -1,7 +1,7 @@
 # Getting started
 
 ## Installation
-_Prerequisite: [Install Python](https://www.python.org/) on your local environment._
+_Prerequisite: [Install Python 3.6.1+](https://www.python.org/) on your local environment._
 
 Use the package manager [pip](https://pip.pypa.io/en/stable/) to install docrunner.
 
