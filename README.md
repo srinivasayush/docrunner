@@ -17,13 +17,7 @@ pip install docrunner
 ## QuickStart
 
 ```powershell
-py -m docrunner --help
-```
-
-or
-
-```powershell
-docrunner
+docrunner --help
 ```
 
 ### Language Specific Help
@@ -38,7 +32,7 @@ docrunner <language> --help
 docrunner python --markdown-path example/example.md --multi-file
 ```
 
-This command executes all python within `example.md` and does so by putting each snippet of python from your README into a separate file, and running each file. If you don't want each snippet in a separate python file, just remove the --multi-file option.
+This command executes all python within `example.md` and does so by putting each snippet of python from this file into a separate file, and running each file. If you don't want each snippet in a separate python file, just remove the --multi-file option.
 
 
 ## Contributing and Local Development
@@ -47,7 +41,7 @@ on how to contribute to docrunner.
 
 ## Supported Languages
 
-- Python
-- Javascript
-- Typescript
-- Dart
+- Python - `docrunner python --help`
+- Javascript - `docrunner javascript --help`
+- Typescript - `docrunner typescript --help`
+- Dart - `docrunner dart --help`

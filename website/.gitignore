@@ -4,6 +4,9 @@
 # Production
 /build
 
+# Firebase
+.firebase/
+
 # Generated files
 .docusaurus
 .cache-loader
