@@ -1,8 +1,9 @@
+from ..utils.general import merge_dict_with_additions
 import os
-from typing import List, Optional
+from typing import Dict, Optional
 
 from ..models.options import Options
-from ..utils.file import (get_all_markdown_files, get_snippets_from_markdown,
+from ..utils.file import (get_all_files, get_snippets_from_markdown,
                           write_file)
 
 LANGUAGE_TO_EXTENSION = {
@@ -40,7 +41,7 @@ def create_language_environment(
 
     return directory_path
 
-def create_language_files(options: Options) -> List[str]:
+def create_language_files(options: Options) -> Dict[str, int]:
     """Creates code files for a specified `options.language`
 
     Parameters
@@ -50,30 +51,34 @@ def create_language_files(options: Options) -> List[str]:
 
     Returns
     -------
-    List[str]
-        A list of file paths to each code file created
+    Dict[str, int]
+        A dict of file paths to the number of times that file path has been linked for each code file created
     """
     language = options.language
     markdown_paths = options.markdown_paths
     multi_file = options.multi_file
     recursive = options.recursive
 
-    code_filepaths = []
+    code_filepaths = {}
 
     for markdown_path in markdown_paths:
         if os.path.isdir(markdown_path):
-            code_filepaths += create_language_files(
+            paths_from_directory = create_language_files(
                 options=Options(
                     language=options.language,
-                    markdown_paths=get_all_markdown_files(
-                        markdown_directory=markdown_path,
+                    markdown_paths=get_all_files(
+                        directory_path=markdown_path,
+                        file_extensions=[
+                            '.md',
+                        ],
                         recursive=recursive,
                     ),
                     directory_path=options.directory_path,
                     startup_command=options.startup_command,
                     multi_file=options.multi_file,
-                )
+                ),
             )
+            code_filepaths = merge_dict_with_additions([code_filepaths, paths_from_directory])
             return code_filepaths
 
         code_snippets = get_snippets_from_markdown(
@@ -94,21 +99,35 @@ def create_language_files(options: Options) -> List[str]:
 
                 if code_snippets[i].options.file_name:
                     filepath = f'{temp_directory_path}/{code_snippets[i].options.file_name}'
+                
+                filepath = os.path.abspath(filepath)
+                
+                if filepath in code_filepaths.keys():
+                    code_filepaths[filepath] += 1
+                else:
+                    code_filepaths[filepath] = 1
 
                 write_file(
                     filepath=filepath,
-                    lines=code_snippets[i].code,
+                    content=code_snippets[i].code,
                     overwrite=True,
+                    append=True if code_filepaths[filepath] > 1 else False,
                 )
-                code_filepaths.append(filepath)
         else:
             all_lines = ''.join([snippet.code for snippet in code_snippets])
             filepath = f'{temp_directory_path}/main.{LANGUAGE_TO_EXTENSION[language]}'
+
+            filepath = os.path.abspath(filepath)
+
+            if filepath in code_filepaths.keys():
+                code_filepaths[filepath] += 1
+            else:
+                code_filepaths[filepath] = 1
+
             write_file(
                 filepath=filepath,
-                lines=all_lines,
+                content=all_lines,
                 overwrite=True,
             )
-            code_filepaths.append(filepath)
 
     return code_filepaths

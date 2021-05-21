@@ -46,7 +46,7 @@ def run_typescript(
             os.system(startup_command)
             return
         
-        for filepath in code_filepaths:
+        for filepath in list(code_filepaths.keys()):
             compile_exit_code = compile_typescript(filepath=filepath)
             if compile_exit_code != 0:
                 return

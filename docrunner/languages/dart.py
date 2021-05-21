@@ -22,7 +22,7 @@ def run_dart(
             options=options,
         )
 
-        for filepath in code_filepaths:
+        for filepath in list(code_filepaths.keys()):
             os.system(f'dart run {filepath}')
 
     except DocrunnerBaseException as error:

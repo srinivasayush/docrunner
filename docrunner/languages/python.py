@@ -29,7 +29,7 @@ def run_python(
             os.system(startup_command)
             return
 
-        for filepath in code_filepaths:
+        for filepath in list(code_filepaths.keys()):
             os.system(f'python {filepath}')
 
     except DocrunnerBaseException as error:
