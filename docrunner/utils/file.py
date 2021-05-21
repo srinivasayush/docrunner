@@ -17,18 +17,25 @@ LANGUAGE_ABBREV_MAPPING = {
     'python': [
         '```py',
         '```python',
+        '```Python',
+        '```Py',
     ],
     'javascript': [
         '```js',
         '```javascript',
+        '```Javascript',
+        '```Js',
     ],
     'typescript': [
         '```ts',
-        '```typescript'
+        '```typescript',
+        '```Typescript',
+        '```Ts',
     ],
     'dart': [
-        '```dart'
-    ]
+        '```dart',
+        '```Dart',
+    ],
 }
 
 
@@ -77,40 +84,46 @@ def validate_links(markdown_path: str):
 
 
 def read_file(filepath: str) -> List[str]:
-    """Reads a markdown file and returns a list of lines
+    """Reads a file and returns a list of lines
 
     Parameters
     ----------
-    markdown_path : Optional[str], optional
-        Path to the markdown '.md' file, by default None
+    filepath : str
+        Path to the file, by default None
 
     Returns
     -------
-    Optional[List[str]]
+    List[str]
         List of lines from markdown '.md' file
     """
 
     try:
-        markdown_file = open(filepath, mode='r', encoding='utf-8')
+        file = open(filepath, mode='r', encoding='utf-8')
     except FileNotFoundError as error:
         raise DocrunnerError(
             f'Error: file `{error.filename}` not found'
         )
 
-    markdown_lines = markdown_file.readlines()
-    markdown_file.close()
+    markdown_lines = file.readlines()
+    file.close()
 
     markdown_lines = [line.replace('\n', '').strip() for line in markdown_lines]
     return markdown_lines
 
 
-def get_all_markdown_files(markdown_directory: str, recursive: bool = False) -> List[str]:
+def get_all_files(
+    directory_path: str,
+    file_extensions: List[str],
+    recursive: bool = False,
+) -> List[str]:
     """Returns a list of markdown file paths inside a `directory_path`
 
     Parameters
     ----------
     directory_path : str
         The path to the directory to search inside
+    file_extensions: List[str]
+        The file extensions to search for within this directory
     recursive : bool, optional
         Whether to traverse through the directory recursive or not, by default False
 
@@ -119,13 +132,17 @@ def get_all_markdown_files(markdown_directory: str, recursive: bool = False) -> 
     List[str]
         A list of markdown file paths
     """
-    markdown_filepaths = []
-    for item in glob.glob(f'{markdown_directory}/**', recursive=recursive):
-        file_extension = os.path.splitext(item)[1]
-        if file_extension == '.md':
-            markdown_filepaths.append(item)
+
+    if recursive is None:
+        recursive = False
+
+    filepaths = []
+    for filepath in glob.glob(f'{directory_path}/**', recursive=recursive):
+        extension = os.path.splitext(filepath)[1]
+        if extension in file_extensions:
+            filepaths.append(filepath)
     
-    return markdown_filepaths
+    return filepaths
 
 
 def is_snippet_decorator(string: str) -> bool:
@@ -228,12 +245,15 @@ def get_snippets_from_markdown(
                         lines=markdown_lines,
                         line_number=j,
                     )
+
                     code_snippets.append(
                         Snippet.new(
                             code=code,
                             decorators=snippet_decorators,
                         )
                     )
+
+                    break
 
                 elif is_snippet_decorator(markdown_lines[j]):
                     last_decorator_line = j
@@ -257,8 +277,9 @@ def get_snippets_from_markdown(
 
 def write_file(
     filepath: str,
-    lines: str,
+    content: str,
     overwrite: Optional[bool] = None,
+    append: Optional[bool] = None,
 ) -> None:
     """Writes `lines` to a file located at `filepath`
 
@@ -266,23 +287,28 @@ def write_file(
     ----------
     filepath : str
         Filepath of file you want to write to
-    lines : str
+    content : str
         String you want to write into file
-    overwrite : Optional[bool]
-        Whether the file should be overwritten if it already exists
+    rewrite : Optional[bool]
+        Whether the file should be written over if it already exists
     """
 
-    if not overwrite:
+    if overwrite is None:
         overwrite = False
+    if append is None:
+        append = False
 
-    main_file: TextIOWrapper = None
+    main_file: Optional[TextIOWrapper] = None
     try:
         if os.path.exists(filepath):
             if not overwrite:
                 raise DocrunnerError(
                     f'file `{filepath}` already exists'
                 )
-            main_file = open(filepath, mode='w+', encoding='utf-8')
+            if append:
+                main_file = open(filepath, mode='a', encoding='utf-8')
+            else:
+                main_file = open(filepath, mode='w+', encoding='utf-8')
         else:
             main_file = open(filepath, mode='x', encoding='utf-8')
     except FileNotFoundError as error:
@@ -290,6 +316,6 @@ def write_file(
             f'folder `{Path(error.filename).parent}` not found'
         )
 
-    main_file.write(lines)
+    main_file.write(content)
     main_file.close()
     main_file = None

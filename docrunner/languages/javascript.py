@@ -29,7 +29,7 @@ def run_javascript(
             os.system(startup_command)
             return
 
-        for filepath in code_filepaths:
+        for filepath in list(code_filepaths.keys()):
             os.system(f'node {filepath}')
 
     except DocrunnerBaseException as error:

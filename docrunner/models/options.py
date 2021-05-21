@@ -90,6 +90,6 @@ class Options(BaseModel):
         })
         write_file(
             filepath='docrunner.toml',
-            lines=configuration_lines,
+            content=configuration_lines,
             overwrite=False
         )
