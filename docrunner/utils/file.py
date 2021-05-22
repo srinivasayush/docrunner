@@ -1,12 +1,8 @@
 import glob
 import os
-import re
 from io import TextIOWrapper
 from pathlib import Path
 from typing import List, Optional
-
-import requests
-import typer
 
 from ..exceptions.error import DocrunnerError
 from ..exceptions.warning import DocrunnerWarning
@@ -39,48 +35,48 @@ LANGUAGE_ABBREV_MAPPING = {
 }
 
 
-def validate_links(markdown_path: str):
-    # Usage: validate_links(r'C:\path\to\README.md')
-    ignore = 'https://reporoster.com/'
+# def validate_links(markdown_path: str):
+#     # Usage: validate_links(r'C:\path\to\README.md')
+#     ignore = 'https://reporoster.com/'
 
-    if not markdown_path:
-        markdown_path = './README.md'
+#     if not markdown_path:
+#         markdown_path = './README.md'
 
-    markdown_lines = read_file(
-        filepath=markdown_path
-    )
+#     markdown_lines = read_file(
+#         filepath=markdown_path
+#     )
 
-    if not markdown_lines:
-        return
+#     if not markdown_lines:
+#         return
 
-    url_list = []
-    for line in markdown_lines:
-        if 'https://' in line or 'http://' in line or 'ftp://' in line:
-            matches = re.findall(
-                '(http|ftp|https)://([\w_-]+(?:(?:\.[\w_-]+)+))([\w.,@?^=%&:/~+#-]*[\w@?^=%&/~+#-])?', line)[0]
-            url = ''
-            url += matches[0] + '://' + matches[1] + matches[2]
-            url_list.append(url)
+#     url_list = []
+#     for line in markdown_lines:
+#         if 'https://' in line or 'http://' in line or 'ftp://' in line:
+#             matches = re.findall(
+#                 '(http|ftp|https)://([\w_-]+(?:(?:\.[\w_-]+)+))([\w.,@?^=%&:/~+#-]*[\w@?^=%&/~+#-])?', line)[0]
+#             url = ''
+#             url += matches[0] + '://' + matches[1] + matches[2]
+#             url_list.append(url)
 
-    typer.echo('Docrunner Found', len(url_list), 'urls in', markdown_path)
-    typer.echo('Running URL Validation')
-    for url in url_list:
-        try:
-            res = requests.get(url, allow_redirects=True)
-        except Exception:
-            if not url.startswith(ignore):
-                typer.echo(f'Invalid URL:', url)
-            else:
-                typer.echo('Valid URL:', url)
-            continue
+#     typer.echo('Docrunner Found', len(url_list), 'urls in', markdown_path)
+#     typer.echo('Running URL Validation')
+#     for url in url_list:
+#         try:
+#             res = requests.get(url, allow_redirects=True)
+#         except Exception:
+#             if not url.startswith(ignore):
+#                 typer.echo(f'Invalid URL:', url)
+#             else:
+#                 typer.echo('Valid URL:', url)
+#             continue
 
-        if res.status_code != 200:
-            if not url.startswith(ignore):
-                typer.echo(f'Invalid URL:', url)
-            else:
-                typer.echo('Valid URL:', url)
-        else:
-            typer.echo('Valid URL:', url)
+#         if res.status_code != 200:
+#             if not url.startswith(ignore):
+#                 typer.echo(f'Invalid URL:', url)
+#             else:
+#                 typer.echo('Valid URL:', url)
+#         else:
+#             typer.echo('Valid URL:', url)
 
 
 def read_file(filepath: str) -> List[str]:
@@ -267,10 +263,12 @@ def get_snippets_from_markdown(
                         log_exception(comment_warning)
     
     code_snippets = [snippet for snippet in code_snippets if not snippet.options.ignore]
+
     if len(code_snippets) == 0:
-        raise DocrunnerWarning(
-            f'Nothing to run!'
+        nothing_to_run = DocrunnerWarning(
+            f'Nothing to run in `{markdown_path}`'
         )
+        log_exception(nothing_to_run)
 
     return code_snippets
 
