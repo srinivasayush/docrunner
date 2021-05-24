@@ -13,7 +13,7 @@ Use of any and all docrunner configuration is **optional**
 ```toml
 [docrunner]
 language = 'python'
-markdown_path = 'README.md'
+markdown_paths = ['README.md']
 multi_file = false
 ```
 
@@ -54,5 +54,5 @@ to be stored and run in another file. boolean, **Optional**
 between quotes like "node main.js". string, **Optional**
 
 ### recursive
-- Whether you want docrunner to search through specified directories recursively.
-boolean, **Optional**
+- Whether you want docrunner to search through specified directories recursively
+(look through sub-directories). boolean, **Optional**

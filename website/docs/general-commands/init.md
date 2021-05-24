@@ -18,7 +18,8 @@ Creates a `docrunner.toml` configuration file with some default options:
 
 ```toml
 [docrunner]
-markdown_path = 'README.md'
+markdown_paths = ["README.md"]
 multi_file = false
+recursive = false
 ```
 You can learn more about docrunner configuration [here](/docs/configuration)
