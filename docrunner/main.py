@@ -1,26 +1,20 @@
-from .utils.general import log_exception
-from .exceptions.error import DocrunnerError
 from typing import Optional
+
 import typer
 
 from .constants.help import (DART_DIRECTORY_HELP, JAVASCRIPT_DIRECTORY_HELP,
                              MARKDOWN_PATH_HELP, PYTHON_DIRECTORY_HELP,
                              STARTUP_COMMAND_HELP, TYPESCRIPT_DIRECTORY_HELP)
+from .constants.language_color import LANGUAGE_TO_COLOR
+from .exceptions.error import DocrunnerError
 from .languages.dart import run_dart
 from .languages.javascript import run_javascript
 from .languages.python import run_python
 from .languages.typescript import run_typescript
 from .models.options import Options
+from .utils.general import log_exception
 
 app = typer.Typer()
-
-
-LANGUAGE_TO_COLOR = {
-    'python': typer.colors.GREEN,
-    'javascript': typer.colors.YELLOW,
-    'typescript': typer.colors.BLUE,
-    'dart': typer.colors.BRIGHT_CYAN,
-}
 
 
 @app.command()
@@ -208,6 +202,10 @@ def dart(
         None,
         help=DART_DIRECTORY_HELP,
     ),
+    startup_command: str = typer.Option(
+        None,
+        help=STARTUP_COMMAND_HELP
+    ),
     multi_file: Optional[bool] = None,
 ):
     """
@@ -225,6 +223,7 @@ def dart(
         language='dart',
         markdown_path=markdown_path,
         directory_path=directory_path,
+        startup_command=startup_command,
         multi_file=multi_file,
     )
     run_dart(

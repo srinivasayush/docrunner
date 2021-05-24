@@ -4,36 +4,11 @@ from io import TextIOWrapper
 from pathlib import Path
 from typing import List, Optional
 
+from ..constants.language_abbrev import LANGUAGE_ABBREV_MAPPING
 from ..exceptions.error import DocrunnerError
 from ..exceptions.warning import DocrunnerWarning
 from ..models.snippet import Snippet
 from ..utils.general import log_exception
-
-LANGUAGE_ABBREV_MAPPING = {
-    'python': [
-        '```py',
-        '```python',
-        '```Python',
-        '```Py',
-    ],
-    'javascript': [
-        '```js',
-        '```javascript',
-        '```Javascript',
-        '```Js',
-    ],
-    'typescript': [
-        '```ts',
-        '```typescript',
-        '```Typescript',
-        '```Ts',
-    ],
-    'dart': [
-        '```dart',
-        '```Dart',
-    ],
-}
-
 
 # def validate_links(markdown_path: str):
 #     # Usage: validate_links(r'C:\path\to\README.md')
