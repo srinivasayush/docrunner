@@ -36,6 +36,7 @@ def run_typescript(
     """
     
     startup_command = options.startup_command
+
     try:
         code_filepaths = create_language_files(
             options=options,

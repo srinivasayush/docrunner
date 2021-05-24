@@ -17,10 +17,17 @@ def run_dart(
         Docrunner options
     """
 
+    startup_command = options.startup_command
+
     try:
         code_filepaths = create_language_files(
             options=options,
         )
+
+        if startup_command:
+            startup_command = startup_command.replace('"', '')
+            os.system(startup_command)
+            return
 
         for filepath in list(code_filepaths.keys()):
             os.system(f'dart run {filepath}')

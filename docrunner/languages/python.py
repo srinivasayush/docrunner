@@ -18,7 +18,6 @@ def run_python(
     """
     startup_command = options.startup_command
 
-    code_filepaths = None
     try:
         code_filepaths = create_language_files(
             options=options,

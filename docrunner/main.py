@@ -202,6 +202,10 @@ def dart(
         None,
         help=DART_DIRECTORY_HELP,
     ),
+    startup_command: str = typer.Option(
+        None,
+        help=STARTUP_COMMAND_HELP
+    ),
     multi_file: Optional[bool] = None,
 ):
     """
@@ -219,6 +223,7 @@ def dart(
         language='dart',
         markdown_path=markdown_path,
         directory_path=directory_path,
+        startup_command=startup_command,
         multi_file=multi_file,
     )
     run_dart(
