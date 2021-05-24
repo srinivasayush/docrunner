@@ -1,5 +1,7 @@
 import os
 
+import typer
+
 from ..exceptions.base_exception import DocrunnerBaseException
 from ..models.options import Options
 from ..utils.general import log_exception
@@ -18,6 +20,7 @@ def run_dart(
     """
 
     startup_command = options.startup_command
+    final_exit_code = 0
 
     try:
         code_filepaths = create_language_files(
@@ -26,11 +29,19 @@ def run_dart(
 
         if startup_command:
             startup_command = startup_command.replace('"', '')
-            os.system(startup_command)
+            exit_code = os.system(startup_command)
+            if exit_code != 0:
+                raise typer.Exit(code=exit_code)
+
             return
 
         for filepath in list(code_filepaths.keys()):
-            os.system(f'dart run {filepath}')
+            exit_code = os.system(f'dart run {filepath}')
+            if exit_code != 0:
+                final_exit_code = exit_code
+        
+        if final_exit_code != 0:
+            raise typer.Exit(code=final_exit_code)
 
     except DocrunnerBaseException as error:
         log_exception(error)
