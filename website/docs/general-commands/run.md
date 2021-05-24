@@ -5,9 +5,9 @@ docrunner run [OPTIONS]
 
 ```
 $ docrunner run --help
-Usage: docrunner init [OPTIONS]
+Usage: docrunner run [OPTIONS]
 
-  Creates a `docrunner.toml` configuration file in the root directory
+  Runs docrunner with your `docrunner.toml` configuration file
 
 Options:
   --help  Show this message and exit.

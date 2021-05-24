@@ -9,22 +9,22 @@ docrunner javascript [OPTIONS]
 $ docrunner javascript --help
 Usage: docrunner javascript [OPTIONS]
 
-  The javascript language command
+  Runs all javascript code within a markdown '.md' file
 
 Options:
   --markdown-path TEXT            The path to the markdown file you would like
                                   to run code from
 
-  --directory-path TEXT           The path to the directory where your
+  --directory-path TEXT           The path to the directory where your        
                                   javascript code should be stored and run You
-                                  can install dependencies and store them in
-                                  your package.json within this directory
+                                  can install dependencies and store them in  
+                                  your package.json within this directory     
 
-  --startup-command TEXT          The command you would like to run in order
-                                  to run  your code. Put the command in
+  --startup-command TEXT          The command you would like to run in order  
+                                  to run  your code. Put the command in       
                                   between quotes "gunicorn main:app"
 
-  --multi-file / --no-multi-file  [default: False]
+  --multi-file / --no-multi-file
   --help                          Show this message and exit.
 ```
 

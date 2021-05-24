@@ -15,12 +15,6 @@ pip install docrunner
 docrunner --help
 ```
 
-or
-
-```powershell
-docrunner
-```
-
 ## Language Specific Help
 For help on a specific language, run:
 ```powershell

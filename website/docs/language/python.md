@@ -9,7 +9,7 @@ docrunner python [OPTIONS]
 $ docrunner python --help
 Usage: docrunner python [OPTIONS]
 
-  The python language command
+  Runs all python code within a markdown '.md' file
 
 Options:
   --markdown-path TEXT            The path to the markdown file you would like
@@ -24,7 +24,7 @@ Options:
                                   to run  your code. Put the command in
                                   between quotes "gunicorn main:app"
 
-  --multi-file / --no-multi-file  [default: False]
+  --multi-file / --no-multi-file
   --help                          Show this message and exit.
 ```
 
