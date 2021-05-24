@@ -10,49 +10,6 @@ from ..exceptions.warning import DocrunnerWarning
 from ..models.snippet import Snippet
 from ..utils.general import log_exception
 
-# def validate_links(markdown_path: str):
-#     # Usage: validate_links(r'C:\path\to\README.md')
-#     ignore = 'https://reporoster.com/'
-
-#     if not markdown_path:
-#         markdown_path = './README.md'
-
-#     markdown_lines = read_file(
-#         filepath=markdown_path
-#     )
-
-#     if not markdown_lines:
-#         return
-
-#     url_list = []
-#     for line in markdown_lines:
-#         if 'https://' in line or 'http://' in line or 'ftp://' in line:
-#             matches = re.findall(
-#                 '(http|ftp|https)://([\w_-]+(?:(?:\.[\w_-]+)+))([\w.,@?^=%&:/~+#-]*[\w@?^=%&/~+#-])?', line)[0]
-#             url = ''
-#             url += matches[0] + '://' + matches[1] + matches[2]
-#             url_list.append(url)
-
-#     typer.echo('Docrunner Found', len(url_list), 'urls in', markdown_path)
-#     typer.echo('Running URL Validation')
-#     for url in url_list:
-#         try:
-#             res = requests.get(url, allow_redirects=True)
-#         except Exception:
-#             if not url.startswith(ignore):
-#                 typer.echo(f'Invalid URL:', url)
-#             else:
-#                 typer.echo('Valid URL:', url)
-#             continue
-
-#         if res.status_code != 200:
-#             if not url.startswith(ignore):
-#                 typer.echo(f'Invalid URL:', url)
-#             else:
-#                 typer.echo('Valid URL:', url)
-#         else:
-#             typer.echo('Valid URL:', url)
-
 
 def read_file(filepath: str) -> List[str]:
     """Reads a file and returns a list of lines
@@ -75,11 +32,11 @@ def read_file(filepath: str) -> List[str]:
             f'Error: file `{error.filename}` not found'
         )
 
-    markdown_lines = file.readlines()
+    lines = file.readlines()
     file.close()
 
-    markdown_lines = [line.replace('\n', '').strip() for line in markdown_lines]
-    return markdown_lines
+    lines = [line.replace('\n', '') for line in lines]
+    return lines
 
 
 def get_all_files(
