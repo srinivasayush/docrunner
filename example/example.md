@@ -3,6 +3,12 @@ This is an example markdown file which contains small code snippets from multipl
 
 ```python
 print('hello python')
+
+def function_trial():
+    print('does this work?')
+
+function_trial()
+
 ```
 
 ```javascript
