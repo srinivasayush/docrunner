@@ -11,4 +11,6 @@ class Snippet(BaseModel):
 
     @classmethod
     def new(cls, code: str, decorators: List[str]):
-        return cls(code=code, options=SnippetOptions.from_decorators(decorators))
+        return cls(
+            code=code, options=SnippetOptions.from_decorators(decorators)
+        )

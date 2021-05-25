@@ -19,7 +19,7 @@ You can install dependencies and store them in your pubspec.yaml within this dir
 """
 
 STARTUP_COMMAND_HELP = """
-The command you would like to run in order to run 
+The command you would like to run in order to run
 your code. Put the command in between quotes "gunicorn main:app"
 """
 

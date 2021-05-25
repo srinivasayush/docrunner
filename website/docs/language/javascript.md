@@ -15,13 +15,13 @@ Options:
   --markdown-path TEXT            The path to the markdown file you would like
                                   to run code from
 
-  --directory-path TEXT           The path to the directory where your        
+  --directory-path TEXT           The path to the directory where your  
                                   javascript code should be stored and run You
                                   can install dependencies and store them in  
-                                  your package.json within this directory     
+                                  your package.json within this directory  
 
   --startup-command TEXT          The command you would like to run in order  
-                                  to run  your code. Put the command in       
+                                  to run  your code. Put the command in  
                                   between quotes "gunicorn main:app"
 
   --multi-file / --no-multi-file

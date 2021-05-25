@@ -47,7 +47,9 @@ class Options(BaseModel):
             # No config `docrunner.toml` file found
             options = cls(
                 language=language,
-                markdown_paths=[markdown_path] if markdown_path else ["README.md"],
+                markdown_paths=[markdown_path]
+                if markdown_path
+                else ["README.md"],
                 directory_path=directory_path,
                 startup_command=startup_command,
                 multi_file=multi_file if multi_file is not None else False,
@@ -85,5 +87,7 @@ class Options(BaseModel):
         )
         configuration_lines = toml.dumps({"docrunner": options.dict()})
         write_file(
-            filepath="docrunner.toml", content=configuration_lines, overwrite=False
+            filepath="docrunner.toml",
+            content=configuration_lines,
+            overwrite=False,
         )

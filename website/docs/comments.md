@@ -12,12 +12,12 @@ Use of any and all docrunner comments is **optional**
 
 ## Example
 
-    <!--docrunner.ignore-->    
+    <!--docrunner.ignore-->  
     ```python
     print('Ignored code snippet')
     ```
 
-- In this example, docrunner will not run the python code snippet due to the 
+- In this example, docrunner will not run the python code snippet due to the
 `<!--docrunner.ignore-->` markdown comment above it.
 
 :::info

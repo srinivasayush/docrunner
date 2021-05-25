@@ -82,7 +82,9 @@ def is_snippet_decorator(string: str) -> bool:
     return False
 
 
-def _get_complete_snippet(language: str, lines: List[str], line_number: int) -> str:
+def _get_complete_snippet(
+    language: str, lines: List[str], line_number: int
+) -> str:
     code = ""
     for i in range(line_number + 1, len(lines)):
         if (
@@ -189,10 +191,14 @@ def get_snippets_from_markdown(
                         )
                         log_exception(comment_warning)
 
-    code_snippets = [snippet for snippet in code_snippets if not snippet.options.ignore]
+    code_snippets = [
+        snippet for snippet in code_snippets if not snippet.options.ignore
+    ]
 
     if len(code_snippets) == 0:
-        nothing_to_run = DocrunnerWarning(f"Nothing to run in `{markdown_path}`")
+        nothing_to_run = DocrunnerWarning(
+            f"Nothing to run in `{markdown_path}`"
+        )
         log_exception(nothing_to_run)
 
     return code_snippets
@@ -233,7 +239,9 @@ def write_file(
         else:
             main_file = open(filepath, mode="x", encoding="utf-8")
     except FileNotFoundError as error:
-        raise DocrunnerError(f"folder `{Path(error.filename).parent}` not found")
+        raise DocrunnerError(
+            f"folder `{Path(error.filename).parent}` not found"
+        )
 
     main_file.write(content)
     main_file.close()
