@@ -26,16 +26,14 @@ def read_file(filepath: str) -> List[str]:
     """
 
     try:
-        file = open(filepath, mode='r', encoding='utf-8')
+        file = open(filepath, mode="r", encoding="utf-8")
     except FileNotFoundError as error:
-        raise DocrunnerError(
-            f'Error: file `{error.filename}` not found'
-        )
+        raise DocrunnerError(f"Error: file `{error.filename}` not found")
 
     lines = file.readlines()
     file.close()
 
-    lines = [line.replace('\n', '') for line in lines]
+    lines = [line.replace("\n", "") for line in lines]
     return lines
 
 
@@ -65,44 +63,43 @@ def get_all_files(
         recursive = False
 
     filepaths = []
-    for filepath in glob.glob(f'{directory_path}/**', recursive=recursive):
+    for filepath in glob.glob(f"{directory_path}/**", recursive=recursive):
         extension = os.path.splitext(filepath)[1]
         if extension in file_extensions:
             filepaths.append(filepath)
-    
+
     return filepaths
 
 
 def is_snippet_decorator(string: str) -> bool:
-
     def is_comment(string: str) -> bool:
-        return string[0: 4] == '<!--' and string[-3:] == '-->'
-    
+        return string[0:4] == "<!--" and string[-3:] == "-->"
+
     if is_comment(string):
-        if 'docrunner.' in string:
+        if "docrunner." in string:
             return True
 
     return False
 
 
 def _get_complete_snippet(language: str, lines: List[str], line_number: int) -> str:
-    code = ''
+    code = ""
     for i in range(line_number + 1, len(lines)):
-        if len(lines[i]) > 3 and lines[i][0:3] == '```' and lines[i] not in LANGUAGE_ABBREV_MAPPING[language]:
-            raise DocrunnerError(
-                'Found opening ``` before closing ```'
-            )
-        elif lines[i] == '```':
+        if (
+            len(lines[i]) > 3
+            and lines[i][0:3] == "```"
+            and lines[i] not in LANGUAGE_ABBREV_MAPPING[language]
+        ):
+            raise DocrunnerError("Found opening ``` before closing ```")
+        elif lines[i] == "```":
             found_closed = True
             break
         else:
-            code += f'{lines[i]}\n'
+            code += f"{lines[i]}\n"
 
     if not found_closed:
-        raise DocrunnerError(
-            'No closing ```'
-        )
-    
+        raise DocrunnerError("No closing ```")
+
     return code
 
 
@@ -124,6 +121,7 @@ def _is_any_language_opening(string: str) -> bool:
             return True
 
     return False
+
 
 def get_snippets_from_markdown(
     language: str,
@@ -149,12 +147,7 @@ def get_snippets_from_markdown(
                 lines=markdown_lines,
                 line_number=i,
             )
-            code_snippets.append(
-                Snippet.new(
-                    code=code,
-                    decorators=[]
-                )
-            )
+            code_snippets.append(Snippet.new(code=code, decorators=[]))
 
         elif is_snippet_decorator(markdown_lines[i]):
             last_decorator_line = i
@@ -163,7 +156,7 @@ def get_snippets_from_markdown(
                 if markdown_lines[j] in LANGUAGE_ABBREV_MAPPING[language]:
                     if last_code_snippet_at == j:
                         continue
-                    
+
                     if not is_snippet_decorator(markdown_lines[j - 1]):
                         snippet_decorators = []
 
@@ -187,19 +180,19 @@ def get_snippets_from_markdown(
                     last_decorator_line = j
                     snippet_decorators.append(markdown_lines[j])
 
-                elif not is_snippet_decorator(markdown_lines[j]) and not _is_any_language_opening(markdown_lines[j]):
+                elif not is_snippet_decorator(
+                    markdown_lines[j]
+                ) and not _is_any_language_opening(markdown_lines[j]):
                     if last_decorator_line == j - 1:
                         comment_warning = DocrunnerWarning(
-                            f'Docrunner comment found without code snippet at line {j} in `{markdown_path}`'
+                            f"Docrunner comment found without code snippet at line {j} in `{markdown_path}`"
                         )
                         log_exception(comment_warning)
-    
+
     code_snippets = [snippet for snippet in code_snippets if not snippet.options.ignore]
 
     if len(code_snippets) == 0:
-        nothing_to_run = DocrunnerWarning(
-            f'Nothing to run in `{markdown_path}`'
-        )
+        nothing_to_run = DocrunnerWarning(f"Nothing to run in `{markdown_path}`")
         log_exception(nothing_to_run)
 
     return code_snippets
@@ -232,19 +225,15 @@ def write_file(
     try:
         if os.path.exists(filepath):
             if not overwrite:
-                raise DocrunnerError(
-                    f'file `{filepath}` already exists'
-                )
+                raise DocrunnerError(f"file `{filepath}` already exists")
             if append:
-                main_file = open(filepath, mode='a', encoding='utf-8')
+                main_file = open(filepath, mode="a", encoding="utf-8")
             else:
-                main_file = open(filepath, mode='w+', encoding='utf-8')
+                main_file = open(filepath, mode="w+", encoding="utf-8")
         else:
-            main_file = open(filepath, mode='x', encoding='utf-8')
+            main_file = open(filepath, mode="x", encoding="utf-8")
     except FileNotFoundError as error:
-        raise DocrunnerError(
-            f'folder `{Path(error.filename).parent}` not found'
-        )
+        raise DocrunnerError(f"folder `{Path(error.filename).parent}` not found")
 
     main_file.write(content)
     main_file.close()

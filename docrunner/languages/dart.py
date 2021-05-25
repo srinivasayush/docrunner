@@ -8,9 +8,7 @@ from ..utils.general import log_exception
 from ..utils.language import create_language_files
 
 
-def run_dart(
-    options: Options
-):
+def run_dart(options: Options):
     """Runs all dart code within a markdown '.md' file
 
     Parameters
@@ -28,7 +26,7 @@ def run_dart(
         )
 
         if startup_command:
-            startup_command = startup_command.replace('"', '')
+            startup_command = startup_command.replace('"', "")
             exit_code = os.system(startup_command)
             if exit_code != 0:
                 raise typer.Exit(code=exit_code)
@@ -36,10 +34,10 @@ def run_dart(
             return
 
         for filepath in list(code_filepaths.keys()):
-            exit_code = os.system(f'dart run {filepath}')
+            exit_code = os.system(f"dart run {filepath}")
             if exit_code != 0:
                 final_exit_code = exit_code
-        
+
         if final_exit_code != 0:
             raise typer.Exit(code=final_exit_code)
 
