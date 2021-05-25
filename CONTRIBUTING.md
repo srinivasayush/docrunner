@@ -2,22 +2,34 @@
 
 If you would like to contribute to `docrunner` please follow these instructions to set a local development environment up
 
-1. Clone this repository
-2. Install `poetry`, a dependency management tool, with `pip` if it is not already installed:
-```powershell
+1. Fork this repository
+
+2. Clone your fork of this repository
+
+3. Install `poetry`, a dependency management tool, with `pip` if it is not already installed:
+```shell
 pip install poetry
 ```
-3. Install the necessary packages for the project with:
-```powershell
+
+4. Run this command in the root directory to install the necessary packages for the project:
+```shell
 poetry install
 ```
-4. To run the docrunner cli tool in development, run:
-```powershell
+
+5. Install the pre-commit hooks for this project with:
+```shell
+poetry run pre-commit install
+```
+
+6. To run the docrunner cli tool in development, run:
+```shell
 poetry run docrunner --help
 ```
-5. You're all set! You can now edit source code within the `docrunner` directory
-6. (Testing CLI Tool) Run the usage example with:
-```powershell
+
+7. You're all set! You can now edit source code within the `docrunner` directory
+
+8. (Testing CLI Tool) Run the usage example with:
+```shell
 poetry run docrunner <language> --markdown-path example/example.md
 ```
 
