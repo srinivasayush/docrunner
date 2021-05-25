@@ -2,6 +2,7 @@ from typing import Optional
 
 import typer
 
+from . import __version__
 from .constants.help import (
     DART_DIRECTORY_HELP,
     JAVASCRIPT_DIRECTORY_HELP,
@@ -20,6 +21,20 @@ from .models.options import Options
 from .utils.general import log_exception
 
 app = typer.Typer()
+
+
+@app.command(name="version")
+def version_command():
+    """Gets the version of docrunner that you are running"""
+    typer.echo(f"Docrunner version {__version__}")
+
+
+@app.callback(invoke_without_command=True)
+def version_callback(version: bool = False):
+    """Gets the version of docrunner that you are running"""
+    if version:
+        version_command()
+    raise typer.Exit(code=0)
 
 
 @app.command()
