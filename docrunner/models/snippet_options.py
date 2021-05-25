@@ -16,7 +16,7 @@ class SnippetOptions(BaseModel):
             return options
 
         for decorator in decorators:
-            decorator = decorator[4 : len(decorator) - 3].strip()
+            decorator = decorator[4: len(decorator) - 3].strip()
             if decorator == "docrunner.ignore":
                 options.ignore = True
 

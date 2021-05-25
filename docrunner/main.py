@@ -32,7 +32,8 @@ def run():
     if not options:
         typer.echo(
             typer.style(
-                "No `docrunner.toml` file found, please create one", fg=typer.colors.RED
+                "No `docrunner.toml` file found, please create one",
+                fg=typer.colors.RED,
             ),
             err=True,
         )
@@ -49,7 +50,8 @@ def run():
 
     typer.echo(
         typer.style(
-            f"Running {options.language}", fg=LANGUAGE_TO_COLOR[options.language]
+            f"Running {options.language}",
+            fg=LANGUAGE_TO_COLOR[options.language],
         )
     )
 
@@ -123,7 +125,9 @@ def javascript(
     Runs all javascript code within a markdown '.md' file
     """
 
-    typer.echo(typer.style("Running javascript", fg=LANGUAGE_TO_COLOR["javascript"]))
+    typer.echo(
+        typer.style("Running javascript", fg=LANGUAGE_TO_COLOR["javascript"])
+    )
 
     options = Options.override_with_cli_arguments(
         language="javascript",
@@ -150,7 +154,9 @@ def typescript(
     """
     Runs all typescript code within a markdown '.md' file
     """
-    typer.echo(typer.style("Running typescript", fg=LANGUAGE_TO_COLOR["typescript"]))
+    typer.echo(
+        typer.style("Running typescript", fg=LANGUAGE_TO_COLOR["typescript"])
+    )
 
     options = Options.override_with_cli_arguments(
         language="typescript",

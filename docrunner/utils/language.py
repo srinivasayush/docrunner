@@ -35,7 +35,9 @@ def create_language_environment(
     if not directory_path:
         markdown_file_name = os.path.splitext(markdown_path)[0]
         language_extension = LANGUAGE_TO_EXTENSION[language]
-        directory_path = f"./docrunner-build-{language_extension}/{markdown_file_name}"
+        directory_path = (
+            f"./docrunner-build-{language_extension}/{markdown_file_name}"
+        )
         if not os.path.exists(directory_path):
             os.makedirs(directory_path)
 
@@ -101,9 +103,7 @@ def create_language_files(options: Options) -> Dict[str, int]:
                 filepath = f"{temp_directory_path}/file{i + 1}.{LANGUAGE_TO_EXTENSION[language]}"
 
                 if code_snippets[i].options.file_name:
-                    filepath = (
-                        f"{temp_directory_path}/{code_snippets[i].options.file_name}"
-                    )
+                    filepath = f"{temp_directory_path}/{code_snippets[i].options.file_name}"
 
                 filepath = os.path.abspath(filepath)
 
@@ -120,7 +120,9 @@ def create_language_files(options: Options) -> Dict[str, int]:
                 )
         else:
             all_lines = "".join([snippet.code for snippet in code_snippets])
-            filepath = f"{temp_directory_path}/main.{LANGUAGE_TO_EXTENSION[language]}"
+            filepath = (
+                f"{temp_directory_path}/main.{LANGUAGE_TO_EXTENSION[language]}"
+            )
 
             filepath = os.path.abspath(filepath)
 

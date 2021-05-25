@@ -15,7 +15,7 @@ def compile_typescript(filepath: str) -> int:
     compile_exit_code = 0
 
     if os.path.exists(f"{directory_path}/tsconfig.json"):
-        compile_command = f"tsc -p ."
+        compile_command = "tsc -p ."
         base = os.getcwd()
         os.chdir(os.path.join(base, directory_path))
         compile_exit_code = os.system(compile_command)
