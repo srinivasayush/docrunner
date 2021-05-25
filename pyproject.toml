@@ -39,6 +39,11 @@ pydantic = "^1.8.1"
 [tool.poetry.dev-dependencies]
 pytest = "^5.2"
 black = "^21.5b1"
+taskipy = "^1.8.1"
+
+[tool.taskipy.tasks]
+format = "poetry run black docrunner && poetry run black tests"
+test = "poetry run pytest ./tests -s --verbose"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
