@@ -2,9 +2,14 @@ from typing import Optional
 
 import typer
 
-from .constants.help import (DART_DIRECTORY_HELP, JAVASCRIPT_DIRECTORY_HELP,
-                             MARKDOWN_PATH_HELP, PYTHON_DIRECTORY_HELP,
-                             STARTUP_COMMAND_HELP, TYPESCRIPT_DIRECTORY_HELP)
+from .constants.help import (
+    DART_DIRECTORY_HELP,
+    JAVASCRIPT_DIRECTORY_HELP,
+    MARKDOWN_PATH_HELP,
+    PYTHON_DIRECTORY_HELP,
+    STARTUP_COMMAND_HELP,
+    TYPESCRIPT_DIRECTORY_HELP,
+)
 from .constants.language_color import LANGUAGE_TO_COLOR
 from .exceptions.error import DocrunnerError
 from .languages.dart import run_dart
@@ -27,32 +32,32 @@ def run():
     if not options:
         typer.echo(
             typer.style(
-                'No `docrunner.toml` file found, please create one', fg=typer.colors.RED
+                "No `docrunner.toml` file found, please create one", fg=typer.colors.RED
             ),
-            err=True
+            err=True,
         )
         return
     if not options.language:
         typer.echo(
             typer.style(
-                '`language` field not specified in docrunner.toml, please add it', fg=typer.colors.RED
+                "`language` field not specified in docrunner.toml, please add it",
+                fg=typer.colors.RED,
             ),
-            err=True
+            err=True,
         )
         return
-    
+
     typer.echo(
         typer.style(
-            f'Running {options.language}',
-            fg=LANGUAGE_TO_COLOR[options.language]
+            f"Running {options.language}", fg=LANGUAGE_TO_COLOR[options.language]
         )
     )
 
     LANGUAGE_TO_FUNCTION = {
-        'python': run_python,
-        'javascript': run_javascript,
-        'typescript': run_typescript,
-        'dart': run_dart,
+        "python": run_python,
+        "javascript": run_javascript,
+        "typescript": run_typescript,
+        "dart": run_dart,
     }
 
     LANGUAGE_TO_FUNCTION[options.language](
@@ -62,49 +67,38 @@ def run():
 
 @app.command()
 def init():
-    """Creates a `docrunner.toml` configuration file in the root directory
-    """
+    """Creates a `docrunner.toml` configuration file in the root directory"""
     typer.echo(
         typer.style(
-            'Creating configuration file',
+            "Creating configuration file",
             fg=typer.colors.GREEN,
         )
     )
-    
+
     try:
         Options.create_config_file()
     except DocrunnerError as error:
         log_exception(error)
 
+
 @app.command()
 def python(
-    markdown_path: str = typer.Option(
-        None,
-        help=MARKDOWN_PATH_HELP
-    ),
+    markdown_path: str = typer.Option(None, help=MARKDOWN_PATH_HELP),
     directory_path: str = typer.Option(
         None,
         help=PYTHON_DIRECTORY_HELP,
     ),
-    startup_command: str = typer.Option(
-        None,
-        help=STARTUP_COMMAND_HELP
-    ),
+    startup_command: str = typer.Option(None, help=STARTUP_COMMAND_HELP),
     multi_file: Optional[bool] = None,
 ):
     """
     Runs all python code within a markdown '.md' file
     """
 
-    typer.echo(
-        typer.style(
-            'Running python',
-            fg=LANGUAGE_TO_COLOR['python']
-        )
-    )
+    typer.echo(typer.style("Running python", fg=LANGUAGE_TO_COLOR["python"]))
 
     options = Options.override_with_cli_arguments(
-        language='python',
+        language="python",
         markdown_path=markdown_path,
         directory_path=directory_path,
         startup_command=startup_command,
@@ -117,33 +111,22 @@ def python(
 
 @app.command()
 def javascript(
-    markdown_path: str = typer.Option(
-        None,
-        help=MARKDOWN_PATH_HELP
-    ),
+    markdown_path: str = typer.Option(None, help=MARKDOWN_PATH_HELP),
     directory_path: str = typer.Option(
         None,
         help=JAVASCRIPT_DIRECTORY_HELP,
     ),
-    startup_command: str = typer.Option(
-        None,
-        help=STARTUP_COMMAND_HELP
-    ),
+    startup_command: str = typer.Option(None, help=STARTUP_COMMAND_HELP),
     multi_file: Optional[bool] = None,
 ):
     """
     Runs all javascript code within a markdown '.md' file
     """
 
-    typer.echo(
-        typer.style(
-            'Running javascript',
-            fg=LANGUAGE_TO_COLOR['javascript']
-        )
-    )
+    typer.echo(typer.style("Running javascript", fg=LANGUAGE_TO_COLOR["javascript"]))
 
     options = Options.override_with_cli_arguments(
-        language='javascript',
+        language="javascript",
         markdown_path=markdown_path,
         directory_path=directory_path,
         startup_command=startup_command,
@@ -156,32 +139,21 @@ def javascript(
 
 @app.command()
 def typescript(
-    markdown_path: str = typer.Option(
-        None,
-        help=MARKDOWN_PATH_HELP
-    ),
+    markdown_path: str = typer.Option(None, help=MARKDOWN_PATH_HELP),
     directory_path: str = typer.Option(
         None,
         help=TYPESCRIPT_DIRECTORY_HELP,
     ),
-    startup_command: str = typer.Option(
-        None,
-        help=STARTUP_COMMAND_HELP
-    ),
+    startup_command: str = typer.Option(None, help=STARTUP_COMMAND_HELP),
     multi_file: Optional[bool] = None,
 ):
     """
     Runs all typescript code within a markdown '.md' file
     """
-    typer.echo(
-        typer.style(
-            'Running typescript',
-            fg=LANGUAGE_TO_COLOR['typescript']
-        )
-    )
+    typer.echo(typer.style("Running typescript", fg=LANGUAGE_TO_COLOR["typescript"]))
 
     options = Options.override_with_cli_arguments(
-        language='typescript',
+        language="typescript",
         markdown_path=markdown_path,
         directory_path=directory_path,
         startup_command=startup_command,
@@ -194,33 +166,22 @@ def typescript(
 
 @app.command()
 def dart(
-    markdown_path: str = typer.Option(
-        None,
-        help=MARKDOWN_PATH_HELP
-    ),
+    markdown_path: str = typer.Option(None, help=MARKDOWN_PATH_HELP),
     directory_path: str = typer.Option(
         None,
         help=DART_DIRECTORY_HELP,
     ),
-    startup_command: str = typer.Option(
-        None,
-        help=STARTUP_COMMAND_HELP
-    ),
+    startup_command: str = typer.Option(None, help=STARTUP_COMMAND_HELP),
     multi_file: Optional[bool] = None,
 ):
     """
     Runs all dart code within a markdown '.md' file
     """
 
-    typer.echo(
-        typer.style(
-            'Running dart',
-            fg=LANGUAGE_TO_COLOR['dart']
-        )
-    )
-    
+    typer.echo(typer.style("Running dart", fg=LANGUAGE_TO_COLOR["dart"]))
+
     options = Options.override_with_cli_arguments(
-        language='dart',
+        language="dart",
         markdown_path=markdown_path,
         directory_path=directory_path,
         startup_command=startup_command,
@@ -231,5 +192,5 @@ def dart(
     )
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     app()

@@ -16,12 +16,15 @@ class SnippetOptions(BaseModel):
             return options
 
         for decorator in decorators:
-            decorator = decorator[4: len(decorator) - 3].strip()
-            if decorator == 'docrunner.ignore':
+            decorator = decorator[4 : len(decorator) - 3].strip()
+            if decorator == "docrunner.ignore":
                 options.ignore = True
 
-            if 'docrunner.file_name' in decorator:
-                file_name = [str(result.replace('"', '')) for result in re.findall('".*"', decorator)][0]
+            if "docrunner.file_name" in decorator:
+                file_name = [
+                    str(result.replace('"', ""))
+                    for result in re.findall('".*"', decorator)
+                ][0]
                 options.file_name = file_name
-        
+
         return options
