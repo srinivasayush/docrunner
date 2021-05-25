@@ -36,7 +36,7 @@ This command executes all python within `example.md` and does so by putting each
 
 
 ## Contributing and Local Development
-Please check the [CONTRIBUTING](/CONTRIBUTING.md) guidelines for information 
+Please check the [CONTRIBUTING](/CONTRIBUTING.md) guidelines for information
 on how to contribute to docrunner.
 
 ## Supported Languages

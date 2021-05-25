@@ -15,9 +15,9 @@ Options:
   --markdown-path TEXT            The path to the markdown file you would like
                                   to run code from
 
-  --directory-path TEXT           The path to the directory where your dart   
-                                  code should be stored and run You can       
-                                  install dependencies and store them in your 
+  --directory-path TEXT           The path to the directory where your dart  
+                                  code should be stored and run You can  
+                                  install dependencies and store them in your
                                   pubspec.yaml within this directory
 
   --startup-command TEXT          The command you would like to run in order

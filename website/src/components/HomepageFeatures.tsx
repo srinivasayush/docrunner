@@ -17,7 +17,7 @@ const FeatureList = [
     // Svg: require('../../static/img/undraw_docusaurus_tree.svg').default,
     description: (
       <>
-        Docrunner takes care of the heavy lifting. <strong>You </strong> 
+        Docrunner takes care of the heavy lifting. <strong>You </strong>
         can focus on writing expressive documentation for your readers
       </>
     ),

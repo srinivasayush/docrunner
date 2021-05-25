@@ -26,7 +26,7 @@ Store all docrunner options under:
 - The language you want to run. string, **Optional**
 
 ### markdown_paths
-- An array to the to the markdown '.md' files you want to run code from. 
+- An array to the to the markdown '.md' files you want to run code from.
 You can also list directories. array, **Optional**
 
 Example:
@@ -50,7 +50,7 @@ install and store dependencies in this directory. string, **Optional**
 to be stored and run in another file. boolean, **Optional**
 
 ### startup_command
-- The command you would like to run in order to run  your code. Put the command in 
+- The command you would like to run in order to run  your code. Put the command in
 between quotes like "node main.js". string, **Optional**
 
 ### recursive
