@@ -4,11 +4,11 @@ from io import TextIOWrapper
 from pathlib import Path
 from typing import List, Optional
 
-from ..constants.language_abbrev import LANGUAGE_ABBREV_MAPPING
-from ..exceptions.error import DocrunnerError
-from ..exceptions.warning import DocrunnerWarning
-from ..models.snippet import Snippet
-from ..utils.general import log_exception
+from docrunner.constants.language_abbrev import LANGUAGE_ABBREV_MAPPING
+from docrunner.exceptions.error import DocrunnerError
+from docrunner.exceptions.warning import DocrunnerWarning
+from docrunner.models.snippet import Snippet
+from docrunner.utils.general import log_exception
 
 
 def read_file(filepath: str) -> List[str]:

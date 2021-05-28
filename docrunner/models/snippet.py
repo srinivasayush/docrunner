@@ -2,7 +2,7 @@ from typing import List
 
 from pydantic import BaseModel
 
-from ..models.snippet_options import SnippetOptions
+from docrunner.models.snippet_options import SnippetOptions
 
 
 class Snippet(BaseModel):

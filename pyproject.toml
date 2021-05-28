@@ -46,7 +46,7 @@ pre-commit = "^2.13.0"
 [tool.taskipy.tasks]
 format = "poetry run black docrunner && poetry run black tests"
 lint = "poetry run flake8 docrunner && poetry run flake8 tests"
-test = "poetry run pytest ./tests -s --verbose"
+test = "poetry run pytest ./tests --verbose"
 precommit = "poetry run pre-commit run --all-files"
 
 [tool.black]

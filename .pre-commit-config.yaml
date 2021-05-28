@@ -22,6 +22,7 @@ repos:
         language: system
         pass_filenames: false
         require_serial: true
+
       - id: flake8
         name: Flake8
         description: This hook runs flake8 within our project's poetry environment.
@@ -29,4 +30,13 @@ repos:
         language: system
         types: [python]
         exclude: ^(tests|example)/*
+        require_serial: true
+
+      - id: pytest
+        name: Pytest
+        description: This hook runs pytest within our project's poetry environment, in the /tests folder
+        entry: poetry run task test
+        language: system
+        types: [python]
+        pass_filenames: false
         require_serial: true

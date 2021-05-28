@@ -6,13 +6,13 @@ from typing import List, Optional
 import toml
 from pydantic import BaseModel
 
-from ..utils.file import write_file
+from docrunner.utils.file import write_file
 
 
 class Options(BaseModel):
     """Base model for docrunner options"""
 
-    language: Optional[str]
+    language: Optional[str] = None
     markdown_paths: Optional[List[str]] = ["README.md"]
     directory_path: Optional[str] = None
     startup_command: Optional[str] = None

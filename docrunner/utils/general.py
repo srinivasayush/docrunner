@@ -1,6 +1,6 @@
 from typing import Any, Dict, List
 import typer
-from ..exceptions.base_exception import DocrunnerBaseException
+from docrunner.exceptions.base_exception import DocrunnerBaseException
 
 
 def log_exception(exception: DocrunnerBaseException) -> None:
