@@ -29,14 +29,6 @@ def version_command():
     typer.echo(f"Docrunner version {__version__}")
 
 
-@app.callback(invoke_without_command=True)
-def version_callback(version: bool = False):
-    """Gets the version of docrunner that you are running"""
-    if version:
-        version_command()
-    raise typer.Exit(code=0)
-
-
 @app.command()
 def run():
     """
