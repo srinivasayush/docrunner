@@ -33,5 +33,17 @@ poetry run docrunner --help
 poetry run docrunner <language> --markdown-path example/example.md
 ```
 
+## Testing
+If you want your contributions to be merged into the main repository, you must
+test the source code you write.
+
+Run tests with:
+```cmd
+poetry run task test
+```
+
+Check the [pytest documentation](https://docs.pytest.org/en/6.2.x/) out for more
+information on how to write tests
+
 For larger changes like adding support for another language, please open an issue
 [here](https://github.com/DudeBro249/docrunner/issues)
