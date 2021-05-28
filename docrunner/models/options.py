@@ -6,7 +6,7 @@ from typing import List, Optional
 import toml
 from pydantic import BaseModel
 
-from ..utils.file import write_file
+from docrunner.utils.file import write_file
 
 
 class Options(BaseModel):

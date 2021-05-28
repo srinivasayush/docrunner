@@ -3,10 +3,10 @@ from pathlib import Path
 
 import typer
 
-from ..exceptions.base_exception import DocrunnerBaseException
-from ..models.options import Options
-from ..utils.general import log_exception
-from ..utils.language import create_language_files
+from docrunner.exceptions.base_exception import DocrunnerBaseException
+from docrunner.models.options import Options
+from docrunner.utils.general import log_exception
+from docrunner.utils.language import create_language_files
 
 
 def compile_typescript(filepath: str) -> int:

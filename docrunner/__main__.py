@@ -1,3 +1,3 @@
-from .main import app
+from docrunner.main import app
 
 app(prog_name="docrunner")

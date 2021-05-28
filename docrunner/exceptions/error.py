@@ -2,7 +2,7 @@ from typing import Literal
 
 import typer
 
-from ..exceptions.base_exception import DocrunnerBaseException
+from docrunner.exceptions.base_exception import DocrunnerBaseException
 
 
 class DocrunnerError(DocrunnerBaseException):

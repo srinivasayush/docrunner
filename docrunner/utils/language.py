@@ -1,9 +1,13 @@
-from ..utils.general import merge_dict_with_additions
+from docrunner.utils.general import merge_dict_with_additions
 import os
 from typing import Dict, Optional
 
-from ..models.options import Options
-from ..utils.file import get_all_files, get_snippets_from_markdown, write_file
+from docrunner.models.options import Options
+from docrunner.utils.file import (
+    get_all_files,
+    get_snippets_from_markdown,
+    write_file,
+)
 
 LANGUAGE_TO_EXTENSION = {
     "python": "py",
