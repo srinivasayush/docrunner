@@ -2,48 +2,36 @@
 
 If you would like to contribute to `docrunner` please follow these instructions to set a local development environment up
 
+*Prerequisities: Install the [Dart Language SDK](https://dart.dev/get-dart/) on your local system*
+
 1. Fork this repository
 
 2. Clone your fork of this repository
 
-3. Install `poetry`, a dependency management tool, with `pip` if it is not already installed:
+3. Run this command in the root directory to install the necessary packages for the project:
 ```shell
-pip install poetry
+dart pub get
 ```
 
-4. Run this command in the root directory to install the necessary packages for the project:
+4. Run this command in the root directory to generate all necessary dart code:
 ```shell
-poetry install
+dart run build_runner build
 ```
 
-5. Install the pre-commit hooks for this project with:
+5. To run the cli tool in development, run:
 ```shell
-poetry run pre-commit install
+dart run bin/docrunner.dart
 ```
 
-6. To run the docrunner cli tool in development, run:
+6. You're all set! You can now edit source code within the `bin` directory
+
+7. (Optional) If you want to build and test a custom self-contained executable for the project,
+you can run:
 ```shell
-poetry run docrunner --help
+dart compile exe bin/docrunner.dart
 ```
+This will create `docrunner.exe` in the `bin` folder
 
-7. You're all set! You can now edit source code within the `docrunner` directory
-
-8. (Testing CLI Tool) Run the usage example with:
-```shell
-poetry run docrunner <language> --markdown-path example/example.md
-```
-
-## Testing
-If you want your contributions to be merged into the main repository, you must
-test the source code you write.
-
-Run tests with:
-```cmd
-poetry run task test
-```
-
-Check the [pytest documentation](https://docs.pytest.org/en/6.2.x/) out for more
-information on how to write tests
 
 For larger changes like adding support for another language, please open an issue
 [here](https://github.com/DudeBro249/docrunner/issues)
