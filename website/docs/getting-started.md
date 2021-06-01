@@ -1,12 +1,10 @@
 # Getting started
 
-<!-- ## Installation
+## Installation
 
-Use the package manager [pip](https://pip.pypa.io/en/stable/) to install docrunner.
-
-```cmd
-pip install docrunner
-``` -->
+You can install `docrunner.exe` from
+[the releases](https://github.com/DudeBro249/docrunner/releases/tag/v1.0.0)
+Make sure to add it to PATH so you can access it from anywhere
 
 ## QuickStart
 

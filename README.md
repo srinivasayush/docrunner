@@ -8,36 +8,29 @@ Docrunner goes through your markdown file and runs any code in it, providing you
 
 ## Installation
 
-Use the package manager [pip](https://pip.pypa.io/en/stable/) to install docrunner.
-
-```powershell
-pip install docrunner
-```
+You can install `docrunner.exe` from
+[the releases](https://github.com/DudeBro249/docrunner/releases/tag/v1.0.0)
+Make sure to add it to PATH so you can accesss it from anywhere
 
 ## QuickStart
 
-```powershell
+```shell
 docrunner --help
-```
-
-### Language Specific Help
-For help on a specific language, run:
-```powershell
-docrunner <language> --help
 ```
 
 ### Python Example
 
-```powershell
-docrunner python --markdown-path example/example.md --multi-file
+```shell
+docrunner run --language python --markdown-path example/example.md --multi-file
 ```
 
-This command executes all python within `example.md` and does so by putting each snippet of python from this file into a separate file, and running each file. If you don't want each snippet in a separate python file, just remove the --multi-file option.
+This command executes all python within `example/example.md` and does so by putting each snippet of 
+python from this file into a separate file, and running each file. If you don't want each snippet 
+in a separate python file, just remove the --multi-file option.
 
 
 ## Contributing and Local Development
-Please check the [CONTRIBUTING](/CONTRIBUTING.md) guidelines for information
-on how to contribute to docrunner.
+Please check the [CONTRIBUTING](/CONTRIBUTING.md) guidelines for information on how to contribute to docrunner.
 
 ## Supported Languages
 
