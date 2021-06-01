@@ -1,7 +1,7 @@
 [docrunner]
-language = 'python'
+language = 'dart'
 markdown_paths = [
     '.',
 ]
 multi_file = true
-recursive = false
+recursive = true

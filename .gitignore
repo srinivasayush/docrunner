@@ -10,3 +10,9 @@ doc/api/
 
 # Built Dart Files
 **.g.dart
+
+# Files that Docrunner builds
+docrunner-build-py/
+docrunner-build-js/
+docrunner-build-ts/
+docrunner-build-dart/
