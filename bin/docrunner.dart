@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:args/command_runner.dart';
+import 'commands/init.dart';
 import 'commands/run.dart';
 import 'commands/version.dart';
 import 'constants/version.dart';
@@ -26,5 +27,6 @@ Future<void> main(List<String> args) async {
 
   runner.addCommand(RunCommand());
   runner.addCommand(VersionCommand());
+  runner.addCommand(InitCommand());
   await runner.run(args);
 }
