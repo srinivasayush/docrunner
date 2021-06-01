@@ -1,13 +1,12 @@
-import 'models/options.dart';
+import 'package:args/command_runner.dart';
+import 'commands/run.dart';
 
 Future<void> main(List<String> args) async {
-  final options = await Options.overrideWithCliArguments(
-    language: 'python',
+  final runner = CommandRunner(
+    'docrunner',
+    'A command line tool which allows you to run the code in your markdown files to ensure that readers always have access to working code.',
   );
-  print(options.language);
-  print(options.multiFile);
-  print(options.recursive);
-  print(options.markdownPaths);
 
-  await Options.createConfigFile();
+  runner.addCommand(RunCommand());
+  await runner.run(args);
 }

@@ -51,7 +51,7 @@ class Options {
   }
 
   static Future<Options> overrideWithCliArguments({
-    required String language,
+    String? language,
     String? markdownPath,
     String? directoryPath,
     String? startupCommand,
@@ -60,7 +60,9 @@ class Options {
   }) async {
     final options = await Options.fromConfigFile('docrunner.toml');
     if (options != null) {
-      options.language = language;
+      if (language != null) {
+        options.language = language;
+      }
 
       if (markdownPath != null) {
         options.markdownPaths = [markdownPath];

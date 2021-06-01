@@ -1,6 +1,8 @@
 import 'dart:io';
 import 'package:path/path.dart' as path;
 
+import '../exceptions/docrunner_error.dart';
+
 extension FileSystemEntityX on FileSystemEntity {
   String get pathWithoutExtension {
     final fileExtensionStartsAt = this.path.lastIndexOf(
@@ -12,6 +14,14 @@ extension FileSystemEntityX on FileSystemEntity {
 
 Future<List<String>> readFile({required String filepath}) async {
   final file = File(filepath);
+
+  final fileExists = await file.exists();
+  if (!fileExists) {
+    throw DocrunnerError(
+      message: 'Error: file `$filepath` not found',
+    );
+  }
+
   final lines = await file.readAsLines();
   return lines.map((line) {
     return line.replaceAll('\n', '');
@@ -44,8 +54,9 @@ Future<void> writeFile({
   final file = File(filepath);
   if (await file.exists() == true) {
     if (overwrite == false) {
-      stderr.writeln('file `$filepath` already exists');
-      return;
+      throw DocrunnerError(
+        message: 'file `$filepath` already exists',
+      );
     }
 
     if (append) {

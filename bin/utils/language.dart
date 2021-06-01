@@ -22,12 +22,13 @@ Future<String> createLanguageEnvironment({
   if (directoryPath == null) {
     final markdownFileName = File(markdownPath).pathWithoutExtension;
     final languageExtension = LANGUAGE_TO_EXTENSION[language];
-    directoryPath = 'docrunner-build-$languageExtension/$markdownFileName';
-    final directory = Directory(directoryPath);
+
+    directoryPath = './docrunner-build-$languageExtension/$markdownFileName';
+    var directory = Directory(directoryPath);
     final directoryExists = await directory.exists();
 
     if (directoryExists == false) {
-      await directory.create();
+      directory = await directory.create(recursive: true);
     }
   }
 
@@ -43,7 +44,7 @@ Future<Map<String, int>> createLanguageFiles({required Options options}) async {
   final language = options.language!;
   final markdownPaths = options.markdownPaths!;
   final multiFile = options.multiFile!;
-  final recursive = options.recursive!;
+  final recursive = options.recursive;
 
   // ignore: omit_local_variable_types
   Map<String, int> codeFilepaths = {};
@@ -57,7 +58,7 @@ Future<Map<String, int>> createLanguageFiles({required Options options}) async {
             markdownPaths: getAllFilePaths(
               directoryPath: markdownPath,
               fileExtensions: ['.md'],
-              recursive: recursive,
+              recursive: recursive ?? false,
             ),
             directoryPath: options.directoryPath,
             startupCommand: options.startupCommand,
@@ -135,7 +136,8 @@ Future<Map<String, int>> createLanguageFiles({required Options options}) async {
 
 bool _isSnippetDecorator({required String string}) {
   final isMarkdownComment = ({required String string}) {
-    return string.substring(0, 4) == '<!--' &&
+    return string.length >= 4 &&
+        string.substring(0, 4) == '<!--' &&
         string.substring(string.length - 3) == '-->';
   };
 
@@ -156,7 +158,7 @@ String _getCompleteSnippet({
   var code = '';
   var foundClosed = false;
   for (var i = lineNumber + 1; i < lines.length; i++) {
-    if (lines.length > 3 &&
+    if (lines[i].length > 3 &&
         lines[i].substring(0, 3) == '```' &&
         LANGUAGE_ABBREV_MAPPING[language]!.contains(lines[i]) == false) {
       throw DocrunnerError(
@@ -254,7 +256,7 @@ Future<List<Snippet>> getSnippetsFromMarkdown({
                   'Docrunner comment found without code snippet at line $j in `$markdownPath`',
             );
 
-            print(commentWarning.coloredMessage);
+            stdout.writeln(commentWarning.coloredMessage);
           }
         }
       }
@@ -269,7 +271,7 @@ Future<List<Snippet>> getSnippetsFromMarkdown({
     final nothingToRun = DocrunnerWarning(
       message: 'Nothing to run in `$markdownPath`',
     );
-    print(nothingToRun.coloredMessage);
+    stdout.writeln(nothingToRun.coloredMessage);
   }
 
   return codeSnippets;
