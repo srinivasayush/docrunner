@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:args/command_runner.dart';
 import 'package:colorize/colorize.dart';
 
+import '../constants/help.dart';
 import '../constants/language_color.dart';
 import '../exceptions/docrunner_error.dart';
 import '../languages/dart.dart';
@@ -20,15 +21,32 @@ class RunCommand extends Command {
       "Runs all code belonging to a specific language within a markdown '.md' file";
 
   RunCommand() {
-    argParser.addOption('language', abbr: 'l');
-    argParser.addOption('markdown-path', abbr: 'm');
-    argParser.addOption('directory-path', abbr: 'd');
-    argParser.addOption('startup-command', abbr: 's');
+    argParser.addOption(
+      'language',
+      abbr: 'l',
+      help: LANGUAGE_HELP,
+    );
+    argParser.addOption(
+      'markdown-path',
+      abbr: 'm',
+      help: MARKDOWN_PATH_HELP,
+    );
+    argParser.addOption(
+      'directory-path',
+      abbr: 'd',
+      help: DIRECTORY_PATH_HELP,
+    );
+    argParser.addOption(
+      'startup-command',
+      abbr: 's',
+      help: STARTUP_COMMAND_HELP,
+    );
 
     argParser.addFlag(
       'multi-file',
       negatable: true,
       abbr: 'f',
+      help: MULTI_FILE_HELP,
     );
   }
 
