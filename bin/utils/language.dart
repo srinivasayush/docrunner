@@ -1,13 +1,11 @@
 import 'dart:io';
-
-import 'package:path/path.dart' as path;
-
 import '../constants/language_abbrev.dart';
 import '../exceptions/docrunner_error.dart';
 import '../exceptions/docrunner_warning.dart';
 import '../models/options.dart';
 import '../models/snippet.dart';
 import 'file.dart';
+import 'general.dart';
 
 final LANGUAGE_TO_EXTENSION = {
   'python': 'py',
@@ -16,22 +14,13 @@ final LANGUAGE_TO_EXTENSION = {
   'dart': 'dart',
 };
 
-extension FileExtention on FileSystemEntity {
-  String get nameWithoutExtension {
-    final fileExtensionStartsAt = this.path.lastIndexOf(
-          path.extension(this.path),
-        );
-    return this.path.substring(0, fileExtensionStartsAt);
-  }
-}
-
 Future<String> createLanguageEnvironment({
   required String language,
   required String markdownPath,
   String? directoryPath,
 }) async {
   if (directoryPath == null) {
-    final markdownFileName = File(markdownPath).nameWithoutExtension;
+    final markdownFileName = File(markdownPath).pathWithoutExtension;
     final languageExtension = LANGUAGE_TO_EXTENSION[language];
     directoryPath = 'docrunner-build-$languageExtension/$markdownFileName';
     final directory = Directory(directoryPath);
@@ -43,6 +32,105 @@ Future<String> createLanguageEnvironment({
   }
 
   return directoryPath;
+}
+
+Future<List<String>> getLanguageFiles({required Options options}) async {
+  final codeFilepaths = await createLanguageFiles(options: options);
+  return codeFilepaths.keys.toList();
+}
+
+Future<Map<String, int>> createLanguageFiles({required Options options}) async {
+  final language = options.language!;
+  final markdownPaths = options.markdownPaths!;
+  final multiFile = options.multiFile!;
+  final recursive = options.recursive!;
+
+  // ignore: omit_local_variable_types
+  Map<String, int> codeFilepaths = {};
+
+  for (var markdownPath in markdownPaths) {
+    final isDirectory = await Directory(markdownPath).exists();
+    if (isDirectory) {
+      final pathsFromDirectory = await createLanguageFiles(
+        options: Options(
+            language: options.language,
+            markdownPaths: getAllFilePaths(
+              directoryPath: markdownPath,
+              fileExtensions: ['.md'],
+              recursive: recursive,
+            ),
+            directoryPath: options.directoryPath,
+            startupCommand: options.startupCommand,
+            multiFile: options.multiFile),
+      );
+
+      codeFilepaths = mergeMapWithAdditions(maps: [
+        codeFilepaths,
+        pathsFromDirectory,
+      ]);
+
+      return codeFilepaths;
+    }
+
+    final codeSnippets = await getSnippetsFromMarkdown(
+      language: language,
+      markdownPath: markdownPath,
+    );
+
+    final tempDirectoryPath = await createLanguageEnvironment(
+      language: language,
+      markdownPath: markdownPath,
+      directoryPath: options.directoryPath,
+    );
+
+    String? filepath;
+
+    if (multiFile) {
+      for (var i = 0; i < codeSnippets.length; i++) {
+        filepath =
+            '$tempDirectoryPath/file${i + 1}.${LANGUAGE_TO_EXTENSION[language]}';
+
+        if (codeSnippets[i].options.filename != null) {
+          filepath = '$tempDirectoryPath/${codeSnippets[i].options.filename}';
+        }
+
+        filepath = File(filepath).absolute.path;
+
+        if (codeFilepaths.containsKey(filepath)) {
+          codeFilepaths[filepath] = codeFilepaths[filepath]! + 1;
+        } else {
+          codeFilepaths[filepath] = 1;
+        }
+
+        await writeFile(
+          filepath: filepath,
+          content: codeSnippets[i].code,
+          overwrite: true,
+          append: codeFilepaths[filepath]! > 1 ? true : false,
+        );
+      }
+    } else {
+      final allLines =
+          codeSnippets.map((snippet) => snippet.code).toList().join('');
+
+      filepath = '$tempDirectoryPath/main.${LANGUAGE_TO_EXTENSION[language]}';
+      filepath = File(filepath).absolute.path;
+
+      if (codeFilepaths.containsKey(filepath)) {
+        codeFilepaths[filepath] = codeFilepaths[filepath]! + 1;
+      } else {
+        codeFilepaths[filepath] = 1;
+      }
+
+      await writeFile(
+        filepath: filepath,
+        content: allLines,
+        overwrite: true,
+      );
+    }
+  }
+
+  return codeFilepaths;
 }
 
 bool _isSnippetDecorator({required String string}) {
