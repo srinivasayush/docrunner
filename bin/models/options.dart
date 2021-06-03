@@ -44,7 +44,8 @@ class Options {
         return null;
       }
 
-      return Options.fromMap(optionsMap);
+      final options = Options.fromMap(optionsMap);
+      return options;
     } on FileSystemException {
       return null;
     }

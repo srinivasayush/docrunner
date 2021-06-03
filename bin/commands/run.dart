@@ -44,14 +44,15 @@ class RunCommand extends Command {
 
     argParser.addFlag(
       'multi-file',
-      negatable: true,
       abbr: 'f',
+      defaultsTo: null,
+      negatable: false,
       help: MULTI_FILE_HELP,
     );
   }
 
   @override
-  void run() async {
+  Future<void> run() async {
     final arguments = argResults!;
 
     final options = await Options.overrideWithCliArguments(

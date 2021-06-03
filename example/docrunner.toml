@@ -1,5 +1,5 @@
 [docrunner]
-language = 'dart'
+language = 'python'
 markdown_paths = [
     '.',
 ]

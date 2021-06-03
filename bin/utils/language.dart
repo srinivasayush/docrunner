@@ -49,6 +49,9 @@ Future<Map<String, int>> createLanguageFiles({required Options options}) async {
   // ignore: omit_local_variable_types
   Map<String, int> codeFilepaths = {};
 
+  // ignore: omit_local_variable_types
+  List<String> noRun = [];
+
   for (var markdownPath in markdownPaths) {
     final isDirectory = await Directory(markdownPath).exists();
     if (isDirectory) {
@@ -103,6 +106,10 @@ Future<Map<String, int>> createLanguageFiles({required Options options}) async {
           codeFilepaths[filepath] = 1;
         }
 
+        if (codeSnippets[i].options.noRun) {
+          noRun.add(filepath);
+        }
+
         await writeFile(
           filepath: filepath,
           content: codeSnippets[i].code,
@@ -130,6 +137,10 @@ Future<Map<String, int>> createLanguageFiles({required Options options}) async {
       );
     }
   }
+
+  codeFilepaths.removeWhere((key, value) {
+    return noRun.contains(key);
+  });
 
   return codeFilepaths;
 }
