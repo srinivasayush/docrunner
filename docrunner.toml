@@ -1,7 +1,0 @@
-[docrunner]
-language = "python"
-markdown_paths = [
-    "example/"
-]
-multi_file = false
-recursive = true

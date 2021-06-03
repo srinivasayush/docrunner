@@ -26,6 +26,7 @@ You can stack multiple docrunner comments on the same code snippet
 
 ## List of Parsed Comments
 - `<!--docrunner.ignore-->` - Causes docrunner to ignore the code snippet this is attached to
+- `<!--docrunner.no_run-->` - Causes docrunner to write the code snippet to a file but not run it
 - `<!--docrunner.file_name = "file.py"-->` - If the `multi_file` field is set to `True` when running docrunner,
 docrunner will put this code snippet in a file named `file.py`
 Check [here](/docs/configuration#multi_file) for more information about `multi_file`
