@@ -4,7 +4,7 @@ Import-Module BitsTransfer
 
 $ErrorActionPreference = "Stop"
 
-Start-BitsTransfer 'https://github.com/DudeBro249/docrunner/releases/download/v1.0.0/docrunner.exe' "C:/src/docrunner.exe" -Description 'Downloading Docrunner from https://github.com/DudeBro249/docrunner/releases' -DisplayName 'Downloading Docrunner' -TransferType Download
+Start-BitsTransfer 'https://github.com/DudeBro249/docrunner/releases/download/v1.1.0/docrunner.exe' "C:/src/docrunner.exe" -Description 'Downloading Docrunner from https://github.com/DudeBro249/docrunner/releases' -DisplayName 'Downloading Docrunner' -TransferType Download
 
 
 
