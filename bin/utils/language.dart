@@ -6,6 +6,7 @@ import '../models/options.dart';
 import '../models/snippet.dart';
 import 'file.dart';
 import 'general.dart';
+import 'package:dotenv/dotenv.dart' as dotenv show load, env;
 
 final LANGUAGE_TO_EXTENSION = {
   'python': 'py',
@@ -14,7 +15,7 @@ final LANGUAGE_TO_EXTENSION = {
   'dart': 'dart',
 };
 
-Future<String> createLanguageEnvironment({
+Future<String> createLanguageDirectory({
   required String language,
   required String markdownPath,
   String? directoryPath,
@@ -57,15 +58,17 @@ Future<Map<String, int>> createLanguageFiles({required Options options}) async {
     if (isDirectory) {
       final pathsFromDirectory = await createLanguageFiles(
         options: Options(
-            language: options.language,
-            markdownPaths: getAllFilePaths(
-              directoryPath: markdownPath,
-              fileExtensions: ['.md'],
-              recursive: recursive ?? false,
-            ),
-            directoryPath: options.directoryPath,
-            startupCommand: options.startupCommand,
-            multiFile: options.multiFile),
+          language: options.language,
+          markdownPaths: getAllFilePaths(
+            directoryPath: markdownPath,
+            fileExtensions: ['.md'],
+            recursive: recursive ?? false,
+          ),
+          directoryPath: options.directoryPath,
+          startupCommand: options.startupCommand,
+          multiFile: options.multiFile,
+          dotenv: options.dotenv,
+        ),
       );
 
       codeFilepaths = mergeMapWithAdditions(maps: [
@@ -81,7 +84,7 @@ Future<Map<String, int>> createLanguageFiles({required Options options}) async {
       markdownPath: markdownPath,
     );
 
-    final tempDirectoryPath = await createLanguageEnvironment(
+    final tempDirectoryPath = await createLanguageDirectory(
       language: language,
       markdownPath: markdownPath,
       directoryPath: options.directoryPath,
@@ -141,6 +144,14 @@ Future<Map<String, int>> createLanguageFiles({required Options options}) async {
   codeFilepaths.removeWhere((key, value) {
     return noRun.contains(key);
   });
+
+  if (options.dotenv != null) {
+    final dotenvFile = File(options.dotenv!);
+    final dotenvFileExists = await dotenvFile.exists();
+    if (dotenvFileExists) {
+      dotenv.load(dotenvFile.path);
+    }
+  }
 
   return codeFilepaths;
 }

@@ -5,3 +5,4 @@ markdown_paths = [
 ]
 multi_file = true
 recursive = true
+dotenv = '.env'
