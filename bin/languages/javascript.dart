@@ -4,13 +4,19 @@ import 'package:process_run/shell.dart';
 
 import '../models/options.dart';
 import '../utils/language.dart';
+import 'package:dotenv/dotenv.dart' as dotenv show env;
 
 Future<void> runJavascript({required Options options}) async {
   var startupCommand = options.startupCommand;
   var finalExitCode = 0;
-  final shellCommandRunner = Shell(commandVerbose: false, throwOnError: false);
 
   final codeFilepaths = await getLanguageFiles(options: options);
+
+  final shellCommandRunner = Shell(
+    commandVerbose: false,
+    throwOnError: false,
+    environment: dotenv.env,
+  );
 
   if (startupCommand != null) {
     startupCommand = startupCommand.replaceAll('"', '');

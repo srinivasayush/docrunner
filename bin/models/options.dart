@@ -15,6 +15,7 @@ class Options {
     this.multiFile,
     this.startupCommand,
     this.recursive,
+    this.dotenv,
   });
 
   @JsonKey(includeIfNull: false)
@@ -34,6 +35,9 @@ class Options {
 
   @JsonKey(includeIfNull: false)
   bool? recursive;
+
+  @JsonKey(includeIfNull: false)
+  String? dotenv;
 
   static Future<Options?> fromConfigFile(String filePath) async {
     try {
@@ -58,6 +62,7 @@ class Options {
     String? startupCommand,
     bool? multiFile,
     bool? recursive,
+    String? dotenv,
   }) async {
     final options = await Options.fromConfigFile('docrunner.toml');
     if (options != null) {
@@ -84,6 +89,11 @@ class Options {
       if (recursive != null) {
         options.recursive = recursive;
       }
+
+      if (dotenv != null) {
+        options.dotenv = dotenv;
+      }
+
       return options;
     } else {
       final options = Options(
