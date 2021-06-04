@@ -56,3 +56,7 @@ between quotes like "node main.js". string, **Optional**
 ### recursive
 - Whether you want docrunner to search through specified directories recursively
 (look through sub-directories). boolean, **Optional**
+
+### dotenv
+- The path to your dotenv file(if one exists), which stores your environment variables
+and secrets. string, **Optional**
