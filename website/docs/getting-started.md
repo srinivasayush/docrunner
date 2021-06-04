@@ -26,3 +26,12 @@ docrunner run --language python --markdown-path README.md --multi-file
 - This command executes all python within `README.md` and does so by putting each snippet of python into a 
 separate file, and running each file. If you don't want each snippet in a separate python file, just 
 remove the --multi-file option.
+
+## Updating
+
+Updating docrunner is as simple as calling:
+```powershell
+docrunner self update
+```
+
+This will provide you with simple instructions on how to update docrunner
