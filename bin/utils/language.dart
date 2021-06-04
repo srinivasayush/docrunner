@@ -6,7 +6,7 @@ import '../models/options.dart';
 import '../models/snippet.dart';
 import 'file.dart';
 import 'general.dart';
-import 'package:dotenv/dotenv.dart' as dotenv show load, env;
+import 'package:dotenv/dotenv.dart' as dotenv show load;
 
 final LANGUAGE_TO_EXTENSION = {
   'python': 'py',
