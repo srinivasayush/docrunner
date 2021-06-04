@@ -14,7 +14,7 @@ iwr -useb https://raw.githubusercontent.com/DudeBro249/docrunner/dev/installers/
 ```
 
 If none of these methods work, you can also install `docrunner.exe` from
-[the releases](https://github.com/DudeBro249/docrunner/releases/tag/v1.1.0).
+[the releases](https://github.com/DudeBro249/docrunner/releases/tag/v1.1.1).
 Make sure to add it to PATH so you can access it from anywhere
 
 ## QuickStart
