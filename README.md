@@ -39,7 +39,7 @@ Please check the [CONTRIBUTING](/CONTRIBUTING.md) guidelines for information on 
 
 ## Supported Languages
 
-- Python - `docrunner python --help`
-- Javascript - `docrunner javascript --help`
-- Typescript - `docrunner typescript --help`
-- Dart - `docrunner dart --help`
+- python - `docrunner run -l python`
+- javascript - `docrunner run -l javascript`
+- typescript - `docrunner run -l typescript`
+- dart - `docrunner run -l dart`
