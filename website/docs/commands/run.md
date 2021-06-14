@@ -29,7 +29,7 @@ You can learn more about docrunner configuration [here](/docs/configuration)
 
 ## Supported Languages
 
-- Python - `docrunner run --language python`
-- Javascript - `docrunner run --language javascript`
-- Typescript - `docrunner run --language typescript`
-- Dart - `docrunner run --language dart`
+- python - `docrunner run -l python`
+- javascript - `docrunner run -l javascript`
+- typescript - `docrunner run -l typescript`
+- dart - `docrunner run -l dart`
