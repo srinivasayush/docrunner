@@ -3,8 +3,6 @@ import 'dart:io';
 import 'package:args/command_runner.dart';
 import 'package:colorize/colorize.dart';
 
-import '../../exceptions/docrunner_error.dart';
-
 class UpdateCommand extends Command {
   @override
   final name = 'update';
@@ -16,22 +14,23 @@ class UpdateCommand extends Command {
 
   @override
   void run() {
+    var installationCommand = '';
+    var outputMessage = 'Copy and paste this command into your terminal: ';
     if (Platform.isWindows) {
-      final powershellInstallCommand =
+      installationCommand =
           'iwr -useb https://raw.githubusercontent.com/DudeBro249/docrunner/dev/installers/install.ps1 | iex';
-
-      stdout.writeln(
-        Colorize(
-          'Copy and paste this into command your powershell terminal: \n',
-        ).green(),
-      );
-      stdout.writeln('$powershellInstallCommand\n');
-    } else {
-      throw DocrunnerError(
-        message:
-            '''We do not support Linux or MacOS installation via command yet. You can install
-              the docrunner exe from the github releases''',
-      );
+      outputMessage =
+          'Copy and paste this command into your powershell terminal';
+    } else if (Platform.isMacOS || Platform.isLinux) {
+      installationCommand =
+          'curl -fsSL https://raw.githubusercontent.com/DudeBro249/docrunner/dev/installers/install.sh | sh';
     }
+
+    stdout.writeln(
+      Colorize(
+        '$outputMessage\n',
+      ).green(),
+    );
+    stdout.writeln('$installationCommand\n');
   }
 }
