@@ -2,6 +2,11 @@
 
 ## Installation
 
+Shell (Mac, Linux):
+```shell
+curl -fsSL https://raw.githubusercontent.com/DudeBro249/docrunner/dev/installers/install.sh | sh
+```
+
 Powershell(Windows):
 ```powershell
 iwr -useb https://raw.githubusercontent.com/DudeBro249/docrunner/dev/installers/install.ps1 | iex
