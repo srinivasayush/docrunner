@@ -1,6 +1,6 @@
 # Contributing to Docrunner
 
-If you would like to contribute to `docrunner` please follow these instructions to set a local development environment up
+If you would like to contribute to docrunner please follow these instructions to set a local development environment up
 
 *Prerequisities: Install the [Dart Language SDK](https://dart.dev/get-dart/) on your local system*
 
@@ -20,17 +20,18 @@ dart run build_runner build
 
 5. To run the cli tool in development, run:
 ```shell
-dart run bin/docrunner.dart
+dart run bin/main.dart
 ```
 
-6. You're all set! You can now edit source code within the `bin` directory
+6. You're all set! You can now edit source code within the [`bin`](/bin) and [`lib`](/lib)
+directories
 
 7. (Optional) If you want to build and test a custom self-contained executable for the project,
 you can run:
 ```shell
-dart compile exe bin/docrunner.dart
+dart compile exe bin/main.dart
 ```
-This will create `docrunner.exe` in the `bin` folder
+This will create `main.exe` in the [`bin`](/bin) folder
 
 
 For larger changes like adding support for another language, please open an issue

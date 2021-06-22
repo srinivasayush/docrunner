@@ -8,7 +8,7 @@ import 'commands/self/self.dart';
 import 'commands/version.dart';
 import 'exceptions/docrunner_error.dart';
 
-Future<void> main(List<String> args) async {
+Future<void> runCli(List<String> args) async {
   final runner = Docrunner(
     'docrunner',
     '\nA command line tool which allows you to run the code in your markdown files to ensure that readers always have access to working code.',

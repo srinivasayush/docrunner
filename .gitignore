@@ -11,6 +11,9 @@ doc/api/
 # Built Dart Files
 **.g.dart
 
+# Compiled Executables
+bin/main.exe
+
 # Files that Docrunner builds
 docrunner-build-py/
 docrunner-build-js/
