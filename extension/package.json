@@ -10,14 +10,15 @@
     "Other"
   ],
   "activationEvents": [
-    "onCommand:docrunner.helloWorld"
+    "onCommand:docrunner.init"
   ],
   "main": "./dist/extension.js",
   "contributes": {
     "commands": [
       {
-        "command": "docrunner.helloWorld",
-        "title": "Hello World"
+        "command": "docrunner.init",
+        "category": "Docrunner",
+        "title": "Init"
       }
     ]
   },
