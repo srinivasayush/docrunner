@@ -4,12 +4,12 @@
 
 Shell (Mac, Linux):
 ```shell
-curl -fsSL https://raw.githubusercontent.com/DudeBro249/docrunner/dev/installers/install.sh | sh
+curl -fsSL https://raw.githubusercontent.com/DudeBro249/docrunner/stable/installers/install.sh | sh
 ```
 
 Powershell(Windows):
 ```powershell
-iwr -useb https://raw.githubusercontent.com/DudeBro249/docrunner/dev/installers/install.ps1 | iex
+iwr -useb https://raw.githubusercontent.com/DudeBro249/docrunner/stable/installers/install.ps1 | iex
 ```
 
 If none of these methods work, you can also install `docrunner.exe` from
