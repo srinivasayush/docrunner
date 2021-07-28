@@ -1,4 +1,4 @@
-name: Dart
+name: Compile Dart Code
 
 on:
   push:
