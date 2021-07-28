@@ -3,6 +3,9 @@ name: Compile Dart Code
 on:
   push:
     branches: [ stable ]
+# temp test code
+  pull_request:
+    branches: [ stable ]
 
 jobs:
   build:
@@ -29,3 +32,18 @@ jobs:
 
       - name: Compile code
         run: dart compile exe bin/main.dart -o bin/main
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v2
+        with:
+          path: ./bin/*
+
+  release:
+    name: Create a github release
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/download-artifact@v2
+
+      - name: Test
+        run: ls -la
