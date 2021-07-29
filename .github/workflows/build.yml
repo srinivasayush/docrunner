@@ -31,12 +31,12 @@ jobs:
         run: dart run build_runner build
 
       - name: Compile code
-        run: dart compile exe bin/main.dart -o bin/main
+        run: dart compile exe bin/main.dart -o bin/docrunner-${{ matrix.os }}
 
       - name: Upload artifact
         uses: actions/upload-artifact@v2
         with:
-          path: ./bin/*
+          path: ./bin/docrunner-${{ matrix.os }}*
 
   release:
     name: Create a github release
