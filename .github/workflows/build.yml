@@ -47,4 +47,4 @@ jobs:
       - uses: actions/download-artifact@v2
 
       - name: Test
-        run: ls -la
+        run: ls artifact -la
