@@ -1,8 +1,7 @@
 name: docrunner
 description: A command line tool which allows you to run the code in your markdown files to ensure that readers always have access to working code.
-version: 1.1.1
+version: 1.2.0
 homepage: https://github.com/DudeBro249/docrunner
-changelog: Add continuous deployment as a github workflow.
 
 environment:
   sdk: '>=2.12.0 <3.0.0'
