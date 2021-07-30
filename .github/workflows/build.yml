@@ -87,7 +87,7 @@ jobs:
           GITHUB_TOKEN: ${{ github.token }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./artifact/docrunner-ubuntu*
+          asset_path: ./artifact/docrunner-ubuntu-20.04
           asset_name: docrunner-linux
           asset_content_type: application/octet-stream
 
@@ -97,7 +97,7 @@ jobs:
           GITHUB_TOKEN: ${{ github.token }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./artifact/docrunner-macOS*
+          asset_path: ./artifact/docrunner-macOS-10.15
           asset_name: docrunner-macOS
           asset_content_type: application/octet-stream
 
@@ -107,6 +107,6 @@ jobs:
           GITHUB_TOKEN: ${{ github.token }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./artifact/docrunner-windows*
-          asset_name: docrunner-windows
+          asset_path: ./artifact/docrunner-windows-2019
+          asset_name: docrunner-windows.exe
           asset_content_type: application/x-msdownload
