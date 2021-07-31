@@ -65,8 +65,6 @@ jobs:
       - name: Get changelog
         uses: ./changelog-action
         id: changelog
-        with:
-          file: CHANGELOG.md
 
       - name: Create release
         uses: actions/create-release@v1

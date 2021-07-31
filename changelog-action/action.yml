@@ -4,7 +4,7 @@ description: 'Read the most recent entery in a changelog file'
 inputs:
   file:
     description: 'CHANGELOG file to read from.'
-    default: 'CHANGELOG.md'
+    default: './CHANGELOG.md'
     required: true
 
 outputs:
