@@ -63,7 +63,7 @@ jobs:
           key-path: '["name"]'
 
       - name: Get changelog
-        uses: ./changelog-action
+        uses: KJ002/changelog-action@master
         id: changelog
         with:
           file: ./CHANGELOG.md
