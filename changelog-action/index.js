@@ -7,12 +7,13 @@ const { promise: fs } = require('fs');
 const main = async () => {
   const file = core.getInput("file");
 
-  console.log(file);
-  //let content = await fs.readFile(file, 'utf8');
+  let content = await fs.readFile(file, 'utf8');
 
-  //let changelog = content.split("\n\n##")[0];
+  console.log(content);
 
-  core.setOutput('changelog', "test");
+  let changelog = content.split("\n\n##")[0];
+
+  core.setOutput("changelog", changelog);
 }
 
 main().catch(err => core.setFailed(err.message));
