@@ -62,14 +62,11 @@ jobs:
           file: ./pubspec.yaml
           key-path: '["name"]'
 
-      - name: Test
-        run: ls -lah
-
       - name: Get changelog
-        uses: KJ002/changelog-action@master
+        uses: ./changelog-action
         id: changelog
         with:
-          file: ./CHANGELOG.md
+          file: './CHANGELOG.md'
 
       - name: Create release
         uses: actions/create-release@v1
@@ -79,7 +76,7 @@ jobs:
           prerelease: false
           release_name: ${{ steps.name.outputs.data }}
           tag_name: ${{ steps.version.outputs.data }}
-          body: ${{ steps.changelog.outputs.changelog }}
+          body: ${{ steps.changelog.outputs.data }}
         env:
           GITHUB_TOKEN: ${{ github.token }}
 
