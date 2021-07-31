@@ -1,0 +1,15 @@
+name: 'Read yaml'
+description: 'Read data from a yaml file'
+
+inputs:
+  file:
+    description: 'CHANGELOG file to read from.'
+    required: true
+
+output:
+  data:
+    description: 'Most recent changelog.'
+
+runs:
+  using: 'node12'
+  main: 'dist/index.js'
