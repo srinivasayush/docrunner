@@ -5,7 +5,7 @@ inputs:
   file:
     description: 'CHANGELOG file to read from.'
     default: 'CHANGELOG.md'
-    required: false
+    required: true
 
 outputs:
   changelog:
