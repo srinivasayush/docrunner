@@ -1,0 +1,16 @@
+name: 'Parse changelog'
+description: 'Read the most recent entery in a changelog file'
+
+inputs:
+  file:
+    description: 'CHANGELOG file to read from.'
+    default: 'CHANGELOG.md'
+    required: false
+
+outputs:
+  changelog:
+    description: 'Most recent changelog.'
+
+runs:
+  using: 'node12'
+  main: 'dist/index.js'
