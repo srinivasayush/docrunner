@@ -62,6 +62,9 @@ jobs:
           file: ./pubspec.yaml
           key-path: '["name"]'
 
+      - name: Test
+        run: ls -lah
+
       - name: Get changelog
         uses: KJ002/changelog-action@master
         id: changelog
