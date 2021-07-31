@@ -6289,11 +6289,12 @@ const { promise: fs } = __nccwpck_require__(747);
 const main = async () => {
   const file = core.getInput("file");
 
-  let content = await fs.readFile(file, 'utf8');
+  console.log(file);
+  //let content = await fs.readFile(file, 'utf8');
 
-  let changelog = content.split("\n\n##")[0];
+  //let changelog = content.split("\n\n##")[0];
 
-  core.setOutput('changelog', changelog);
+  core.setOutput('changelog', "test");
 }
 
 main().catch(err => core.setFailed(err.message));
