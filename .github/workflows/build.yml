@@ -3,9 +3,6 @@ name: Compile Dart Code
 on:
   push:
     branches: [ stable ]
-# temp test code
-  pull_request:
-    branches: [ stable ]
 
 jobs:
   build:
