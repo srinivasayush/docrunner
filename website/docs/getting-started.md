@@ -2,18 +2,24 @@
 
 ## Installation
 
-Shell (Mac, Linux):
-```shell
-curl -fsSL https://raw.githubusercontent.com/DudeBro249/docrunner/stable/installers/install.sh | sh
+Bash (Linux):
+```bash
+curl https://raw.githubusercontent.com/DudeBro249/docrunner/stable/installers/install-linux.sh | sudo bash
 ```
 
-Powershell(Windows):
+Bash (MacOS):
+
+``` bash
+curl https://raw.githubusercontent.com/DudeBro249/docrunner/stable/installers/install-mac.sh | sudo bash
+```
+
+Powershell (Windows):
 ```powershell
 iwr -useb https://raw.githubusercontent.com/DudeBro249/docrunner/stable/installers/install.ps1 | iex
 ```
 
-If none of these methods work, you can also install `docrunner.exe` from
-[the releases](https://github.com/DudeBro249/docrunner/releases/tag/v1.1.1).
+If none of these methods work, you can also install the `docrunner` binary from
+[the releases](https://github.com/DudeBro249/docrunner/releases).
 Make sure to add it to PATH so you can access it from anywhere
 
 ## QuickStart
