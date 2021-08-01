@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:args/args.dart';
 import 'package:args/command_runner.dart';
 
-import '../constants/version.dart';
+import '../utils/version.dart';
 
 class Docrunner<T> extends CommandRunner<T> {
   Docrunner(String executableName, String description, {int? usageLineLength})
@@ -24,6 +24,7 @@ class Docrunner<T> extends CommandRunner<T> {
   Future<T?> runCommand(ArgResults topLevelResults) async {
     var argResults = topLevelResults;
     if (argResults.options.contains('version') && argResults['version']) {
+      final version = await getVersion();
       stdout.writeln('Docrunner version $version');
       return null;
     }

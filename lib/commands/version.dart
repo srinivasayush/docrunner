@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:args/command_runner.dart';
 
-import '../constants/version.dart';
+import '../utils/version.dart';
 
 class VersionCommand extends Command {
   @override
@@ -14,7 +14,8 @@ class VersionCommand extends Command {
   VersionCommand();
 
   @override
-  void run() {
+  Future<void> run() async {
+    final version = await getVersion();
     stdout.writeln('Docrunner version $version');
   }
 }
