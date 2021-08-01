@@ -1,3 +1,9 @@
+## 1.2.0 (2021-08-01)
+
+- Version 1.2.0
+- Add continuous deployment and automatic release on push to `stable` branch.
+- Add installation support for Linux and Mac.
+
 ## 1.1.1 (2021-06-04)
 
 - Version 1.1.1.
