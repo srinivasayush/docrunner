@@ -1,18 +1,15 @@
 set -e
 
-docrunner_url="https://github.com/DudeBro249/docrunner/releases/download/v1.1.1/docrunner.exe"
-docrunner_directory="C:\src\Docrunner"
-exe_location="$docrunner_directory\docrunner.exe"
-
-if [ ! -d "$docrunner_directory" ]; then
-    echo "Creating installation directory: $docrunner_directory"
-	mkdir -p "$docrunner_directory"
-fi
+latest=$(curl -Ls -o /dev/null -w %{url_effective} https://github.com/DudeBro249/docrunner/releases/latest | cut -d'/' -f8)
+docrunner_url="https://github.com/DudeBro249/docrunner/releases/download/$latest/docrunner-macos"
+docrunner_directory="/usr/local/bin"
+bin_location="$docrunner_directory/docrunner"
 
 # Makes the web request to install the exe from GitHub
-curl --fail --location --progress-bar --output "$exe_location" "$docrunner_url"
+sudo curl --fail --location --progress-bar --output "$bin_location" "$docrunner_url"
+sudo chmod +x $bin_location
 
-echo "Docrunner was installed successfully to $exe_location"
+echo "Docrunner was installed successfully to $bin_location"
 if command -v docrunner >/dev/null; then
 	echo "Run 'docrunner --help' to get started"
 else
