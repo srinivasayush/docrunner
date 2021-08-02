@@ -9,7 +9,7 @@ jobs:
   build:
     defaults:
       run:
-        working-directory: website
+        working-directory: ./website
 
     runs-on: ubuntu-latest
 
@@ -31,3 +31,4 @@ jobs:
           args: deploy --only hosting
         env:
           FIREBASE_TOKEN: ${{ secrets.FIREBASE_SECRET_TOKEN }}
+          PROJECT_PATH: ./website
