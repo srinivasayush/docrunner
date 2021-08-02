@@ -5,7 +5,12 @@ on:
     branches: [ dev, stable ]
 
 jobs:
+  
   build:
+    defaults:
+      run:
+        working-directory: website
+
     runs-on: ubuntu-latest
 
     steps:
