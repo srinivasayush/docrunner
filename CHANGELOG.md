@@ -7,9 +7,9 @@
 ## 1.1.1 (2021-06-04)
 
 - Version 1.1.1.
-- Add <code>[dotenv](https://docrunner-cli.web.app/docs/configuration#dotenv)</code> 
+- Add [`dotenv`](https://docrunner-cli.web.app/docs/configuration#dotenv)
 as a configuration option in the `docrunner.toml` configuration file
-- Added <code>[docrunner self update](https://docrunner-cli.web.app/docs/getting-started#updating)<code> command
+- Added [`docrunner self update`](https://docrunner-cli.web.app/docs/getting-started#updating) command
 
 ## 1.1.0 (2021-06-03)
 
