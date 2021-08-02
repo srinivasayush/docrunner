@@ -1,6 +1,6 @@
 ## Usage
 ```
-docrunner run [arguments]
+docrunner init [arguments]
 ```
 
 ```
