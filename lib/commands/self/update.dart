@@ -18,17 +18,20 @@ class UpdateCommand extends Command {
     var outputMessage = 'Copy and paste this command into your terminal: ';
     if (Platform.isWindows) {
       installationCommand =
-          'iwr -useb https://raw.githubusercontent.com/DudeBro249/docrunner/stable/installers/install.ps1 | iex';
+          'iwr -useb https://raw.githubusercontent.com/DudeBro249/docrunner/stable/installers/install-windows.ps1 | iex';
       outputMessage =
           'Copy and paste this command into your powershell terminal';
-    } else if (Platform.isMacOS || Platform.isLinux) {
+    } else if (Platform.isLinux) {
       installationCommand =
-          'curl -fsSL https://raw.githubusercontent.com/DudeBro249/docrunner/stable/installers/install.sh | sh';
+          'curl https://raw.githubusercontent.com/DudeBro249/docrunner/stable/installers/install-linux.sh | sudo bash';
+    } else if (Platform.isMacOS) {
+      installationCommand =
+          'curl https://raw.githubusercontent.com/DudeBro249/docrunner/stable/installers/install-mac.sh | sudo bash';
     }
 
     stdout.writeln(
       Colorize(
-        '$outputMessage\n',
+        '\n$outputMessage\n',
       ).green(),
     );
     stdout.writeln('$installationCommand\n');
