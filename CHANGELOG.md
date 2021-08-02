@@ -1,3 +1,9 @@
+## 1.2.1 (2021-08-02)
+
+- Version 1.2.1
+- Fix powershell installer to get latest release tag dynamically
+- Minor changes
+
 ## 1.2.0 (2021-08-01)
 
 - Version 1.2.0
