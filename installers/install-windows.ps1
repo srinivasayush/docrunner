@@ -7,17 +7,37 @@ $ErrorActionPreference = "Stop"
 # Defining path to docrunner executable in variable
 $DocrunnerDirectory = 'C:\src\Docrunner'
 
+# Function to get the redirected url
+Function Get-RedirectedUrl {
+    Param (
+        [Parameter(Mandatory=$true)]
+        [String]$URL
+    )
+
+    $request = [System.Net.WebRequest]::Create($url)
+    $request.AllowAutoRedirect=$false
+    $response=$request.GetResponse()
+
+    If ($response.StatusCode -eq "Found")
+    {
+        $response.GetResponseHeader("Location")
+    }
+}
+
 # Only create Docrunner directory if it does not already exist
 if (Test-Path -Path $DocrunnerDirectory) {
-    Write-Host "$DocrunnerDirectory already exists"
-    Write-Host "Not creating directory"
+    Write-Host "$DocrunnerDirectory already exists, no need to create directory"
     Write-Host ""
 } else {
     new-item $DocrunnerDirectory -itemtype directory
 }
 
 # Download docrunner.exe from github releases
-Start-BitsTransfer 'https://github.com/DudeBro249/docrunner/releases/download/v1.1.1/docrunner.exe' "$DocrunnerDirectory\docrunner.exe" -Description 'Downloading Docrunner from https://github.com/DudeBro249/docrunner/releases' -DisplayName 'Downloading Docrunner' -TransferType Download
+$LATEST_RELEASE_URL = Get-RedirectedUrl -URL 'https://github.com/DudeBro249/docrunner/releases/latest'
+$LATEST_RELEASE_TAG = $LATEST_RELEASE_URL.Split("/")[7]
+$DOCRUNNER_BINARY_URL = "https://github.com/DudeBro249/docrunner/releases/download/$LATEST_RELEASE_TAG/docrunner-windows.exe"
+
+Start-BitsTransfer $DOCRUNNER_BINARY_URL "$DocrunnerDirectory\docrunner.exe" -Description "Downloading Docrunner from $DOCRUNNER_BINARY_URL" -DisplayName 'Downloading Docrunner' -TransferType Download
 
 Write-Host 'Installing Docrunner' -ForegroundColor cyan
 
@@ -31,8 +51,7 @@ if ($UserPath -ne $null)
   if ($UserPath -split ';'  -contains  $DocrunnerDirectory)
   {
     Write-Host ""
-    Write-Host "$DocrunnerDirectory already exists in PATH"
-    Write-Host "No need to add it"
+    Write-Host "$DocrunnerDirectory already exists in PATH, no need to add it"
     Write-Host ""
   }
   else

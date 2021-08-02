@@ -21,7 +21,7 @@ curl https://raw.githubusercontent.com/DudeBro249/docrunner/stable/installers/in
 
 Powershell (Windows):
 ```powershell
-iwr -useb https://raw.githubusercontent.com/DudeBro249/docrunner/stable/installers/install.ps1 | iex
+iwr -useb https://raw.githubusercontent.com/DudeBro249/docrunner/stable/installers/install-windows.ps1 | iex
 ```
 
 If none of these methods work, you can also install the `docrunner` binary from
