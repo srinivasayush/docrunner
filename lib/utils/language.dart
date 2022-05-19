@@ -1,5 +1,6 @@
 import 'dart:io';
-import '../constants/language_abbrev.dart';
+import 'package:docrunner/constants/language.dart';
+
 import '../exceptions/docrunner_error.dart';
 import '../exceptions/docrunner_warning.dart';
 import '../models/options.dart';
