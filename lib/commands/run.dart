@@ -7,10 +7,6 @@ import 'package:docrunner/languages/language.dart';
 
 import '../constants/help.dart';
 import '../exceptions/docrunner_error.dart';
-import '../languages/dart.dart';
-import '../languages/javascript.dart';
-import '../languages/python.dart';
-import '../languages/typescript.dart';
 import '../models/options.dart';
 
 class RunCommand extends Command {
