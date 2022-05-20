@@ -11,10 +11,16 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - run: npm ci && npm run build
-      - uses: FirebaseExtended/action-hosting-deploy@v0
-        with:
-          repoToken: '${{ secrets.GITHUB_TOKEN }}'
-          firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_DOCRUNNER_CLI }}'
-          channelId: live
-          projectId: docrunner-cli
+
+      - name: Install dependencies and Build Website
+        working-directory: ./website
+        run: npm ci && npm run build
+
+      - name: Deploy Website to Firebase Hosting
+        working-directory: ./website
+        uses: FirebaseExtended/action-hosting-deploy@v0
+          with:
+            repoToken: '${{ secrets.GITHUB_TOKEN }}'
+            firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_DOCRUNNER_CLI }}'
+            channelId: live
+            projectId: docrunner-cli
