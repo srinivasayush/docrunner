@@ -3,6 +3,12 @@ name: Compile Dart Code
 on:
   push:
     branches: [ stable ]
+    paths:
+      - ./bin/**
+      - ./lib/**
+      - .github/workflows/build_code.yml
+      - pubspec.yaml
+      - CHANGELOG.md
 
 jobs:
   build:
