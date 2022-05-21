@@ -2,14 +2,11 @@ import 'dart:io';
 
 import 'package:args/command_runner.dart';
 import 'package:colorize/colorize.dart';
+import 'package:docrunner/constants/language.dart';
+import 'package:docrunner/languages/language.dart';
 
 import '../constants/help.dart';
-import '../constants/language_color.dart';
 import '../exceptions/docrunner_error.dart';
-import '../languages/dart.dart';
-import '../languages/javascript.dart';
-import '../languages/python.dart';
-import '../languages/typescript.dart';
 import '../models/options.dart';
 
 class RunCommand extends Command {
@@ -78,14 +75,7 @@ class RunCommand extends Command {
       ),
     );
 
-    final LANGUAGE_TO_FUNCTION = {
-      'python': runPython,
-      'javascript': runJavascript,
-      'typescript': runTypescript,
-      'dart': runDart,
-    };
-
-    if (!LANGUAGE_TO_FUNCTION.containsKey(options.language)) {
+    if (!LANGUAGE_TO_FILE_EXECUTOR.containsKey(options.language)) {
       final notALanguage = DocrunnerError(
           message: '${options.language} is not a supported language');
       stderr.writeln(notALanguage.coloredMessage);
@@ -93,8 +83,9 @@ class RunCommand extends Command {
     }
 
     try {
-      await LANGUAGE_TO_FUNCTION[options.language]!(
+      await runLanguage(
         options: options,
+        fileExecutor: LANGUAGE_TO_FILE_EXECUTOR[options.language]!,
       );
     } on DocrunnerError catch (error) {
       stderr.writeln(error.coloredMessage);
