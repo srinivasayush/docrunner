@@ -1,3 +1,8 @@
+## 1.2.2 (2022-05-21)
+
+- Version 1.2.2
+- Minor bug fixes and changes
+
 ## 1.2.1 (2021-08-02)
 
 - Version 1.2.1
