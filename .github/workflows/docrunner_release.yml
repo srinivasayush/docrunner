@@ -1,0 +1,134 @@
+name: Compile and Release
+
+on:
+  push:
+    branches: [ stable ]
+    paths:
+      - bin/**
+      - lib/**
+      - .github/workflows/docrunner_release.yml
+      - pubspec.yaml
+      - CHANGELOG.md
+
+jobs:
+  build:
+    strategy:
+      matrix:
+        os: [ubuntu-20.04, windows-2019, macOS-10.15]
+
+    name: Build binary on ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - uses: actions/checkout@v2
+
+      # Note: This workflow uses the latest stable version of the Dart SDK.
+      # You can specify other versions if desired, see documentation here:
+      # https://github.com/dart-lang/setup-dart/blob/main/README.md
+      # - uses: dart-lang/setup-dart@v1
+      - uses: dart-lang/setup-dart@9a04e6d73cca37bd455e0608d7e5092f881fd603
+
+      - name: Install dependencies
+        run: dart pub get
+
+      - name: Build dart files
+        run: dart run build_runner build
+      
+      - name: Create release directory
+        run: mkdir -p target/release
+
+      - name: Compile code (linux and mac)
+        if: |
+          startsWith(matrix.os, 'ubuntu') || startsWith(matrix.os, 'macOS')
+        run: dart compile exe bin/main.dart -o target/release/docrunner
+      
+      - name: Compile code (windows)
+        if: |
+          startsWith(matrix.os, 'windows')
+        run: dart compile exe bin/main.dart -o target/release/docrunner.exe
+      
+      - name: Pre-release (linux)
+        if: |
+          startsWith(matrix.os, 'ubuntu')
+        run: |
+          cd target/release
+          zip -r docrunner-x86_64-unknown-linux-gnu.zip docrunner
+      
+      - name: Pre-release (mac)
+        if: |
+          startsWith(matrix.os, 'macOS')
+        run: |
+          cd target/release
+          zip -r docrunner-x86_64-apple-darwin.zip docrunner
+      
+      - name: Pre-release (windows)
+        if: |
+          startsWith(matrix.os, 'windows')
+        run: |
+          Compress-Archive -CompressionLevel Optimal -Force -Path target/release/docrunner.exe -DestinationPath target/release/docrunner-x86_64-pc-windows-msvc.zip
+
+      - name: Upload Artifact (linux)
+        if: |
+          startsWith(matrix.os, 'ubuntu')
+        uses: actions/upload-artifact@v3.1.0
+        with:
+          name: docrunner-x86_64-unknown-linux-gnu
+          path: target/release/docrunner-x86_64-unknown-linux-gnu.zip
+      
+      - name: Upload Artifact (mac)
+        if: |
+          startsWith(matrix.os, 'macOS')
+        uses: actions/upload-artifact@v3.1.0
+        with:
+          name: docrunner-x86_64-apple-darwin
+          path: target/release/docrunner-x86_64-apple-darwin.zip
+      
+      - name: Upload Artifact (windows)
+        if: |
+          startsWith(matrix.os, 'windows')
+        uses: actions/upload-artifact@v3.1.0
+        with:
+          name: docrunner-x86_64-pc-windows-msvc
+          path: target/release/docrunner-x86_64-pc-windows-msvc.zip
+
+
+  release:
+    name: Create GitHub release
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Download all artifacts
+        uses: actions/download-artifact@v3.0.0
+  
+      - name: Get release name
+        uses: KJ002/read-yaml@v1.4
+        id: name
+        with:
+          file: ./pubspec.yaml
+          key-path: '["name"]'
+        
+      - name: Get version number for release
+        uses: KJ002/read-yaml@v1.4
+        id: version
+        with:
+          file: ./pubspec.yaml
+          key-path: '["version"]'
+        
+      - name: Get release notes
+        uses: ./actions/changelog-action
+        id: changelog
+        with:
+          file: './CHANGELOG.md'
+
+      - name: Upload release to GitHub
+        uses: softprops/action-gh-release@v0.1.14
+        with:
+          name: ${{ steps.name.outputs.data }} ${{ steps.version.outputs.data }}
+          tag_name: ${{ steps.version.outputs.data }}
+          body: ${{ steps.changelog.outputs.data }}
+          files: |
+            docrunner-x86_64-pc-windows-msvc/docrunner-x86_64-pc-windows-msvc.zip
+            docrunner-x86_64-unknown-linux-gnu/docrunner-x86_64-unknown-linux-gnu.zip
+            docrunner-x86_64-apple-darwin/docrunner-x86_64-apple-darwin.zip
