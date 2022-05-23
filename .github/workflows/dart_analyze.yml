@@ -8,8 +8,14 @@ name: Dart Code Analysis
 on:
   push:
     branches: [ dev ]
+    paths:
+      - bin/**
+      - lib/**
   pull_request:
     branches: [ dev ]
+    paths:
+      - bin/**
+      - lib/**
 
 jobs:
   build:
