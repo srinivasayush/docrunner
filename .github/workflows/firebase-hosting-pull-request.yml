@@ -5,13 +5,12 @@ name: Deploy to Firebase Hosting on PR
 
 'on':
   pull_request:
-    branches: [ dev ]
+    branches:
+      - stable
+      - dev
     paths:
-      - './website/**'
-
-defaults:
-  run:
-    working-directory: ./website
+      - website/**'
+      - .github/workflows/firebase-hosting-pull-request.yml
 
 jobs:
   build_and_preview:
@@ -19,10 +18,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - run: npm ci && npm run build
+      - run: cd website && npm ci && npm run build
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
-          entryPoint: ./website
+          entryPoint: website
           repoToken: '${{ secrets.GITHUB_TOKEN }}'
           firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_DOCRUNNER_CLI }}'
           projectId: docrunner-cli
