@@ -8,20 +8,16 @@ Docrunner goes through your markdown file and runs any code in it, providing you
 
 ## Installation
 
-Bash (Linux):
-```bash
-curl https://raw.githubusercontent.com/DudeBro249/docrunner/stable/installers/install-linux.sh | sudo bash
+Shell (Mac, Linux):
+
+```sh
+curl -fsSL https://raw.githubusercontent.com/DudeBro249/docrunner/stable/installers/install.sh | sh
 ```
 
-Bash (MacOS):
+PowerShell (Windows):
 
-``` bash
-curl https://raw.githubusercontent.com/DudeBro249/docrunner/stable/installers/install-mac.sh | sudo bash
-```
-
-Powershell (Windows):
 ```powershell
-iwr -useb https://raw.githubusercontent.com/DudeBro249/docrunner/stable/installers/install-windows.ps1 | iex
+iwr -useb https://raw.githubusercontent.com/DudeBro249/docrunner/stable/installers/install.ps1 | iex
 ```
 
 If none of these methods work, you can also install the `docrunner` binary from
